@@ -1,0 +1,15 @@
+exif parser:
+-valotusaika ei saa olla yli 1/polttoväli, jotta kuvassa ei olisi liike-epäterävyyttä
+	-riippuu kamerasta, ehkä parempi tarkistaa fov. (Polttoväli x Kerroin)
+	-jos stabilointi käytössä niin valotuksen voi kaksinkertaistaa
+-resoluution voi lukea suoraan
+	-raja voisi olla esim 800x600, jota pienempiä kuvia ei hyväksyttäisi
+
+Kyssäreitä:
+-miten kirjastot kannattaa importata?
+-Testikuvien järjestäminen
+
+Seuraavaksi: 
+-miten muutat exif datan tiedon laskettavaan muotoon?
+
+työskentelyä 19.5 = 5h

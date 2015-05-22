@@ -30,7 +30,7 @@ def parseExif(pathToImage):
 	image = open(pathToImage, 'rb')
 	
 	# Return Exif tags
-	tags = exifread.process_file(image)
+	tags = exifread.process_file(image, details=False)
 	
 	return tags;
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 			exposure = eval(exposure.printable)
 			# print tiedosto + ": "
 			ratio = getExposureRatio(exposure)
-			print ratio
+			print tiedosto + ": " + str(ratio)
 			points += ratio
 			num_files += 1
 			

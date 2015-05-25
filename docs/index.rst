@@ -6,19 +6,6 @@
 Welcome to Image filtering suite for Vismantic's documentation!
 ===============================================================
 
-Contents:
+Welcome to Image filtering suite for Vismantic.
 
-.. toctree::
-   :maxdepth: 2
-
-   focus_measures
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. include:: contents.rst.inc

@@ -1,12 +1,12 @@
-.. _focus_measures:
+.. _api:
 
-Focus Measures
-==============
+API
+===
 
 .. module:: imgfilter
 
-Measurement algorithms
-----------------------
+Focus measures
+--------------
 
 .. currentmodule:: imgfilter.focus_measure
 

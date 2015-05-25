@@ -13,9 +13,10 @@ import exifread
 # To be done:
 # def calculateEffectiveFocalLength(focal_length):
 
+# Spreads the given exposure-value to values between 0 and 1
 def normalize_exposure(exposure):
     min_exposure = -10
-    max_exposure = -2
+    max_exposure = -2 				# 0.5-arvo vastaa noin 1/60-valotusaikaa
 
     return (exposure - min_exposure) / (max_exposure - min_exposure)
 
@@ -27,26 +28,38 @@ def getExposureRatio(exposure):
 
     exposure = math.log(exposure, 2)
     return normalize_exposure(exposure)
-
+    
+# Gets exifdata from given image (.jpg or .tiff)
 def parseExif(pathToImage):
     with open(pathToImage, 'rb') as image:
         tags = exifread.process_file(image, details=False)
     return tags
 
+# Creates and returns a list of images with given extensions in the working folder
+def getImagesInFolder():
+    types = ('*.jpg', '*.JPG', '*.jpeg')
+    images = []
+    for files in types:
+    	images.extend(glob.glob(files))
+    return sorted(images)
+
 if __name__ == "__main__":
     points = 0
     num_files = 0
-    for filename in glob.glob('*.jpg'):
-        tags = parseExif(filename)
+    images = getImagesInFolder()
+    for image in images:
+        tags = parseExif(image)
         if "EXIF ExposureTime" not in tags:
             continue
 
         exposure = tags["EXIF ExposureTime"]
         exposure = eval(exposure.printable)
         ratio = getExposureRatio(exposure)
-        print filename + ": " + str(ratio)
+        print image + ": " + str(ratio)
         points += ratio
         num_files += 1
-
-    print "Average: "
-    print points / num_files
+    if num_files > 0:
+        print "Average: "
+        print points / num_files
+    else:
+        print "No images found!"

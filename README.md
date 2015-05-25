@@ -1,6 +1,8 @@
 # image-filtering-suite
 Software engineering lab
 
+[![Documentation](https://readthedocs.org/projects/image-filtering-suite/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)
+
 ### Definition of Done
 - Complete unit testing for written code
 - Acceptance testing with reasonable success rate

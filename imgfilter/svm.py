@@ -20,4 +20,4 @@ class SVM(StatModel):
         self.model.train_auto(samples, labels, None, None, params)
 
     def predict(self, X):
-        return self.model.predict(X)
+        return self.model.predict(X, True)

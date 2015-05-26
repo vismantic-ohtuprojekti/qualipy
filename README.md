@@ -21,3 +21,5 @@ Software engineering lab
 #### Customer meeting agendas
 
 [Meeting 15.5.2015](https://docs.google.com/document/d/1uu15eUaOxoAChaYHmOUHUR4sALaSXURRhLW95zWfYqA)
+
+[Meeting 29.5.2015](https://docs.google.com/document/d/1o2An2k8WWinljYI2fv5ghrk242XUyBkfp-rzEuphrCQ/edit)

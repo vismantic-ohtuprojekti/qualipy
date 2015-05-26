@@ -28,7 +28,7 @@ def getExposureRatio(exposure):
 
     exposure = math.log(exposure, 2)
     return normalize_exposure(exposure)
-    
+
 # Gets exifdata from given image (.jpg or .tiff)
 def parseExif(pathToImage):
     with open(pathToImage, 'rb') as image:
@@ -43,7 +43,7 @@ def analyzePictureExposure(image):
         exposure = eval(exposure.printable)
         return getExposureRatio(exposure)
     return None
-    
+
 # Creates and returns a list of images with given extensions in the working folder
 def getImagesInFolder():
     types = ('*.jpg', '*.JPG', '*.jpeg')

@@ -7,6 +7,7 @@ from ..image_util import sharpen, to_grayscale
 from ..focus_measure import MLOG, LAPV, TENG, LAPM
 from ..utils import partition_matrix, normalize, flatten
 from ..exif import analyzePictureExposure
+from ..result_combination import collective_result_certain_limit
 
 def get_input_vector(img):
 
@@ -24,24 +25,19 @@ def get_input_vector(img):
     return numpy.array(flatten(normalized_columns), dtype=numpy.float32)
 
 
-def make_prediction(img):
+def make_prediction_focus(image_path):
+    img = cv2.imread(image_path)
+
+    if img is None:
+        return None
+
     svm = SVM()
     svm.load(get_data('svm/whole_blur.yml'))
 
     input_vec = get_input_vector(img)
-    return svm.predict(input_vec)
+    prediction = svm.predict(input_vec)
+    return 1.0 - (1.0 + prediction) / 2.0
 
 
 def is_blurred(image_path):
-    image = cv2.imread(image_path)
-
-    if image is None:
-        raise IOError("No such file")
-
-    prediction_1 = make_prediction(image)
-    prediction_2 = analyzePictureExposure(image_path)
-
-    if prediction_2 is None:
-        prediction_2 = prediction_1
-
-    final_prediction = (prediction_1 + prediction_2) / 2.0
+    return 0.5 <= collective_result_certain_limit([make_prediction_focus, analyzePictureExposure], 0.2, image_path)

@@ -6,7 +6,7 @@ from ..svm import SVM
 from ..image_util import sharpen, to_grayscale
 from ..focus_measure import MLOG, LAPV, TENG, LAPM
 from ..utils import partition_matrix, normalize, flatten
-
+from ..exif import analyzePictureExposure
 
 def get_input_vector(img):
 
@@ -38,4 +38,10 @@ def is_blurred(image_path):
     if image is None:
         raise IOError("No such file")
 
-    return make_prediction(image)
+    prediction_1 = make_prediction(image)
+    prediction_2 = analyzePictureExposure(image_path)
+
+    if prediction_2 is None:
+        prediction_2 = prediction_1
+
+    final_prediction = (prediction_1 + prediction_2) / 2.0

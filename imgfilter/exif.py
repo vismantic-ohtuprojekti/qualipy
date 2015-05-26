@@ -35,6 +35,15 @@ def parseExif(pathToImage):
         tags = exifread.process_file(image, details=False)
     return tags
 
+# Test function
+def analyzePictureExposure(image):
+    tags = parseExif(image)
+    if "EXIF ExposureTime" in tags:
+        exposure = tags["EXIF ExposureTime"]
+        exposure = eval(exposure.printable)
+        return getExposureRatio(exposure)
+    return None
+    
 # Creates and returns a list of images with given extensions in the working folder
 def getImagesInFolder():
     types = ('*.jpg', '*.JPG', '*.jpeg')

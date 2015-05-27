@@ -11,3 +11,12 @@ API Documentation
    :maxdepth: 2
 
    api
+
+
+Testing Documentation
+---------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   testing

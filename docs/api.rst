@@ -1,9 +1,12 @@
 .. _api:
 
 API
-===
+***
 
 .. module:: imgfilter
+
+Blur detection
+==============
 
 Focus measures
 --------------

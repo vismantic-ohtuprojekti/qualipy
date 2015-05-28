@@ -3,7 +3,7 @@ import cv2
 import glob
 import numpy
 
-from imgfilter.svm import SVM
+from imgfilter.machine_learning.svm import SVM
 from imgfilter.filters.whole_blur import get_input_vector
 
 

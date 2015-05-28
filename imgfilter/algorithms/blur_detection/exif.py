@@ -1,7 +1,5 @@
 from __future__ import division
-from fractions import Fraction
 
-import os
 import sys
 import glob
 import math

@@ -2,12 +2,12 @@ import cv2
 import numpy
 
 from .. import get_data
-from ..svm import SVM
-from ..image_util import sharpen, to_grayscale
-from ..focus_measure import MLOG, LAPV, TENG, LAPM
-from ..utils import partition_matrix, normalize, flatten
-from ..exif import analyzePictureExposure
-from ..result_combination import collective_result_certain_limit
+from ..machine_learning.svm import SVM
+from ..utils.image_util import sharpen, to_grayscale
+from ..algorithms.blur_detection.focus_measure import MLOG, LAPV, TENG, LAPM
+from ..utils.utils import partition_matrix, normalize, flatten
+from ..algorithms.blur_detection.exif import analyzePictureExposure
+from ..algorithms.common.result_combination import collective_result_certain_limit
 
 def get_input_vector(img):
 

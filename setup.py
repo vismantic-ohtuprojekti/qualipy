@@ -17,5 +17,5 @@ setup(
     keywords='image processing filtering',
 
     packages=find_packages(exclude=['docs', 'tests*']),
-    package_data={'imgfilter': ['data/svm/*']}
+    package_data={'imgfilter': ['data/svm/*', 'data/object_extraction/*']}
 )

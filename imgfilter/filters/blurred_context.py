@@ -15,20 +15,25 @@ def run_object_extraction(image_path):
     return temp2
 
 
-def vertical_blur(obj_mask, tmp_file):
+def vertical_blur(img, obj_mask, tmp_file):
     mask = numpy.all(obj_mask != 255, 0)
-    cv2.imwrite(tmp_file, obj_mask[:, mask])
+    cv2.imwrite(tmp_file, img[:, mask])
     return whole_blur(tmp_file)
 
 
-def horizontal_blur(obj_mask, tmp_file):
+def horizontal_blur(img, obj_mask, tmp_file):
     mask = numpy.all(obj_mask != 255, 1)
-    cv2.imwrite(tmp_file, obj_mask[mask])
+    cv2.imwrite(tmp_file, img[mask])
     return whole_blur(tmp_file)
 
 
 def is_blurred(image_path):
     extracted_object = run_object_extraction(image_path)
+    img = cv2.imread(image_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
     obj_mask = cv2.imread(extracted_object, cv2.CV_LOAD_IMAGE_GRAYSCALE)
-    return vertical_blur(obj_mask, extracted_object) or \
-        horizontal_blur(obj_mask, extracted_object)
+
+    if img is None or obj_mask is None:
+        return None
+
+    return vertical_blur(img, obj_mask, extracted_object) or \
+        horizontal_blur(img, obj_mask, extracted_object)

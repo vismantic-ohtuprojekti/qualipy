@@ -1,22 +1,30 @@
 .. _api:
 
-API
-***
+.. module:: imgfilter.filters
 
-.. module:: imgfilter
+Filters
+**************
 
 Blur detection
 ==============
 
-Focus measures
---------------
+.. automodule:: imgfilter.filters.whole_blur
+   :members:
 
-.. currentmodule:: imgfilter.focus_measure
+.. automodule:: imgfilter.filters.blurred_context
+   :members:
 
-.. autofunction:: TENG
+Utilities
+*********
 
-.. autofunction:: MLOG
+Exif
+====
 
-.. autofunction:: LAPV
+.. automodule:: imgfilter.algorithms.blur_detection.exif
+   :members:
 
-.. autofunction:: LAPM
+SVM
+===
+
+.. automodule:: imgfilter.machine_learning.svm
+   :members:

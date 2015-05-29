@@ -9,6 +9,7 @@ from ..utils.utils import partition_matrix, normalize, flatten
 from ..algorithms.blur_detection.exif import analyzePictureExposure
 from ..algorithms.common.result_combination import collective_result_certain_limit
 
+
 def get_input_vector(img):
 
     def apply_measures(view):
@@ -40,4 +41,9 @@ def make_prediction_focus(image_path):
 
 
 def is_blurred(image_path):
+    """Checks if the image is blurred.
+
+       :param image_path: the filepath to the image file.
+
+    """
     return 0.5 <= collective_result_certain_limit([make_prediction_focus, analyzePictureExposure], 0.2, image_path)

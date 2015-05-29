@@ -28,6 +28,10 @@ def horizontal_blur(img, obj_mask, tmp_file):
 
 
 def is_blurred(image_path):
+    """Checks if the background of the image is blurred.
+
+       :param image_path: the filepath to the image file.
+    """
     extracted_object = run_object_extraction(image_path)
     img = cv2.imread(image_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
     obj_mask = cv2.imread(extracted_object, cv2.CV_LOAD_IMAGE_GRAYSCALE)

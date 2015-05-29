@@ -12,6 +12,21 @@ API Documentation
 
    api
 
+Installation
+------------
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+
+Training Documentation
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   training
 
 Testing Documentation
 ---------------------

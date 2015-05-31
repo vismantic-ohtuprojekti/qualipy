@@ -11,8 +11,21 @@ import exifread
 # To be done:
 # def calculateEffectiveFocalLength(focal_length):
 
-# Spreads the given exposure-value to values between 0 and 1
+# WIP
+def analyze_picture_backgroundblur(image):
+    tags = parseExif(image)
+    if "EXIF FocalLength" in tags and "EXIF ":
+        exposure = tags["EXIF FocalLength"]
+        exposure = float(exposure.printable)
+        return getExposureRatio(exposure)
+    return None
+
 def normalize_exposure(exposure):
+    """ Normalizes the given exposure-value to a float between 0 and 1
+    
+    :param exposure: float, usually between 1/4000 and 30
+    """
+    exposure = math.log(exposure, 2)
     min_exposure = -10
     max_exposure = -2 				# 0.5-arvo vastaa noin 1/60-valotusaikaa
 
@@ -24,17 +37,18 @@ def getExposureRatio(exposure):
     if exposure > 1 / 4:
         return 1.0
 
-    exposure = math.log(exposure, 2)
     return normalize_exposure(exposure)
 
-# Gets exifdata from given image (.jpg or .tiff)
 def parseExif(pathToImage):
+    """ Parses exif-data from given image (.jpg or .tiff) and returns it as a dictionary
+    """
     with open(pathToImage, 'rb') as image:
         tags = exifread.process_file(image, details=False)
     return tags
 
-# Test function
 def analyzePictureExposure(image):
+    """ Parses exif from given image and returns a float between 0 and 1, where values closer to 0 indicate low motion blur probability and values closer to 1 indicate high motion-blur probability. Returns None if no exif is found.
+    """
     tags = parseExif(image)
     if "EXIF ExposureTime" in tags:
         exposure = tags["EXIF ExposureTime"]
@@ -42,7 +56,6 @@ def analyzePictureExposure(image):
         return getExposureRatio(exposure)
     return None
 
-# Creates and returns a list of images with given extensions in the working folder
 def getImagesInFolder():
     types = ('*.jpg', '*.JPG', '*.jpeg')
     images = []

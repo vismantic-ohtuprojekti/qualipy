@@ -1,4 +1,4 @@
-import accurancy_test_lib
+import imgfilter.tests.utils.accurancy_test_lib
 import exifread
 import imgfilter.filters.whole_blur
 

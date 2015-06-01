@@ -26,4 +26,4 @@ Software engineering lab
 
 #### Retrospectives
 
-[retro 1.6.2015](link here)
+[retro 1.6.2015](https://docs.google.com/document/d/1_zdVtEZiUF81xjvmg26BkA4w3cWr-LQBU5MzcbbwkYg/edit?usp=sharing)

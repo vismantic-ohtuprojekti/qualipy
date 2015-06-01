@@ -1,13 +1,15 @@
 import os
 import json
 
+
 class Result:
+
     def __init__(self):
         """Creates new result object.
         """
         self.sample_type_dic = {}
 
-    def get_accurancy(self):
+    def get_accuracy(self):
         """Counts the accuracy from the test results for all the samples.
 
             :returns: Accuracy for all the samples of the test.
@@ -23,7 +25,7 @@ class Result:
 
         return true_predictions / total_predictions
 
-    def get_accurancy_for_type(self, sample_type):
+    def get_accuracy_for_type(self, sample_type):
         """Counts the accuracy for given sample type.
 
             :param sample_type: Type of the sample which accuracy should be calculated.
@@ -49,9 +51,9 @@ class Result:
         falses = self.sample_type_dic[sample_type]['falses']
 
         if b_correct:
-            self.sample_type_dic[sample_type] = {'trues': trues + 1.0, 'falses': falses}
+            self.sample_type_dic[sample_type] = {'trues': trues + 1, 'falses': falses}
         else:
-            self.sample_type_dic[sample_type] = {'trues': trues, 'falses': falses + 1.0}
+            self.sample_type_dic[sample_type] = {'trues': trues, 'falses': falses + 1}
 
     def save(self, file_path):
         """Saves this result into a file. Path to the file in which result will be saved is
@@ -60,9 +62,8 @@ class Result:
 
            :param file_path: Path to the file where result will be saved.
         """
-        file = open(file_path, 'w')
-        file.write(json.dumps(self.sample_type_dic) + "\n")
-        file.close()
+        with open(file_path, 'w') as outfile:
+            outfile.write(json.dumps(self.sample_type_dic) + "\n")
 
     def load(self, file_path):
         """Loads results from the file which file path is given to this result.
@@ -73,9 +74,8 @@ class Result:
            When result is loaded from a file current result information of result
            object which loads the result from the file is lost.
         """
-        file = open(file_path, 'r')
-        self.sample_type_dic = json.loads(file.readline())
-        file.close()
+        with open(file_path, 'r') as infile:
+            self.sample_type_dic = json.loads(infile.readline())
 
     def empty(self):
         """Empties this result.
@@ -83,7 +83,7 @@ class Result:
         self.sample_type_dic = {}
 
 
-class AccurancyTest:
+class AccuracyTest:
     def __init__(self, algorithm, sample_list, extensions):
         """Creates new accuracy test.
         """
@@ -95,7 +95,7 @@ class AccurancyTest:
     def run(self):
         self.results.empty()
 
-        for index in range(len(self.sample_list)):
+        for index, _ in enumerate(self.sample_list):
             self.__test_sample_type(index)
 
     def get_result(self):
@@ -117,8 +117,4 @@ class AccurancyTest:
 
     def __is_file(self, file_path):
         file_name, file_extension = os.path.splitext(file_path)
-
-        if file_extension in self.extensions:
-            return True
-        else:
-            return False
+        return file_extension in self.extensions

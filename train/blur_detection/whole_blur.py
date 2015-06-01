@@ -3,8 +3,8 @@ import cv2
 import glob
 import numpy
 
-from imgfilter.machine_learning.svm import SVM
 from imgfilter.filters.whole_blur import get_input_vector
+from imgfilter.machine_learning.svm import SVM
 
 
 def train_svm(samples, labels):
@@ -19,7 +19,12 @@ def print_progress(n_samples, i):
 
 
 def get_images(path):
-    return glob.glob(path + '/*.jpg') + glob.glob(path + '/*.png')
+    extensions = ['.jpg', '.jpeg', '.JPG', '.png']
+
+    images = []
+    for ext in extensions:
+        images.extend(glob.glob(path + '/*' + ext))
+    return images
 
 
 def collect_samples(blurred_images, unblurred_images):
@@ -29,16 +34,20 @@ def collect_samples(blurred_images, unblurred_images):
 
     samples = []
     for i, img in enumerate(images):
-        image = cv2.imread(img)
+        image = cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE)
         if image is None:
             continue
         samples.append(get_input_vector(image))
-        print_progress(len(samples), i)
+        print_progress(len(images), i)
 
     return numpy.array(samples, dtype=numpy.float32), labels
 
 
 if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        sys.stderr.write("Invalid number of arguments\n")
+        sys.exit(1)
+
     blurred_path = sys.argv[1]
     unblurred_path = sys.argv[2]
 
@@ -46,7 +55,7 @@ if __name__ == '__main__':
         blurred_images = get_images(blurred_path)
         unblurred_images = get_images(unblurred_path)
     except OSError:
-        print 'Path to training images not found'
+        sys.stderr.write("Path to training images not found\n")
         sys.exit(1)
 
     samples, labels = collect_samples(blurred_images, unblurred_images)

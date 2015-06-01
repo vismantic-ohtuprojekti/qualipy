@@ -1,53 +1,54 @@
-import cv2
 import numpy
 
 from .. import get_data
 from ..machine_learning.svm import SVM
-from ..utils.image_util import sharpen, to_grayscale
-from ..algorithms.blur_detection.focus_measure import MLOG, LAPV, TENG, LAPM
+from ..analyzers.blur_detection.focus_measure import *
+from ..analyzers.blur_detection.exif import analyze_picture_exposure
+from ..analyzers.common.result_combination import collective_result
 from ..utils.utils import partition_matrix, normalize, flatten
-from ..algorithms.blur_detection.exif import analyzePictureExposure
-from ..algorithms.common.result_combination import collective_result_certain_limit
 
-class WholeBlurFilter(Filter):
+from filter import Filter
 
-    def __init__(self):
-        
 
 def get_input_vector(img):
 
     def apply_measures(view):
-        sharpened = sharpen(view)
-        return [MLOG(sharpened),
-                LAPV(sharpened),
-                TENG(sharpened),
-                LAPM(sharpened)]
+        return [MLOG(view),
+                LAPV(view),
+                TENG(view),
+                LAPM(view)]
 
-    gray = to_grayscale(img)
-    parts = [apply_measures(part) for part in partition_matrix(gray, 5)]
-
+    parts = [apply_measures(part) for part in partition_matrix(img, 5)]
     normalized_columns = numpy.apply_along_axis(normalize, 0, parts)
+
     return numpy.array(flatten(normalized_columns), dtype=numpy.float32)
 
 
-def make_prediction_focus(image_path):
-    img = cv2.imread(image_path)
+class WholeBlur(Filter):
 
-    if img is None:
-        return None
+    def __init__(self, threshold=0.5):
+        self.name = 'whole_blur'
+        self.threshold = threshold
+        self.parameters = {}
 
-    svm = SVM()
-    svm.load(get_data('svm/whole_blur.yml'))
+    def required(self):
+        return {'exif', 'sharpen'}
 
-    input_vec = get_input_vector(img)
-    prediction = svm.predict(input_vec)
-    return 1.0 - (1.0 + prediction) / 2.0
+    def run(self):
+        exif = self.parameters['exif']
+        exif_prediction = analyze_picture_exposure(exif)
+        algo_prediction = self.make_prediction_focus()
 
+        return self.threshold <= \
+            collective_result([algo_prediction,
+                               exif_prediction], 0.2)
 
-def is_blurred(image_path):
-    """Checks if the image is blurred.
+    def make_prediction_focus(self):
+        svm = SVM()
+        svm.load(get_data('svm/whole_blur.yml'))
 
-       :param image_path: the filepath to the image file.
+        input_vec = get_input_vector(self.parameters['sharpen'])
+        return self.scaled_prediction(svm.predict(input_vec))
 
-    """
-    return 0.5 <= collective_result_certain_limit([make_prediction_focus, analyzePictureExposure], 0.2, image_path)
+    def scaled_prediction(self, prediction):
+        return 1 - (1 + prediction) / 2

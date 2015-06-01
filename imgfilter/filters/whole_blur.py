@@ -9,6 +9,10 @@ from ..utils.utils import partition_matrix, normalize, flatten
 from ..algorithms.blur_detection.exif import analyzePictureExposure
 from ..algorithms.common.result_combination import collective_result_certain_limit
 
+class WholeBlurFilter(Filter):
+
+    def __init__(self):
+        
 
 def get_input_vector(img):
 

@@ -16,21 +16,24 @@ def analyze_background_blur(image):
 def get_background_blur_ratio(focal, aperture):
     """ Calculates and returns an estimated hyperfocal distance that tells how far an object must be to be in focus. Values near zero mean hyperfocal distance is so low, that most likely everything in the picture is sharp, values near 1 mean that all the objects has to be hundreds of meters away to be in focus.
     """
+    #focal = 10
+    #aperture = 8
     coc = 0.015
     # hyperfocal calculation:
     hyperfocal = (math.pow(focal, 2) / (aperture * coc)) + focal
     
     # normalize:
     hyperfocal = math.log(hyperfocal, 2)
+           
+    min_hyp = 8.2
+    max_hyp = 16
+    hyperfocal = (hyperfocal - min_hyp) / (max_hyp - min_hyp)
     
     if hyperfocal < 0:
         return 0
     if hyperfocal > 1:
         return 1
-        
-    min_hyp = 8.2
-    max_hyp = 16 #
-    return (hyperfocal - min_hyp) / (max_hyp - min_hyp)
+    return hyperfocal
     
 def normalize_exposure(exposure):
     """ Normalizes the given exposure-value to a float between 0 and 1

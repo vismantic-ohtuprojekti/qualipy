@@ -5,19 +5,21 @@ import glob
 import math
 import exifread
 
-def analyze_background_blur(image):
-    tags = parseExif(image)
-    if "EXIF FocalLength" in tags and "EXIF ApertureValue" in tags:
+def analyze_background_blur(tags):
+    if tags and "EXIF FocalLength" in tags and "EXIF ApertureValue" in tags:
         focal = eval(tags["EXIF FocalLength"].printable)
         aperture = eval(tags["EXIF ApertureValue"].printable)
         return get_background_blur_ratio(focal, aperture)
     return None
     
 def get_background_blur_ratio(focal, aperture):
-    """ Calculates and returns an estimated hyperfocal distance that tells how far an object must be to be in focus. Values near zero mean hyperfocal distance is so low, that most likely everything in the picture is sharp, values near 1 mean that all the objects has to be hundreds of meters away to be in focus.
+    """ Calculates and returns an estimated hyperfocal distance that tells
+     how far an object must be to be in focus. 
+     Values near zero mean hyperfocal distance is so low, 
+     that most likely everything in the picture is sharp. 
+     Values near 1 mean that all the objects has to be 
+     hundreds of meters away to be in focus.
     """
-    #focal = 10
-    #aperture = 8
     coc = 0.015
     # hyperfocal calculation:
     hyperfocal = (math.pow(focal, 2) / (aperture * coc)) + focal
@@ -25,8 +27,8 @@ def get_background_blur_ratio(focal, aperture):
     # normalize:
     hyperfocal = math.log(hyperfocal, 2)
            
-    min_hyp = 8.2
-    max_hyp = 16
+    min_hyp = 6.6
+    max_hyp = 15
     hyperfocal = (hyperfocal - min_hyp) / (max_hyp - min_hyp)
     
     if hyperfocal < 0:
@@ -37,16 +39,15 @@ def get_background_blur_ratio(focal, aperture):
     
 def normalize_exposure(exposure):
     """ Normalizes the given exposure-value to a float between 0 and 1
-    
     :param exposure: float, usually between 1/4000 and 30
     """
     exposure = math.log(exposure, 2)
     min_exposure = -10
-    max_exposure = -2 				# 0.5-arvo vastaa noin 1/60-valotusaikaa
+    max_exposure = -2  # 0.5-arvo vastaa noin 1/60-valotusaikaa
 
     return (exposure - min_exposure) / (max_exposure - min_exposure)
 
-def getExposureRatio(exposure):
+def get_exposure_ratio(exposure):
     if exposure < 1 / 1000:
         return 0.0
     if exposure > 1 / 4:
@@ -54,23 +55,19 @@ def getExposureRatio(exposure):
 
     return normalize_exposure(exposure)
 
-def parseExif(pathToImage):
-    """ Parses exif-data from given image (.jpg or .tiff) and returns it as a dictionary
+def analyze_picture_exposure(tags):
+    """ Parses exif from given image and returns a float between 0 and 1,
+    where values closer to 0 indicate low motion blur probability and 
+    values closer to 1 indicate high motion-blur probability. 
+    Returns None if no exif is found.
     """
-    with open(pathToImage, 'rb') as image:
-        tags = exifread.process_file(image, details=False)
-    return tags
-
-def analyzePictureExposure(image):
-    """ Parses exif from given image and returns a float between 0 and 1, where values closer to 0 indicate low motion blur probability and values closer to 1 indicate high motion-blur probability. Returns None if no exif is found.
-    """
-    tags = parseExif(image)
-    if "EXIF ExposureTime" in tags:
+    if tags and "EXIF ExposureTime" in tags:
         exposure = tags["EXIF ExposureTime"]
         exposure = eval(exposure.printable)
-        return getExposureRatio(exposure)
+        return get_exposure_ratio(exposure)
     return None
 
+"""
 def getImagesInFolder():
     types = ('*.jpg', '*.JPG', '*.jpeg')
     images = []
@@ -86,12 +83,14 @@ if __name__ == "__main__":
     for image in images:
         exp = analyzePictureExposure(image)
         back = analyze_background_blur(image)
-        print image + ": " + str(exp) + " -- " + str(back)
-        total_exp += exp
-        total_back += back
-        num_files += 1
+        if exp != None and back != None:
+            print image + ": " + str(exp) + " -- " + str(back)
+            total_exp += exp
+            total_back += back
+            num_files += 1
     if num_files > 0:
         print "Average: "
         print str(total_exp / num_files) + ", " + str(total_back / num_files)
     else:
         print "No images found!"
+"""

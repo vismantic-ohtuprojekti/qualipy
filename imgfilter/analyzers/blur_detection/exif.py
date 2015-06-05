@@ -7,8 +7,8 @@ import exifread
 
 def analyze_background_blur(tags):
     if tags and "EXIF FocalLength" in tags and "EXIF ApertureValue" in tags:
-        focal = eval(tags["EXIF FocalLength"].printable)
-        aperture = eval(tags["EXIF ApertureValue"].printable)
+        focal = eval(str(tags["EXIF FocalLength"]))
+        aperture = eval(str(tags["EXIF ApertureValue"]))
         return get_background_blur_ratio(focal, aperture)
     return None
 
@@ -20,7 +20,7 @@ def analyze_picture_exposure(tags):
     """
     if tags and "EXIF ExposureTime" in tags:
         exposure = tags["EXIF ExposureTime"]
-        exposure = eval(exposure.printable)
+        exposure = eval(str(exposure))
         return get_exposure_ratio(exposure)
     return None
 
@@ -71,13 +71,13 @@ def get_exposure_ratio(exposure):
     
     exposure = (exposure - min_exposure) / (max_exposure - min_exposure)
 
-    if exposure < 1:
+    if exposure < 0:
         return 0.0
     if exposure > 1:
         return 1.0
     
     return exposure
-"""
+
 def get_images_in_folder():
     types = ('*.jpg', '*.jpeg')
     images = []
@@ -85,6 +85,7 @@ def get_images_in_folder():
     	images.extend(glob.glob(files))
     return sorted(images)
 
+"""
 if __name__ == "__main__":
     total_exp = 0
     total_back = 0

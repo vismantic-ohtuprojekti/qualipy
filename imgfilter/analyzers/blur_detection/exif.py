@@ -77,7 +77,7 @@ def get_exposure_ratio(exposure):
         return 1.0
     
     return exposure
-
+"""
 def get_images_in_folder():
     types = ('*.jpg', '*.jpeg')
     images = []
@@ -106,3 +106,4 @@ if __name__ == "__main__":
         print str(total_exp / num_files) + ", " + str(total_back / num_files)
     else:
         print "No images found!"
+"""

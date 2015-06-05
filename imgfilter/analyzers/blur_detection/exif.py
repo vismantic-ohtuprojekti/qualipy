@@ -40,7 +40,7 @@ def get_background_blur_ratio(focal, aperture):
     
     # hyperfocal thresholds in millimeters
     min_threshold = 100
-    max_threshold = 200000
+    max_threshold = 100000
 
     # normalize:
     hyperfocal = math.log(hyperfocal, 2)

@@ -40,7 +40,7 @@ def get_background_blur_ratio(focal, aperture):
     
     # hyperfocal thresholds in millimeters
     min_threshold = 100
-    max_threshold = 100000
+    max_threshold = 200000
 
     # normalize:
     hyperfocal = math.log(hyperfocal, 2)
@@ -85,7 +85,6 @@ def get_images_in_folder():
     	images.extend(glob.glob(files))
     return sorted(images)
 
-"""
 if __name__ == "__main__":
     total_exp = 0
     total_back = 0
@@ -107,4 +106,3 @@ if __name__ == "__main__":
         print str(total_exp / num_files) + ", " + str(total_back / num_files)
     else:
         print "No images found!"
-"""

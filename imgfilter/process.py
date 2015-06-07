@@ -6,7 +6,8 @@ from analyzers import *
 ANALYZERS = [Exif(),
              MagnitudeSpectrum(),
              ObjectExtraction(),
-             Sharpen()
+             Sharpen(),
+             Resize(),
              ]
 
 

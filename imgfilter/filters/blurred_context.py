@@ -1,43 +1,55 @@
-import cv2
 import numpy
-import tempfile
-import subprocess
+from numpy.lib.stride_tricks import as_strided
 
 from .. import get_data
-from whole_blur import is_blurred as whole_blur
+from ..machine_learning.svm import SVM
+from ..utils.utils import partition_matrix
+
+from filter import Filter
 
 
-def run_object_extraction(image_path):
-    temp1 = tempfile.mkstemp(suffix=".jpg")[1]
-    temp2 = tempfile.mkstemp(suffix=".jpg")[1]
-    subprocess.call([get_data("object_extraction/extract_object"),
-                     image_path, temp1, temp2])
-    return temp2
+def blurmap(img):
+
+    def blurry_degree(lambdas):
+        return ((lambdas[0] + lambdas[1]) /
+                (numpy.sum(lambdas) + 0.001))
+
+    patch_size = 10
+    patches = as_strided(img,
+                         shape=(img.shape[0] - patch_size + 1,
+                                img.shape[1] - patch_size + 1,
+                                patch_size, patch_size),
+                         strides=img.strides * 2)
+
+    svd = numpy.linalg.svd(patches, full_matrices=False, compute_uv=False)
+    return numpy.apply_along_axis(blurry_degree, 2, svd)
 
 
-def vertical_blur(img, obj_mask, tmp_file):
-    mask = numpy.all(obj_mask != 255, 0)
-    cv2.imwrite(tmp_file, img[:, mask])
-    return whole_blur(tmp_file)
+def get_input_vector(img):
+    parts = partition_matrix(blurmap(img), 10)
+    return numpy.array([numpy.mean(part) for part in parts],
+                       dtype=numpy.float32)
 
 
-def horizontal_blur(img, obj_mask, tmp_file):
-    mask = numpy.all(obj_mask != 255, 1)
-    cv2.imwrite(tmp_file, img[mask])
-    return whole_blur(tmp_file)
+class BlurredContext(Filter):
 
+    def __init__(self):
+        self.name = 'blurred_context'
+        self.parameters = {}
 
-def is_blurred(image_path):
-    """Checks if the background of the image is blurred.
+    def required(self):
+        return {'resize'}
 
-       :param image_path: the filepath to the image file.
-    """
-    extracted_object = run_object_extraction(image_path)
-    img = cv2.imread(image_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
-    obj_mask = cv2.imread(extracted_object, cv2.CV_LOAD_IMAGE_GRAYSCALE)
+    def run(self):
+        """Checks if the background of the image is blurred.
 
-    if img is None or obj_mask is None:
-        return None
+        :param image_path: the filepath to the image file.
+        """
+        svm = SVM()
+        svm.load(get_data('svm/blurred_context.yml'))
 
-    return vertical_blur(img, obj_mask, extracted_object) or \
-        horizontal_blur(img, obj_mask, extracted_object)
+        input_vec = get_input_vector(self.parameters['resize'])
+        return self.scaled_prediction(svm.predict(input_vec))
+
+    def scaled_prediction(self, prediction):
+        return 1 - (1 + prediction) / 2

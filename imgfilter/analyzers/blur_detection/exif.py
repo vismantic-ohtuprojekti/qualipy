@@ -5,12 +5,14 @@ import glob
 import math
 import exifread
 
+
 def analyze_background_blur(tags):
     if tags and "EXIF FocalLength" in tags and "EXIF ApertureValue" in tags:
         focal = eval(str(tags["EXIF FocalLength"]))
         aperture = eval(str(tags["EXIF ApertureValue"]))
         return get_background_blur_ratio(focal, aperture)
     return None
+
 
 def analyze_picture_exposure(tags):
     """ Parses exif from given image and returns a float between 0 and 1,
@@ -24,6 +26,7 @@ def analyze_picture_exposure(tags):
         return get_exposure_ratio(exposure)
     return None
 
+
 def get_background_blur_ratio(focal, aperture):
     """ Calculates and returns an estimated hyperfocal distance that tells
      how far an object must be to be in focus. 
@@ -34,10 +37,10 @@ def get_background_blur_ratio(focal, aperture):
     """
     # circle of confusion size:
     coc = 0.015
-    
+
     # hyperfocal calculation:
     hyperfocal = (math.pow(focal, 2) / (aperture * coc)) + focal
-    
+
     # hyperfocal thresholds in millimeters
     min_threshold = 100
     max_threshold = 100000
@@ -46,15 +49,16 @@ def get_background_blur_ratio(focal, aperture):
     hyperfocal = math.log(hyperfocal, 2)
     min_threshold = math.log(min_threshold, 2)
     max_threshold = math.log(max_threshold, 2)
-    
+
     hyperfocal = (hyperfocal - min_threshold) / (max_threshold - min_threshold)
-    
+
     if hyperfocal < 0:
         return 0.0
     if hyperfocal > 1:
         return 1.0
-    
+
     return hyperfocal
+
 
 def get_exposure_ratio(exposure):
     """ Normalizes the given exposure-value to a float between 0 and 1
@@ -63,27 +67,29 @@ def get_exposure_ratio(exposure):
     # min and max exposure threshold values
     min_exposure = 1/2000
     max_exposure = 1/4
-    
+
     # normalize:
     exposure = math.log(exposure, 2)
     min_exposure = math.log(min_exposure, 2)
     max_exposure = math.log(max_exposure, 2)
-    
+
     exposure = (exposure - min_exposure) / (max_exposure - min_exposure)
 
     if exposure < 0:
         return 0.0
     if exposure > 1:
         return 1.0
-    
+
     return exposure
+
 
 def get_images_in_folder():
     types = ('*.jpg', '*.jpeg')
     images = []
     for files in types:
-    	images.extend(glob.glob(files))
+        images.extend(glob.glob(files))
     return sorted(images)
+
 
 if __name__ == "__main__":
     total_exp = 0

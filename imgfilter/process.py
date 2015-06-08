@@ -12,20 +12,28 @@ ANALYZERS = [Exif(),
 
 
 def read_image(image_path):
+    """Read an image from a file as grayscale
+
+    :param image_path: path to the image file
+    """
     return cv2.imread(image_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
 
 
 def process(image_paths, filters):
+    """Processes an image or a list of images using the specified
+    set of filters. Each filter is applied to each image and the
+    results are returned as list of maps, where the name of the
+    filter acts as a key.
+
+    :param image_paths: an image or a list of images to process
+    :param filters: a list of filters to apply to each image
+    """
     if isinstance(image_paths, list):
         return process_images(image_paths, filters)
     elif isinstance(image_paths, str):
         return process_image(image_paths, filters)
     else:
         raise TypeError
-
-
-def process_images(images, filters):
-    return [process_image(image, filters) for image in images]
 
 
 def collect_analyzers(required_analyzers):
@@ -60,3 +68,7 @@ def process_image(image, filters):
         filter_results[filter.name] = filter.run()
 
     return filter_results
+
+
+def process_images(images, filters):
+    return [process_image(image, filters) for image in images]

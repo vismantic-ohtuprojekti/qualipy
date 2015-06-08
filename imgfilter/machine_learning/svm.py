@@ -13,11 +13,21 @@ class StatModel(object):
 class SVM(StatModel):
 
     def __init__(self):
+        """Initializes an SVM"""
         self.model = cv2.SVM()
 
     def train(self, samples, labels):
+        """Trains the SVM from a list of samples and their associated labels
+
+        :param samples: list of samples to use for training
+        :param labels: labels for the samples
+        """
         params = dict(kernel_type=cv2.SVM_RBF, svm_type=cv2.SVM_C_SVC)
         self.model.train_auto(samples, labels, None, None, params)
 
-    def predict(self, X):
-        return self.model.predict(X, True)
+    def predict(self, sample):
+        """Predict a class for a sample.
+
+        :param sample: the sample to classify
+        """
+        return self.model.predict(sample, True)

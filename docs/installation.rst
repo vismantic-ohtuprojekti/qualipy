@@ -1,8 +1,8 @@
-.. _testing:
+.. _installation:
 
 
-Installing projects
-******************
+Installation
+************
 
 The library is packaged as an egg and can be installed by first installing
 the necessary requirements and then issuing the following
@@ -13,11 +13,27 @@ command in the project's root folder::
 Usage examples
 ==============
 
-Blur detection
---------------
+Process function
+----------------
 
-Detect if an image is blurred::
 
-    import imgfilter.filters.whole_blur as blur
+Detect if the image or its background is blurred::
 
-    print blur.is_blurred('picture.jpg')
+    import imgfilter
+    from imgfilter.filters import *
+
+    print imgfilter.process('image.jpg',
+            [ WholeBlur(),
+              BlurredContext(),
+            ]
+          )
+
+Detect if each image on a list is blurred::
+
+    import imgfilter
+    from imgfilter.filters import *
+
+    print imgfilter.process(['image1.jpg', 'image2.jpg'],
+            [ WholeBlur(),
+            ]
+          )

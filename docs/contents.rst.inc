@@ -20,14 +20,6 @@ Installation
 
    installation
 
-Training Documentation
-----------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   training
-
 Testing Documentation
 ---------------------
 
@@ -35,3 +27,19 @@ Testing Documentation
    :maxdepth: 2
 
    testing
+
+Architecture Documentation
+--------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   architecture
+
+Training Documentation
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   training

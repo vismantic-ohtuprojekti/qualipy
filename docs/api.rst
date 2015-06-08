@@ -5,14 +5,9 @@
 Filters
 **************
 
-Blur detection
-==============
+.. include:: whole_blur.rst
 
-.. automodule:: imgfilter.filters.whole_blur
-   :members:
-
-.. automodule:: imgfilter.filters.blurred_context
-   :members:
+.. include:: blurred_context.rst
 
 Utilities
 *********

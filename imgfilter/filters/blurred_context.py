@@ -8,13 +8,12 @@ from ..utils.utils import partition_matrix
 from filter import Filter
 
 
+def blurry_degree(lambdas):
+    return lambdas[0] / (numpy.sum(lambdas) + 0.001)
+
+
 def blurmap(img):
-
-    def blurry_degree(lambdas):
-        return ((lambdas[0] + lambdas[1]) /
-                (numpy.sum(lambdas) + 0.001))
-
-    patch_size = 10
+    patch_size = 5
     patches = as_strided(img,
                          shape=(img.shape[0] - patch_size + 1,
                                 img.shape[1] - patch_size + 1,

@@ -12,6 +12,13 @@ Parameters
 .. currentmodule:: imgfilter.filters.whole_blur
 .. autoclass:: WholeBlur
 
+The **threshold** parameter is used to define the point where higher values than the threshold (default 0.5) are classified as blurred. The effect of different thresholds can be seen in the following graph, where x-axis is the threshold and y-axis is the percentage of correct predictions:
+
+.. image:: images/thresholds_whole_blur.png
+   :width: 650px
+
+As can be seen from the graph, a threshold of about 0.5 provides the highest total success rate, while choosing e.g. a threshold of about 0.35 provides an ~85% success rate for blurred images, while still having a ~70% success rate for undistorted images.
+
 How it works
 ------------
 

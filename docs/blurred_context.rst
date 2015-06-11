@@ -9,10 +9,13 @@ The filter can be used in combination with the imgfilter.process function by add
 Parameters
 ----------
 
+.. currentmodule:: imgfilter.filters.blurred_context
+.. autoclass:: BlurredContext
+
 How it works
 ------------
 
-The filter first constructs a so-called "blur map" from the image using the method described by Su et al in their paper "Blurred Image Region Detection and Classification" (Proceedings of the 19th ACM International Conference on Multimedia, 2011): for each pixel, its "blurry degree" is estimated using the following formula:
+The filter first constructs a so-called "blur map" from the image using the method described by Su et al in their paper *Blurred Image Region Detection and Classification* (Proceedings of the 19th ACM International Conference on Multimedia, 2011): for each pixel, its "blurry degree" is estimated using the following formula:
 
 .. math::
 

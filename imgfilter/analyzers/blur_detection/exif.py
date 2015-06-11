@@ -7,10 +7,17 @@ import exifread
 
 
 def analyze_background_blur(tags):
-    if tags and "EXIF FocalLength" in tags and "EXIF ApertureValue" in tags:
+    if tags and "EXIF FocalLength" in tags:
+        if "EXIF FNumber" in tags:
+            aperture = eval(str(tags["EXIF FNumber"]))
+        elif "EXIF ApertureValue" in tags:
+            aperture = eval(str(tags["EXIF ApertureValue"]))
+        else:
+            return None
+
         focal = eval(str(tags["EXIF FocalLength"]))
-        aperture = eval(str(tags["EXIF ApertureValue"]))
         return get_background_blur_ratio(focal, aperture)
+
     return None
 
 
@@ -35,6 +42,9 @@ def get_background_blur_ratio(focal, aperture):
      Values near 1 mean that all the objects has to be 
      hundreds of meters away to be in focus.
     """
+    if aperture < 0.001:
+        return None
+
     # circle of confusion size:
     coc = 0.015
 

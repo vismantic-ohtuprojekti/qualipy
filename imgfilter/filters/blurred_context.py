@@ -3,6 +3,8 @@ from numpy.lib.stride_tricks import as_strided
 
 from .. import get_data
 from ..machine_learning.svm import SVM
+from ..analyzers.blur_detection.exif import analyze_background_blur
+from ..analyzers.common.result_combination import collective_result
 from ..utils.utils import partition_matrix
 
 from filter import Filter
@@ -37,7 +39,9 @@ class BlurredContext(Filter):
 		self.parameters = {}
 
     def required(self):
-		return {'resize'}
+
+        return {'resize', 'exif'}
+
 
     def run(self):
         """Checks if the background of the image is blurred.
@@ -48,7 +52,19 @@ class BlurredContext(Filter):
         svm.load(get_data('svm/blurred_context.yml'))
 
         input_vec = get_input_vector(self.parameters['resize'])
-        return self.scaled_prediction(svm.predict(input_vec))
+        algo_prediction = self.scaled_prediction(svm.predict(input_vec))
+
+        exif_tags = self.parameters['exif']
+        exif_prediction = analyze_background_blur(exif_tags)
+
+        return collective_result([algo_prediction, exif_prediction], 0.0)
 
     def scaled_prediction(self, prediction):
-        return 1 - (1 + prediction) / 2
+        pred = 1 - (1 + prediction) / 2
+
+        if pred < 0:
+            return 0
+        if pred > 1:
+            return 1
+
+        return pred

@@ -16,7 +16,6 @@ def get_input_vector(img):
         return [MLOG(view),
                 LAPV(view),
                 TENG(view),
-                
                 LAPM(view)]
 
     parts = [apply_measures(part) for part in partition_matrix(img, 5)]

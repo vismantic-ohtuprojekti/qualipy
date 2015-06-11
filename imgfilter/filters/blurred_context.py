@@ -35,13 +35,11 @@ def get_input_vector(img):
 class BlurredContext(Filter):
 
     def __init__(self):
-		self.name = 'blurred_context'
-		self.parameters = {}
+        self.name = 'blurred_context'
+        self.parameters = {}
 
     def required(self):
-
         return {'resize', 'exif'}
-
 
     def run(self):
         """Checks if the background of the image is blurred.

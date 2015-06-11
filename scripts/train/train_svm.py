@@ -7,11 +7,13 @@ from imgfilter.machine_learning.svm import SVM
 
 import imgfilter.filters.whole_blur
 import imgfilter.filters.blurred_context
+import imgfilter.filters.low_resolution
 
 
 FILTERS = \
     {'--whole_blur': imgfilter.filters.whole_blur.get_input_vector,
      '--blurred_context': imgfilter.filters.blurred_context.get_input_vector,
+     '--low_resolution': imgfilter.filters.low_resolution.get_input_vector
      }
 
 

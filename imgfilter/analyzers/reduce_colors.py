@@ -36,4 +36,5 @@ class ReduceColors(Analyzer):
         self.data = None
 
     def run(self, image, image_path):
-        self.data = reduce_colors(image, 2)
+        color_image = cv2.imread(image_path)
+        self.data = reduce_colors(color_image, 2)

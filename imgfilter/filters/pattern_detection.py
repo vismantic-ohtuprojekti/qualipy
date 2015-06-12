@@ -102,5 +102,6 @@ class PatternDetection(Filter):
 
 
     def run(self):
-        magnitude_spectrum = count_magnitude_spectrum(self.parameters['reduce_colors'])
-        return scaled_prediction(pattern_regonition(self.parameters['reduce_colors'], magnitude_spectrum))
+        two_color_gray_image = cv2.cvtColor(self.parameters['reduce_colors'], cv2.COLOR_BGR2GRAY)
+        magnitude_spectrum = count_magnitude_spectrum(two_color_gray_image)
+        return scaled_prediction(pattern_regonition(two_color_gray_image, magnitude_spectrum))

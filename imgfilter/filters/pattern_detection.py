@@ -1,10 +1,21 @@
-import statistic_common
+import analyzers.common.statistic_common
 
 import filter from Filter
 
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+
+
+def logaritmic_tarnsformation2D(array_2D):
+    c = 1 / np.log(1 + np.abs(np.amax(array_2D)))
+    return c * np.log(1 + np.abs(array_2D))
+
+
+def count_magnitude_spectrum(image):
+    f = np.fft.fft2(image)
+    fshift = np.fft.fftshift(f)
+    return logaritmic_tarnsformation2D(fshift)
 
 
 def mark_all_points_outside_circle(array_2D, radii):
@@ -93,4 +104,5 @@ class Pattern_Detection(Filter):
 
 
     def run(self):
-        return scaled_prediction(pattern_regonition(self.parameters['reduce_colors'], self.parameters['magnitude_spectrum']))
+        magnitude_spectrum = count_magnitude_spectrum(self.parameters['reduce_colors'])
+        return scaled_prediction(pattern_regonition(self.parameters['reduce_colors'], magnitude_spectrum))

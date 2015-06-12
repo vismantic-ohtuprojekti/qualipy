@@ -1,6 +1,6 @@
 import numpy as np
 
-import analyzers.common.statistic_common
+import imgfilter.analyzers.common.statistic_common as statistic_common
 
 def test_removes_anomalies_correctly():
     original = np.array([-10.0, 1.0, 2.0, 3.0, 4.0, 10.0])

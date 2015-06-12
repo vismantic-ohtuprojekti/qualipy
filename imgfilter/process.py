@@ -8,6 +8,7 @@ ANALYZERS = [Exif(),
              ObjectExtraction(),
              Sharpen(),
              Resize(),
+             ReduceColors(),
              ]
 
 

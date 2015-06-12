@@ -1,11 +1,9 @@
-import analyzers.common.statistic_common
+from ..analyzers.common.statistic_common import *
 
-import filter from Filter
+from filter import Filter
 
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
-
 
 def logaritmic_tarnsformation2D(array_2D):
     c = 1 / np.log(1 + np.abs(np.amax(array_2D)))
@@ -47,7 +45,7 @@ def pattern_regonition(two_color_image, magnitude_spectrum):
     param magnitude_spectrum: Magnitude spectrum of two color image
     """
     # Turn into gray scale
-    two_color_image = cv2.cvtColor(two_color_image, cv2.COLOR_BGR2GRAY)
+    #two_color_image = cv2.cvtColor(two_color_image, cv2.COLOR_BGR2GRAY)
 
     # Center of the image
     center = np.array((magnitude_spectrum.shape[0]/2.0, magnitude_spectrum.shape[1]/2.0))
@@ -68,10 +66,10 @@ def pattern_regonition(two_color_image, magnitude_spectrum):
                 magnitude_spectrum[x,y] = 0
 
 
-    all_distances = statistic_common.remove_anomalies(all_distances, 0.4)
-    max_distances = statistic_common.get_max_values(all_distances, 20)
+    all_distances = remove_anomalies(all_distances, 0.4)
+    max_distances = get_max_values(all_distances, 20)
 
-    max_distance_avg = statistic_common.avarage(max_distances)
+    max_distance_avg = avarage(max_distances)
     magnitude_spectrum = mark_all_points_outside_circle(magnitude_spectrum, max_distance_avg)
 
     all_points = np.where(magnitude_spectrum != 1)
@@ -89,10 +87,10 @@ def scaled_prediction(prediction):
     elif prediction > 0.4:
         return 0.0
     else:
-        return statistic_common.linear_normalize(prediction, 0.0, 0.4)
+        return linear_normalize(prediction, 0.0, 0.4)
 
 
-class Pattern_Detection(Filter):
+class PatternDetection(Filter):
 
     def __init__(self):
         self.name = 'pattern_detection'

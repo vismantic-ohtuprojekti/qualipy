@@ -7,6 +7,13 @@ import exifread
 
 
 def analyze_background_blur(tags):
+    """ Calculates and returns an estimated hyperfocal distance that tells
+    how far an object must be to be in focus. 
+    Values near zero mean hyperfocal distance is so low, 
+    that most likely everything in the picture is sharp. 
+    Values near 1 mean that all the objects has to be 
+    hundreds of meters away to be in focus.
+    """
     if tags and "EXIF FocalLength" in tags:
         if "EXIF FNumber" in tags:
             aperture = eval(str(tags["EXIF FNumber"]))
@@ -35,13 +42,6 @@ def analyze_picture_exposure(tags):
 
 
 def get_background_blur_ratio(focal, aperture):
-    """ Calculates and returns an estimated hyperfocal distance that tells
-     how far an object must be to be in focus. 
-     Values near zero mean hyperfocal distance is so low, 
-     that most likely everything in the picture is sharp. 
-     Values near 1 mean that all the objects has to be 
-     hundreds of meters away to be in focus.
-    """
     if aperture < 0.001:
         return None
 
@@ -71,9 +71,6 @@ def get_background_blur_ratio(focal, aperture):
 
 
 def get_exposure_ratio(exposure):
-    """ Normalizes the given exposure-value to a float between 0 and 1
-    :param exposure: float, usually between 1/4000 and 30
-    """
     # min and max exposure threshold values
     min_exposure = 1/2000
     max_exposure = 1/4

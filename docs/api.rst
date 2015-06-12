@@ -26,7 +26,7 @@ Utilities
 Exif
 ====
 
-.. automodule:: imgfilter.algorithms.blur_detection.exif
+.. automodule:: imgfilter.analyzers.blur_detection.exif
    :members:
 
 SVM

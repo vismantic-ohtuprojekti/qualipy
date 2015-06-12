@@ -26,9 +26,8 @@ def get_input_vector(img):
 
 class WholeBlur(Filter):
 
-    def __init__(self, threshold=0.5):
+    def __init__(self):
         self.name = 'whole_blur'
-        self.threshold = threshold
         self.parameters = {}
 
     def required(self):
@@ -39,9 +38,8 @@ class WholeBlur(Filter):
         exif_prediction = analyze_picture_exposure(exif)
         algo_prediction = self.make_prediction_focus()
 
-        return self.threshold <= \
-            collective_result([algo_prediction,
-                               exif_prediction], 0.2)
+        return collective_result([algo_prediction,
+                                  exif_prediction], 0.2)
 
     def make_prediction_focus(self):
         svm = SVM()
@@ -51,4 +49,11 @@ class WholeBlur(Filter):
         return self.scaled_prediction(svm.predict(input_vec))
 
     def scaled_prediction(self, prediction):
-        return 1 - (1 + prediction) / 2
+        pred = 1 - (1 + prediction) / 2
+
+        if pred < 0:
+            return 0
+        if pred > 1:
+            return 1
+
+        return pred

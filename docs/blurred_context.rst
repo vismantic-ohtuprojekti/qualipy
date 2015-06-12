@@ -4,7 +4,7 @@ Blurred context
 Usage
 -----
 
-The filter can be used in combination with the imgfilter.process function by adding a **BlurredContext** class instance to the list of filters to be used.
+Class to pass to the process function: BlurredContext
 
 Parameters
 ----------

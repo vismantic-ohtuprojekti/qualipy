@@ -38,7 +38,7 @@ def count_local_outliner_factor(entry, neighbors):
 
     return np.sum(outliners) / outliners.shape[0]
 
-def find_neighbors2(index, k, sorted_array):
+def find_neighbors(index, k, sorted_array):
     neighbors = np.array([])
     left_index = index - 1
     right_index = index + 1
@@ -66,26 +66,6 @@ def find_neighbors2(index, k, sorted_array):
     return neighbors
 
 
-def find_neighbors(index, k, sorted_array):
-    neighbors = np.array([])
-
-    neighbor_index = index - (k/2)
-    while neighbors.shape[0] < k:
-        if neighbor_index >= sorted_array.shape[0]:
-            break
-
-        if neighbor_index == index:
-            neighbor_index = neighbor_index + 1
-            continue
-
-        if neighbor_index >= 0:
-            neighbors = np.append(neighbors, sorted_array[neighbor_index])
-
-        neighbor_index = neighbor_index + 1
-
-    return neighbors
-
-
 def remove_anomalies(array_1D, max_outline_diff):
     sorted_array = np.sort(array_1D)
     outliner_factors = np.array([])
@@ -93,7 +73,7 @@ def remove_anomalies(array_1D, max_outline_diff):
 
     # Count outline factors
     for i in range(0, sorted_array.shape[0]):
-        neighbors = find_neighbors2(i, k, sorted_array)
+        neighbors = find_neighbors(i, k, sorted_array)
         outliner_factor = count_local_outliner_factor(sorted_array[i], neighbors)
         outliner_factors = np.append(outliner_factors, outliner_factor)
 

@@ -25,6 +25,13 @@ For training the blurred context detection, 525 blurred and 525 undistorted imag
 * Correct predictions for blurred images: 92,00 %
 * Correct predictions for undistorted images: 88,00 %
 
+Pattern detection
+-----------------
+For 100 pattern images and 120 non pattern images which were downloaded from Flickr:
+* Correct predictions for all samples: 70,37 %
+* Correct predictions for pattern images: 67.08 %
+* Correct predictions for non pattern images: 72,73 %
+
 
 Testing library code documentation
 ==================================

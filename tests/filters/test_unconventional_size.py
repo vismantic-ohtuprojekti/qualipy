@@ -16,6 +16,13 @@ def test_gives_false_when_ratio_correct():
     size.parameters = img
     assert size.run() == False
     
+def test_gives_false_when_ratio_correct():
+    size = UnconventionalSize(16/9.0)
+    img = numpy.ones(200).reshape(10, 20)
+    img = {'image': img}
+    size.parameters = img
+    assert size.run() == True
+    
     
     
 

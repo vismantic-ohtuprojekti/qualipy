@@ -1,5 +1,6 @@
 import statistic_common
-import image_processing_common
+
+import filter from Filter
 
 import cv2
 import numpy as np
@@ -27,25 +28,15 @@ def mark_all_points_outside_circle(array_2D, radii):
     return array_2D
 
 
-def logaritmic_tarnsformation2D(array_2D):
-    c = 1 / np.log(1 + np.abs(np.amax(array_2D)))
-    return c * np.log(1 + np.abs(array_2D))
+def pattern_regonition(two_color_image, magnitude_spectrum):
+    """
+    Counts prediction for image
 
-
-def count_magnitude_spectrum(image):
-    f = np.fft.fft2(image)
-    fshift = np.fft.fftshift(f)
-    return logaritmic_tarnsformation2D(fshift)
-
-
-def pattern_regonition(image_path):
+    param two_color_image: Image where colors are reduced only to two
+    param magnitude_spectrum: Magnitude spectrum of two color image
+    """
     # Turn into gray scale
-    image = cv2.imread(image_path)
-    image = reduce_colors(image, 2)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Count magnitude spectrum
-    magnitude_spectrum = count_magnitude_spectrum(image)
+    two_color_image = cv2.cvtColor(two_color_image, cv2.COLOR_BGR2GRAY)
 
     # Center of the image
     center = np.array((magnitude_spectrum.shape[0]/2.0, magnitude_spectrum.shape[1]/2.0))
@@ -79,3 +70,27 @@ def pattern_regonition(image_path):
     b = float(len(intense_points) * len(intense_points[0]))
 
     return b / a
+
+
+def scaled_prediction(prediction):
+    if prediction < 0.05:
+        return 1.0
+    elif prediction > 0.4:
+        return 0.0
+    else:
+        return statistic_common.linear_normalize(prediction, 0.0, 0.4)
+
+
+class Pattern_Detection(Filter):
+
+    def __init__(self):
+        self.name = 'pattern_detection'
+        self.parameters = {}
+
+
+    def required(self):
+        return {'reduce_colors'}
+
+
+    def run(self):
+        return scaled_prediction(pattern_regonition(self.parameters['reduce_colors'], self.parameters['magnitude_spectrum']))

@@ -1,10 +1,14 @@
+from analyzer import Analyzer
+
 import cv2
 import numpy as np
 
 def reduce_colors(image, colors):
     """
     Reduces colors of given image to given amount. Algorithm uses K-nearest neighbors
-    method to do this. Given image must have colors meaning three channels.
+    method to do this. Given image must have colors meaning three channels. Algorithm
+    taken from here "http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_ml/py_kmeans
+    /py_kmeans_opencv/py_kmeans_opencv.html"
 
     param image: image to process (must have three channels)
     param colors: how many colors the final image should have
@@ -24,3 +28,12 @@ def reduce_colors(image, colors):
     res = center[label.flatten()]
     res2 = res.reshape((image.shape))
     return res2
+
+class ReduceColors(Analyzer):
+
+    def __init__(self):
+        self.name = 'reduce_colors'
+        self.data = None
+
+    def run(self, image, image_path):
+        self.data = reduce_colors(image, 2)

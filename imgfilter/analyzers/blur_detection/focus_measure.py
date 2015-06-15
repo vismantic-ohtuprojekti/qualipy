@@ -15,8 +15,8 @@ def TENG(img):
 
     :param img: the image the measure is applied to as a numpy matrix
     """
-    gaussianX = cv2.Sobel(img, cv2.CV_64F, 1, 0, 1)
-    gaussianY = cv2.Sobel(img, cv2.CV_64F, 1, 0, 1)
+    gaussianX = cv2.Sobel(img, cv2.CV_64F, 1, 0)
+    gaussianY = cv2.Sobel(img, cv2.CV_64F, 1, 0)
     return numpy.mean(gaussianX * gaussianX +
                       gaussianY * gaussianY)
 

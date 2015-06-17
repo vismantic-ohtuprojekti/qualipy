@@ -3,3 +3,4 @@ from blurred_context import BlurredContext
 from unconventional_size import UnconventionalSize
 from low_resolution import LowResolution
 from pattern_detection import PatternDetection
+from small_object import ObjectTooSmall

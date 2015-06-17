@@ -1,5 +1,14 @@
 import numpy
 
+try:
+    import numba
+    jit = numba.jit
+
+except ImportError:
+
+    def jit(func):
+        return func
+
 
 def partition_matrix(matrix, n):
     """Partitions a matrix into n x n blocks of equal size

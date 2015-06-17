@@ -5,15 +5,17 @@ from .. import get_data
 from ..machine_learning.svm import SVM
 from ..analyzers.blur_detection.exif import analyze_background_blur
 from ..analyzers.common.result_combination import collective_result
-from ..utils.utils import partition_matrix
+from ..utils.utils import partition_matrix, jit
 
 from filter import Filter
 
 
+@jit
 def blurry_degree(lambdas):
     return lambdas[0] / (numpy.sum(lambdas) + 0.001)
 
 
+@jit
 def blurmap(img):
     patch_size = 5
     patches = as_strided(img,
@@ -55,7 +57,8 @@ class BlurredContext(Filter):
         exif_tags = self.parameters['exif']
         exif_prediction = analyze_background_blur(exif_tags)
 
-        return collective_result([algo_prediction, exif_prediction], 0.0)
+        return algo_prediction
+        # return collective_result([algo_prediction, exif_prediction], 0.0)
 
     def scaled_prediction(self, prediction):
         pred = 1 - (1 + prediction) / 2

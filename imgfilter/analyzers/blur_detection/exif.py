@@ -4,7 +4,10 @@ import sys
 import glob
 import math
 import exifread
+import imgfilter.machine_learning.svm
 
+def predict_blur(image_path):
+    
 
 def analyze_background_blur(tags):
     """ Calculates and returns an estimated hyperfocal distance that tells
@@ -40,6 +43,44 @@ def analyze_picture_exposure(tags):
         return get_exposure_ratio(exposure)
     return None
 
+def get_image_vectors(tags):
+    vectors = []
+    vectors.append(analyze_picture_exposure(tags))
+    # vectors.append(get_focal_value(tags))
+    # vectors.append(get_iso_value(tags))
+    # vectors.append(get_aperture_value(tags))
+    if None in vectors:
+        return None
+    return vectors
+
+def get_exposure_value(tags):
+    if tags and "EXIF ExposureTime" in tags:
+        exposure = tags["EXIF ExposureTime"]
+        exposure = eval(str(exposure))
+        return exposure
+    return None
+
+def get_focal_value(tags):
+    if tags and "EXIF FocalLength" in tags:
+        return eval(str(tags["EXIF FocalLength"]))
+    return None
+
+def get_iso_value(tags):
+    if tags and "EXIF ISOSpeedRatings" in tags:
+        iso = tags["EXIF ISOSpeedRatings"]
+        iso = eval(str(iso))
+        return iso
+    return None
+
+def get_aperture_value(tags):
+    if tags and "EXIF FocalLength" in tags:
+        if "EXIF FNumber" in tags:
+            return eval(str(tags["EXIF FNumber"]))
+        elif "EXIF ApertureValue" in tags:
+            return eval(str(tags["EXIF ApertureValue"]))
+        else:
+            return None
+    return None
 
 def get_background_blur_ratio(focal, aperture):
     if aperture < 0.001:
@@ -52,7 +93,7 @@ def get_background_blur_ratio(focal, aperture):
     hyperfocal = (math.pow(focal, 2) / (aperture * coc)) + focal
 
     # hyperfocal thresholds in millimeters
-    min_threshold = 100
+    min_threshold = 200
     max_threshold = 100000
 
     # normalize:
@@ -97,7 +138,15 @@ def get_images_in_folder():
         images.extend(glob.glob(files))
     return sorted(images)
 
+def parse_exif(image_path):
+    """Parses the exif tags from an image.
 
+    :param image_path: path to the image file
+    """
+    with open(image_path, 'rb') as image:
+        return exifread.process_file(image, details=False)
+
+    
 if __name__ == "__main__":
     total_exp = 0
     total_back = 0
@@ -105,8 +154,7 @@ if __name__ == "__main__":
     images = get_images_in_folder()
     tags = None
     for image in images:
-        with open(image, 'rb') as img:
-            tags = exifread.process_file(img, details=False)
+        tags = parse_exif(image)
         exp = analyze_picture_exposure(tags)
         back = analyze_background_blur(tags)
         if exp != None and back != None:

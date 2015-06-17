@@ -4,10 +4,7 @@ import sys
 import glob
 import math
 import exifread
-import imgfilter.machine_learning.svm
-
-def predict_blur(image_path):
-    
+import imgfilter.machine_learning.svm 
 
 def analyze_background_blur(tags):
     """ Calculates and returns an estimated hyperfocal distance that tells

@@ -1,3 +1,4 @@
+import copy
 class Analyzer(object):
 
     """An abstract class representing an analyzer"""
@@ -9,4 +10,4 @@ class Analyzer(object):
         """Returns a copy of the data associated with
         the analyzer.
         """
-        return self.data.copy()
+        return copy.copy(self.data)

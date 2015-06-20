@@ -4,3 +4,4 @@ from unconventional_size import UnconventionalSize
 from low_resolution import LowResolution
 from pattern_detection import PatternDetection
 from over_exposure import OverExposed
+from small_object import ObjectTooSmall

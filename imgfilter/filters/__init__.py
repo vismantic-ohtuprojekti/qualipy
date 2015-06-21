@@ -5,3 +5,4 @@ from low_resolution import LowResolution
 from pattern_detection import PatternDetection
 from over_exposure import OverExposed
 from small_object import ObjectTooSmall
+from multiple_salient_regions import MultipleSalientRegions

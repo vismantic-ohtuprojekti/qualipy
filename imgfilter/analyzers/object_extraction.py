@@ -33,8 +33,7 @@ def run_object_extraction(image_path):
     if not saliency(image_path, temp1, temp2):
         return None
 
-    os.unlink(temp1)
-    return temp2
+    return temp1, temp2
 
 
 class ObjectExtraction(Analyzer):
@@ -52,6 +51,9 @@ class ObjectExtraction(Analyzer):
         :param image: image data as a numpy matrix
         :param image_path: path to the image file
         """
-        obj = run_object_extraction(image_path)
-        self.data = cv2.imread(obj, cv2.CV_LOAD_IMAGE_GRAYSCALE)
-        os.unlink(obj)
+        full, binarized = run_object_extraction(image_path)
+        self.data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+                     cv2.imread(binarized, cv2.CV_LOAD_IMAGE_GRAYSCALE))
+
+        os.unlink(full)
+        os.unlink(binarized)

@@ -1,3 +1,5 @@
+import numpy
+
 from filter import Filter
 
 
@@ -12,10 +14,6 @@ class ObjectTooSmall(Filter):
         return {'extract_object'}
 
     def run(self):
-        obj = self.parameters['extract_object']
-        ratio = white_pixels(obj) / float(obj.size)
+        _, obj = self.parameters['extract_object']
+        ratio = numpy.count_nonzero(obj) / float(obj.size)
         return ratio < self.min_ratio
-
-
-def white_pixels(img):
-    return len(img[img == 255])

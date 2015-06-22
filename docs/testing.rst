@@ -35,7 +35,7 @@ For 100 pattern images and 120 non pattern images which were downloaded from Fli
 
 Over-exposure detection
 -----------------------
-300 images from flickr were downloaded and label either as over-exposured or normal. With a threshold value of 0.5 the following results were achieved:
+300 images from flickr were downloaded and labeled as either over-exposured or normal. With a threshold value of 0.5 the following results were achieved:
 
 * Correct predictions for all samples:  87.00 %
 * Correct predictions for over-exposed images: 86.00 %

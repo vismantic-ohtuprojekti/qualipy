@@ -12,4 +12,4 @@ Parameters
 .. currentmodule:: imgfilter.filters.small_object
 .. autoclass:: ObjectTooSmall
 
-The **min_ratio** parameter is used to define the minimum size for an object as the ratio of the size of the image. Sizes below this ratio are considered to be small. The default ratio is 0.05.
+The **min_ratio** parameter is used to define the minimum size for an object as the ratio of the size of the image. Objects of sizes below this ratio are considered to be too small. The default ratio is 0.05.

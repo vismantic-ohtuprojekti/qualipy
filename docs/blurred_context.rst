@@ -17,6 +17,13 @@ The **threshold** parameter is used to define the point where higher values than
 .. image:: images/thresholds_blurred_context.png
    :width: 650px
 
+As can be seen from the graph, a threshold of about 0.55 provides the highest total success rate, while choosing e.g. a threshold of about 0.30 provides an ~95% success rate for blurred images, while still having a ~80% success rate for undistorted images.
+
+ROC curve:
+
+.. image:: images/roc_blurred_context.png
+   :width: 650px
+
 How it works
 ------------
 

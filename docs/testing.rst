@@ -30,7 +30,7 @@ Pattern detection
 For 100 pattern images and 120 non pattern images which were downloaded from Flickr:
 
 * Correct predictions for all samples: 70,37 %
-* Correct predictions for pattern images: 67.08 %
+* Correct predictions for pattern images: 67,08 %
 * Correct predictions for non pattern images: 72,73 %
 
 Over-exposure detection

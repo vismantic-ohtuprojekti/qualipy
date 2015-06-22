@@ -20,6 +20,8 @@ and 1.0 indicates that positive. When prediction which is near 0.5 is returned f
 
 .. include:: pattern_detection.rst
 
+.. include:: over_exposed.rst
+
 Utilities
 *********
 

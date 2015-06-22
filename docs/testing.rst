@@ -28,9 +28,18 @@ For training the blurred context detection, 525 blurred and 525 undistorted imag
 Pattern detection
 -----------------
 For 100 pattern images and 120 non pattern images which were downloaded from Flickr:
+
 * Correct predictions for all samples: 70,37 %
 * Correct predictions for pattern images: 67.08 %
 * Correct predictions for non pattern images: 72,73 %
+
+Over-exposure detection
+-----------------------
+300 images from flickr were downloaded and label either as over-exposured or normal. With a threshold value of 0.5 the following results were achieved:
+
+* Correct predictions for all samples:  87.00 %
+* Correct predictions for over-exposed images: 86.00 %
+* Correct predictions for normal images: 88.00 %
 
 
 Testing library code documentation

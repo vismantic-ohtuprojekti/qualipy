@@ -16,3 +16,23 @@ How it works
 ------------
 
 The filter converts the image to grayscale and makes a histogram of it. It then calculates the percentage of pixels with greater than 250 intensity and normalizes the result (result * 50) to a float between 0 and 1.
+
+Examples:
+---------
+
+Sample image recognized as over-exposured: (value: 1.0)
+
+.. image:: images/exposure_sample_bad.jpg
+   :width: 300px
+
+Sample image not recognized as over-exposured: (value: 0.31)
+   
+.. image:: images/exposure_sample_good.jpg
+   :width: 300px
+
+Sample image not recognized as over-exposured: (value: 0.002)
+
+.. image:: images/exposure_sample_good2.jpg
+   :width: 300px
+
+

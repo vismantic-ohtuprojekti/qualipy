@@ -11,8 +11,7 @@ All filters can be used in combination with the imgfilter.process function by ad
 
 Return value
 ============
-All filters return a float value where 0.0 indicates negative (for example 0.0 from blur detection indicates that image is not blurred)
-and 1.0 indicates that positive. When prediction which is near 0.5 is returned filter is more uncertain about the classification.
+All filters return a float value between 0 and 1, where 0.0 indicates negative (for example 0.0 in blur detection indicates that the image is not blurred) and 1.0 indicates positive. When the prediction near 0.5 is returned, the filter is more uncertain about the classification.
 
 .. include:: whole_blur.rst
 
@@ -20,7 +19,13 @@ and 1.0 indicates that positive. When prediction which is near 0.5 is returned f
 
 .. include:: pattern_detection.rst
 
+.. include:: unconventional_size.rst
+
 .. include:: over_exposed.rst
+
+.. include:: small_object.rst
+
+.. include:: multiple_salient_regions.rst
 
 Utilities
 *********

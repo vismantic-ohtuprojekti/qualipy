@@ -1,5 +1,5 @@
 Over exposure detection
-==============
+=======================
 
 Usage
 -----

@@ -19,7 +19,7 @@ The outcomes of the focus measure algorithms for the whole image and
 the smaller parts are concatenated into an input vector for a support
 vector machine used for the prediction. By default, the SVM has been
 trained with the CERTH Image Blur Dataset. The final prediction is
-weighed by analyzing the probability of motion bur from the image's
+weighed by analyzing the probability of motion blur from the image's
 exif data, if possible.
 """
 

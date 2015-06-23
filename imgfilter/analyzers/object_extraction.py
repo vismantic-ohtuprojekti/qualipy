@@ -1,3 +1,8 @@
+"""
+Analyzer for running an object extraction algorithm on an image.
+Tailored for https://github.com/MingMingCheng/CmCode
+"""
+
 import os
 import cv2
 import tempfile
@@ -7,6 +12,16 @@ from analyzer import Analyzer
 
 
 def saliency(image_path, saliency_map_path, saliency_mask_path):
+    """Python wrapper for running the saliency detection.
+
+    :param image_path: path to the image file
+    :type image_path: str
+    :param saliency_map_path: path to save the generated saliency map
+    :type saliency_map_path: str
+    :param saliency_mask_path: path to save the binarized saliency map
+    :type saliency_mask_path: str
+    :returns: bool -- whether the saliency detection was succesful
+    """
     from .. import get_data
 
     saliency_lib = get_data("object_extraction/saliency.so")
@@ -26,6 +41,8 @@ def run_object_extraction(image_path):
     the path to the resulting image.
 
     :param image: path to the image file
+    :type image_path: str
+    :returns: str -- path to the resulting image
     """
     mktemp = lambda: tempfile.mkstemp(suffix=".jpg")[1]
     temp1, temp2 = mktemp(), mktemp()
@@ -46,10 +63,12 @@ class ObjectExtraction(Analyzer):
         self.data = None
 
     def run(self, image, image_path):
-        """Runs the object extraction analyzer
+        """Runs the object extraction analyzer.
 
-        :param image: image data as a numpy matrix
+        :param image: the image matrix
+        :type image: numpy.ndarray
         :param image_path: path to the image file
+        :type image_path: str
         """
         full, binarized = run_object_extraction(image_path)
         self.data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),

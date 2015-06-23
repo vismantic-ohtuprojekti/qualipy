@@ -1,5 +1,6 @@
 import json
-#from filters import *
+from filters import *
+
 
 def process_request(request_json):
     """Process json request which contains two arrays

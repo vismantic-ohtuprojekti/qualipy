@@ -6,8 +6,11 @@ def collective_result(results, limit):
     returned, otherwise the mean of all results is returned.
 
     :param results: the list of results to be combined
+    :type results: list
     :param limit: a limit in the range [0, 1] for a result
-    to be considered correct
+                  to be considered correct
+    :type limit: float
+    :returns: float
     """
     certain, non_certain = [], []
     for prediction in results:

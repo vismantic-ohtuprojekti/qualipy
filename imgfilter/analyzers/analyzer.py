@@ -1,4 +1,6 @@
 import copy
+
+
 class Analyzer(object):
 
     """An abstract class representing an analyzer"""

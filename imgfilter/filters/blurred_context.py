@@ -73,7 +73,7 @@ def get_input_vector(img):
                        dtype=numpy.float32)
 
 
-def scaled_prediction(self, prediction):
+def scaled_prediction(prediction):
     """Scales the prediction to range [0, 1].
 
     :param prediction: the prediction to scale

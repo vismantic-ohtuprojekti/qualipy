@@ -26,6 +26,8 @@ Software engineering lab
 
 [Meeting 12.6.2015](https://docs.google.com/document/d/1ymfgk3zg91ZPvp2bmUv3yexRLuKo-2_Ir1EsCp8sxhY/edit?usp=sharing)
 
+[Meeting 25.6.2015](https://docs.google.com/document/d/1MxCtHgHj_DaHPktn7ZqgoRC3UHQ26DoYEMzGM0-EPZs/edit?usp=sharing)
+
 #### Retrospectives
 
 [retro 1.6.2015](https://docs.google.com/document/d/1_zdVtEZiUF81xjvmg26BkA4w3cWr-LQBU5MzcbbwkYg/edit?usp=sharing)

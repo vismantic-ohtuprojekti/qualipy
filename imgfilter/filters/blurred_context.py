@@ -1,11 +1,11 @@
 """
 Filter for detecting images that have a blurred context.
 
-The filter first constructs a so-called “blur map” from the image
+The filter first constructs a so-called "blur map" from the image
 using the method described by Su et al in their paper Blurred Image
 Region Detection and Classification (Proceedings of the 19th ACM
 International Conference on Multimedia, 2011): for each pixel, its
-“blurry degree” is estimated using the singular values of a 5x5px
+"blurry degree" is estimated using the singular values of a 5x5px
 patch (larger patches can be used for slightly better results, but
 at cost in runtime) surrounding the pixel.
 

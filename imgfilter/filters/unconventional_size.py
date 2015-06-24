@@ -11,9 +11,10 @@ class UnconventionalSize(Filter):
 
     """Filter for detecting images of unconventional size"""
 
-    def __init__(self, max_aspect_ratio):
-        """Initializese an unconventional size filter"""
-        self.name = 'unconventional_size'
+    name = 'unconventional_size'
+
+    def __init__(self, max_aspect_ratio=16. / 9.):
+        """Initializes an unconventional size filter"""
         self.parameters = {}
         self.max_aspect = max_aspect_ratio
 

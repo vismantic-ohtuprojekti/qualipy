@@ -11,7 +11,7 @@ def test_blurry_degree_returns_first_values_ratio():
     assert round(blurry_degree(numpy.array([1, 1, 2])) - 1 / 4., 3) == 0
 
 
-def test_blurmap_returns_correct_sixe_matrix():
+def test_blurmap_returns_correct_size_matrix():
     mat = numpy.eye(10)
     assert blurmap(mat).shape == (6, 6)
 

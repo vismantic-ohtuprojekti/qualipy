@@ -64,6 +64,9 @@ def collect_analyzers(required_analyzers):
 
 
 def run_analyzers(image, image_path, filters):
+    if not filters:
+        return {}
+
     required_analyzers = set.union(*[filter.required() for filter in filters])
     analyzer_objects = collect_analyzers(required_analyzers)
 

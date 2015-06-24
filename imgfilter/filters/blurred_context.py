@@ -94,9 +94,10 @@ class BlurredContext(Filter):
 
     """Filter for detecting images that have a blurred context"""
 
+    name = 'blurred_context'
+
     def __init__(self):
         """Initializes a blurred context filter"""
-        self.name = 'blurred_context'
         self.parameters = {}
 
     def required(self):

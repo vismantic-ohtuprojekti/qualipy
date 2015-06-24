@@ -8,9 +8,15 @@ import numpy
 from filter import Filter
 
 
+def get_object_ratio(obj):
+    return numpy.count_nonzero(obj) / float(obj.size)
+
+
 class ObjectTooSmall(Filter):
 
     """Filter for detecting images where the object is too small"""
+
+    name = 'object_too_small'
 
     def __init__(self, min_ratio=0.05):
         """Initializes a small object filter
@@ -19,7 +25,6 @@ class ObjectTooSmall(Filter):
                           too small in comparison to the whole image
         :type min_ratio: float
         """
-        self.name = 'object_too_small'
         self.parameters = {}
         self.min_ratio = min_ratio
 
@@ -32,5 +37,4 @@ class ObjectTooSmall(Filter):
         :returns: float
         """
         _, obj = self.parameters['extract_object']
-        ratio = numpy.count_nonzero(obj) / float(obj.size)
-        return ratio < self.min_ratio
+        return get_object_ratio(obj) < self.min_ratio

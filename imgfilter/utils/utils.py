@@ -7,7 +7,7 @@ import numpy
 
 # Numba integration
 # If Numba is installed, certain functions are automatically
-# sped-run by Numba's JIT compilation.
+# sped-up by Numba's JIT compilation.
 try:
     import numba
     jit = numba.jit

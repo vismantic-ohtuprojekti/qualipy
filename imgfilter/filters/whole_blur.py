@@ -75,9 +75,10 @@ class WholeBlur(Filter):
 
     """Filter for detecting blurred images"""
 
+    name = 'whole_blur'
+
     def __init__(self):
         """Initializes a blurred image filter"""
-        self.name = 'whole_blur'
         self.parameters = {}
 
     def required(self):

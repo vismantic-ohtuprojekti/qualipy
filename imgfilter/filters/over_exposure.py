@@ -8,8 +8,9 @@ class OverExposed(Filter):
 
     """Filter for detecting overexposure"""
 
+    name = "over_exposure"
+
     def __init__(self):
-        self.name = "over_exposure"
         self.parameters = {}
 
     def required(self):

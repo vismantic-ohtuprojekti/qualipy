@@ -13,8 +13,9 @@ def get_input_vector(img):
 
 class LowResolution(Filter):
 
+    name = 'low_resolution'
+
     def __init__(self):
-        self.name = 'low_resolution'
         self.parameters = {}
 
     def required(self):

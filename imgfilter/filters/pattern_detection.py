@@ -92,8 +92,9 @@ def scaled_prediction(prediction):
 
 class PatternDetection(Filter):
 
+    name = 'pattern_detection'
+
     def __init__(self):
-        self.name = 'pattern_detection'
         self.parameters = {}
 
 

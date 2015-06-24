@@ -5,8 +5,9 @@ from filter import Filter
 
 class MultipleSalientRegions(Filter):
 
+    name = 'multiple_salient_regions'
+
     def __init__(self):
-        self.name = 'multiple_salient_regions'
         self.parameters = {}
 
     def required(self):

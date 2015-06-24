@@ -26,8 +26,9 @@ def reduce_colors(image, colors):
     Z = image.reshape((-1, 3)).astype(numpy.float32)
 
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    ret, label, center = cv2.kmeans(Z, colors, criteria, 10,
-                                    cv2.KMEANS_RANDOM_CENTERS)
+    ret, label, center = cv2.kmeans(data=Z, K=colors, criteria=criteria,
+                                    attempts=10, flags=cv2.KMEANS_PP_CENTERS,
+                                    bestLabels=None)
 
     center = numpy.uint8(center)
     res = center[label.flatten()]

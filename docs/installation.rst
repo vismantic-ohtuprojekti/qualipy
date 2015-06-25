@@ -37,3 +37,15 @@ Detect if each image on a list is blurred::
             [ WholeBlur(),
             ]
           )
+
+
+Process request function
+------------------------
+Process request function can be used call process function with
+json data. Given json must be in this format:
+
+{"filters": [{"whole_blur": {}},
+  {"multiple_salient_regions": {}}],
+  "images": ["image1.jpg", "image2.jpg"]}
+
+Giving parameters to the process request function is not currently supported.

@@ -28,7 +28,7 @@ class MagnitudeSpectrum(Analyzer):
         self.data = count_magnitude_spectrum(image)
 
 
-def logaritmic_tarnsformation2D(array_2D):
+def logaritmic_transformation2D(array_2D):
     """Performs a logarithmic transformation of a matrix.
 
     :param array_2D: a numpy matrix
@@ -48,4 +48,4 @@ def count_magnitude_spectrum(image):
     """
     fft = numpy.fft.fft2(image)
     fshift = numpy.fft.fftshift(fft)
-    return logaritmic_tarnsformation2D(fshift)
+    return logaritmic_transformation2D(fshift)

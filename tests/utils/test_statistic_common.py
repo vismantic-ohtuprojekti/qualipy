@@ -1,6 +1,6 @@
 import numpy as np
 
-import imgfilter.analyzers.common.statistic_common as statistic_common
+import imgfilter.utils.statistic_common as statistic_common
 
 
 def test_removes_anomalies_correctly():
@@ -10,12 +10,12 @@ def test_removes_anomalies_correctly():
     assert -10.0 not in anomalies_removed
     assert 10.0 not in anomalies_removed
 
-    for i in range(1, original.shape[0] - 1):
+    for i in xrange(1, original.shape[0] - 1):
         assert original[i] in anomalies_removed
 
 
-def test_count_local_outliner_factors():
-    outliner_factor = statistic_common.count_local_outliner_factor(2.0, np.array([-10.0, 1.0, 3.0, 4.0]))
+def test_count_local_outlier_factors():
+    outliner_factor = statistic_common.count_local_outlier_factor(2.0, np.array([-10.0, 1.0, 3.0, 4.0]))
 
     assert 1.0 - outliner_factor <= 0.00001
 
@@ -36,12 +36,6 @@ def test_linear_normalize_all():
     #for norm in np.arange(0.0, 0.8, 0.1):
     #    rounded = np.around(np.array([norm]), decimals = 1)
     #    assert(rounded[0] in normalized_values)
-
-
-def test_avarage():
-    originals = np.array([1.0, 8.0, 5.0, 6.0])
-    avarage = statistic_common.avarage(originals)
-    assert avarage == 5.0
 
 
 def test_max_values():

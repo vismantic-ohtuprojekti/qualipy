@@ -1,4 +1,4 @@
-from imgfilter.analyzers.blur_detection import exif
+from imgfilter.algorithms import exif
 
 
 def test_exposure_max_values():

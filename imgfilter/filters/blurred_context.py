@@ -21,8 +21,8 @@ from numpy.lib.stride_tricks import as_strided
 
 from .. import get_data
 from ..machine_learning.svm import SVM
-from ..analyzers.blur_detection.exif import analyze_background_blur
-from ..analyzers.common.result_combination import collective_result
+from ..algorithms.exif import analyze_background_blur
+from ..utils.result_combination import collective_result
 from ..utils.utils import partition_matrix, jit
 
 from filter import Filter

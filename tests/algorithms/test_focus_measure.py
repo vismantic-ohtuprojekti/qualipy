@@ -1,6 +1,6 @@
 import cv2
 
-from imgfilter.analyzers.blur_detection.focus_measure import *
+from imgfilter.algorithms.focus_measure import *
 
 IMAGE = cv2.imread('tests/images/lama.jpg', 0)
 BLURRED = cv2.blur(IMAGE, (10, 10))

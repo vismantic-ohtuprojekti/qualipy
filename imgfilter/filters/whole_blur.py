@@ -27,9 +27,9 @@ import numpy
 
 from .. import get_data
 from ..machine_learning.svm import SVM
-from ..analyzers.blur_detection.focus_measure import *
-from ..analyzers.blur_detection.exif import analyze_picture_exposure
-from ..analyzers.common.result_combination import collective_result
+from ..algorithms.focus_measure import *
+from ..algorithms.exif import analyze_picture_exposure
+from ..utils.result_combination import collective_result
 from ..utils.utils import partition_matrix, normalize, flatten
 
 from filter import Filter

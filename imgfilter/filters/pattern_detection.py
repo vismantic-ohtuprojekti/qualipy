@@ -21,7 +21,7 @@ smaller density than non-pattern-like images.
 import cv2
 import numpy
 
-from ..analyzers.common.statistic_common import *
+from ..utils.statistic_common import *
 from ..analyzers.magnitude_spectrum import count_magnitude_spectrum
 
 from filter import Filter
@@ -83,9 +83,10 @@ class PatternDetection(Filter):
 
     """Filter for detecting pattern-like images"""
 
+    name = 'pattern_detection'
+
     def __init__(self):
         """Initializes a pattern detection filter"""
-        self.name = 'pattern_detection'
         self.parameters = {}
 
     def required(self):

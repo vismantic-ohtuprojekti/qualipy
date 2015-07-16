@@ -10,6 +10,11 @@ command in the project's root folder::
 
     python setup.py install
 
+Some filters use an object extraction algorithm provided in a file called
+saliency.so. This file needs to be copied to the path imgfilter/data/object_extraction
+before installation or the path to the file can be specified with an environmental
+variable SALIENCY_SO_PATH.
+
 Usage examples
 ==============
 
@@ -41,11 +46,14 @@ Detect if each image on a list is blurred::
 
 Process request function
 ------------------------
-Process request function can be used call process function with
-json data. Given json must be in this format:
+The process_request function can be used to call the process function with
+json data. The given json must be in the following format::
 
-{"filters": [{"whole_blur": {}},
-  {"multiple_salient_regions": {}}],
-  "images": ["image1.jpg", "image2.jpg"]}
-
-Giving parameters to the process request function is not currently supported.
+    { "images": [
+        "a.jpg",
+        "b.jpg"
+        ],
+        "filters": {
+            "unconventional_size": {"max_aspect_ratio": 5}
+        }
+    }

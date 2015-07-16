@@ -24,7 +24,10 @@ def saliency(image_path, saliency_map_path, saliency_mask_path):
     """
     from .. import get_data
 
-    saliency_lib = get_data("object_extraction/saliency.so")
+    saliency_lib = os.getenv('SALIENCY_SO_PATH')
+    if saliency_lib is None:
+        saliency_lib = get_data("object_extraction/saliency.so")
+
     SaliencyDetector = cdll.LoadLibrary(saliency_lib)
     SaliencyDetector.saliency.restype = c_bool
 

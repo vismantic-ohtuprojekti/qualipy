@@ -6,6 +6,12 @@ Usage
 
 The filter can be used in combination with the imgfilter.process function by adding a **MultipleSalientRegions** class instance to the list of filters to be used.
 
+Parameters
+----------
+
+The **is_saliency_map** parameter is used to specify that the given image is already a
+saliency map.
+
 How it works
 ------------
 
@@ -13,41 +19,44 @@ First, the full saliency map is extracted using the object extraction algorithm:
 
 .. image:: images/multiple_salient_regions.jpg
 
-Saliency map is binarised using threshold which is counted for individually for
-each image. In threshold calculation weighted average of 3/4 of biggest rounded
-saliency values are used. After image is binarized all solid regions.
-All regions and their sizes are calculated. After this prediction is constructed
-by dividing sum of all regions by the area of the largest region. This result
-is then raised to the power of two. From this 1 is substracted and this is
-the final prediction. This way if saliency map contains some small separate
-areas whole image is not considered to have multiple saliency regions.
+The saliency map is binarized using a threshold which is calculated individually
+for each image as the weighted average of 3/4 of the biggest saliency values.
+Using this threshold, the image is binarized into solid regions. All regions and
+their sizes are calculated using OpenCV's contour detection. The actual prediction
+is constructed by dividing the sum of of the areas of all the regions by the area
+of the largest region and squaring the result. This way if the saliency map contains
+some small independent areas, the whole image is not considered to have multiple
+salient regions.
 
-Example of image which contains multiple saliency regions:
+Example of an image which contains multiple salient regions:
 
 Saliency map
 
 .. image:: images/saliency_map_for_multiple_saliency_regions.png
+   :width: 500px
 
 Binarized saliency map
 
 .. image:: images/binarized_saliency_map_for_multiple_saliency_regions.png
+   :width: 500px
 
-For this image limit which was used for binarization was 92.65 and
-given prediction was 1.0
+For this image, the limit which was used for binarization was 92.65 and
+the given prediction was 1.0.
 
-
-Example of image which doesn't contain multiple saliency regions
+Example of an image which doesn't contain multiple salient regions:
 
 Saliency map
 
 .. image:: images/saliency_map_of_one_saliency_region.png
+   :width: 500px
 
 Binarized saliency map
 
 .. image:: images/binarized_saliency_map_of_non_multiple_saliency_regions.png
+   :width: 500px
 
-For this image limit which was used for binarization was 113.25 and
-given predection was 0.31
+For this image, the limit which was used for binarization was 113.25 and
+the given prediction was 0.31
 
-When using multiple saliency regions filter threshold of 0.5 was tested to be the
-best one.
+During testing of the filter, a threshold value of 0.5 was found to be best
+suited in practice.

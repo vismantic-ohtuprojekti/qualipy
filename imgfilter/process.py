@@ -25,6 +25,7 @@ def read_image(image_path):
     :returns: numpy.ndarray
     """
     return cv2.imread(image_path, cv2.CV_LOAD_IMAGE_GRAYSCALE)
+    # return cv2.imread(image_path, cv2.CV_LOAD_IMAGE_COLOR)
 
 
 def process(image_paths, filters):

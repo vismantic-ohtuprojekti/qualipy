@@ -63,6 +63,22 @@ def flatten(lists):
     """
     return [item for sublist in lists for item in sublist]
 
+def scaled_prediction(prediction):
+    """Scales the prediction to range [0, 1].
+
+    :param prediction: the prediction to scale
+    :type prediction: float
+    :returns: float
+    """
+    pred = 1 - (1 + prediction) / 2
+
+    if pred < 0:
+        return 0
+    if pred > 1:
+        return 1
+
+    return pred
+
 def clipping_percentage(histogram, threshold, overThreshold):
 	"""Calculates percentage of images high of low intensity pixels
 	

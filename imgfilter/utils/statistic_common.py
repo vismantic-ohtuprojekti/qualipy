@@ -8,7 +8,7 @@ def get_max_values(array_1D, count):
 
 @numpy.vectorize
 def linear_normalize(value, min_value, max_value):
-    return (value - min_value) / max_value
+    return (value - min_value) / (max_value - min_value)
 
 
 def linear_normalize_all(array_1D):

@@ -13,7 +13,8 @@ import imgfilter.filters.low_resolution
 FILTERS = \
     {'--whole_blur': imgfilter.filters.whole_blur.get_input_vector,
      '--blurred_context': imgfilter.filters.blurred_context.get_input_vector,
-     '--low_resolution': imgfilter.filters.low_resolution.get_input_vector
+     '--low_resolution': imgfilter.filters.low_resolution.get_input_vector,
+     '--posterized': imgfilter.filters.posterized_image.get_input_vector
      }
 
 

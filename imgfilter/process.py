@@ -14,6 +14,7 @@ ANALYZERS = [Exif(),
              Sharpen(),
              Resize(),
              ReduceColors(),
+             ColorImage(),
              ]
 
 

@@ -8,3 +8,4 @@ from under_exposure import UnderExposed
 from small_object import ObjectTooSmall
 from multiple_salient_regions import MultipleSalientRegions
 from hdr import Hdr
+from posterized_image import Posterized

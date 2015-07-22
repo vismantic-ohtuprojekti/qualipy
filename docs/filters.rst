@@ -18,3 +18,4 @@ List of filters
    over_exposed
    small_object
    multiple_salient_regions
+   posterized

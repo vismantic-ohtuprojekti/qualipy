@@ -37,7 +37,6 @@ def resize(image, size):
     :type size: int
     :returns: numpy.ndarray
     """
-    # height, width, xxx = image.shape //Works with cv3?
     height, width = image.shape
 
     if max(height, width) <= size:

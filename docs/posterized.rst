@@ -14,3 +14,7 @@ Histogam of posterized image
 
 .. image:: images/non_posterized_histogram.png
 HIstogram of non posterized image
+
+
+.. image:: images/posterized_roc_curve.png
+Roc curve of posterized image filter

@@ -46,7 +46,7 @@ def get_input_vector(img):
 
     result = np.array([derivate_average[0], number_of_peaks])
     return result.astype(np.float32)
-    
+
 
 class Posterized(Filter):
 
@@ -63,8 +63,8 @@ class Posterized(Filter):
         svm.load(get_data('svm/posterized.yml'))
         prediction = svm.predict(get_input_vector(self.parameters['image']))
         if prediction < -1.0:
-            return 0.0
-        elif prediction > 1.0:
             return 1.0
+        elif prediction > 1.0:
+            return 0.0
         else:
-            return (prediction - (-1.0)) / (1.0 - (-1.0))
+            return 1.0 - (prediction - (-1.0)) / (1.0 - (-1.0))

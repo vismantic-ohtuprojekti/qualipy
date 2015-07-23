@@ -30,7 +30,7 @@ from ..machine_learning.svm import SVM
 from ..algorithms.focus_measure import *
 from ..algorithms.exif import analyze_picture_exposure
 from ..utils.result_combination import collective_result
-from ..utils.utils import partition_matrix, normalize, flatten
+from ..utils.utils import *
 
 from filter import Filter
 
@@ -52,23 +52,6 @@ def get_input_vector(img):
     normalized_columns = numpy.apply_along_axis(normalize, 0, parts)
 
     return numpy.array(flatten(normalized_columns), dtype=numpy.float32)
-
-
-def scaled_prediction(prediction):
-    """Scales the prediction to range [0, 1].
-
-    :param prediction: the prediction to scale
-    :type prediction: float
-    :returns: float
-    """
-    pred = 1 - (1 + prediction) / 2
-
-    if pred < 0:
-        return 0
-    if pred > 1:
-        return 1
-
-    return pred
 
 
 class WholeBlur(Filter):

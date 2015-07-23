@@ -23,7 +23,7 @@ from .. import get_data
 from ..machine_learning.svm import SVM
 from ..algorithms.exif import analyze_background_blur
 from ..utils.result_combination import collective_result
-from ..utils.utils import partition_matrix, jit
+from ..utils.utils import partition_matrix, scaled_prediction, jit
 
 from filter import Filter
 
@@ -71,23 +71,6 @@ def get_input_vector(img):
     parts = partition_matrix(blurmap(img), 10)
     return numpy.array([numpy.mean(part) for part in parts],
                        dtype=numpy.float32)
-
-
-def scaled_prediction(prediction):
-    """Scales the prediction to range [0, 1].
-
-    :param prediction: the prediction to scale
-    :type prediction: float
-    :returns: float
-    """
-    pred = 1 - (1 + prediction) / 2
-
-    if pred < 0:
-        return 0
-    if pred > 1:
-        return 1
-
-    return pred
 
 
 class BlurredContext(Filter):

@@ -9,3 +9,4 @@ from small_object import ObjectTooSmall
 from multiple_salient_regions import MultipleSalientRegions
 from hdr import HDR
 from posterized_image import Posterized
+from cross_processed import CrossProcessed

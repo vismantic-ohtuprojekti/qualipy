@@ -63,6 +63,7 @@ def flatten(lists):
     """
     return [item for sublist in lists for item in sublist]
 
+
 def scaled_prediction(prediction):
     """Scales the prediction to range [0, 1].
 
@@ -79,22 +80,24 @@ def scaled_prediction(prediction):
 
     return pred
 
+
 def clipping_percentage(histogram, threshold, overThreshold):
-	"""Calculates percentage of images high of low intensity pixels
-	
-	:param histogram: intensity histogram
-	:type histogram: 8 bit histogram
-	:param threshold: threshold intensity which is used to get intensity amounts over or under it
-	:type threshold: integer value in range of 0 to 255
-	:param overThreshold: whether to get intensity amount over(True) or under(False) threshold
-	:type boolean
-	:returns: float
-	""" 
-	
-	total = numpy.sum(histogram)
-	if total < 0.0005:  # avoid division by zero
-		return 0
-	if overThreshold:
-		return float(numpy.sum(histogram[threshold:])) / total
-	else:
-		return float(numpy.sum(histogram[:threshold])) / total
+    """Calculates percentage of images high of low intensity pixels
+
+    :param histogram: intensity histogram
+    :type histogram: numpy.ndarray
+    :param threshold: threshold intensity which is used to get
+                      intensity amounts over or under it
+    :type threshold: int
+    :param overThreshold: whether to get the intensity amount over
+                          (True) or under (False) threshold
+    :type overThreshold: boolean
+    :returns: float
+    """
+    total = numpy.sum(histogram)
+    if total < 0.0005:  # avoid division by zero
+        return 0
+    if overThreshold:
+        return float(numpy.sum(histogram[threshold:])) / total
+    else:
+        return float(numpy.sum(histogram[:threshold])) / total

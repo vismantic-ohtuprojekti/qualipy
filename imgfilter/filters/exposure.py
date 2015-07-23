@@ -6,11 +6,11 @@ from ..utils.utils import clipping_percentage
 from filter import Filter
 
 
-class OverExposed(Filter):
+class Exposure(Filter):
 
     """Filter for detecting overexposure"""
 
-    name = "over_exposure"
+    name = "exposure"
 
     def __init__(self):
         self.parameters = {}

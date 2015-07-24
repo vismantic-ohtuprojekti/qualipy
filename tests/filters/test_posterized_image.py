@@ -2,8 +2,8 @@ import imgfilter
 from imgfilter.filters import *
 
 
-POSTERIZED_IMAGE = 'tests/images/posterized.jpeg'
-NON_POSTERIZED_IMAGE = 'tests/images/non_posterized.jpeg'
+POSTERIZED_IMAGE = 'tests/images/posterized.png'
+NON_POSTERIZED_IMAGE = 'tests/images/non_posterized.jpg'
 
 
 def test_recognizes_posterized_image():

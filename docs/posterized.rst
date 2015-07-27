@@ -1,16 +1,25 @@
-Posterized Image Detection
+Posterized image detection
 ==========================
 
-In posterized image detection first loads given image as gray scale image.
-Then histogram is calculated. From the histogram average derivate and amount
-of local max points. These values were then used to with the svm to calculate
-final prediction. Initial idea that the average of derivate and number of
-local maximums differ in posterized and non posterized images came from this
-article http://www.cambridgeincolour.com/tutorials/posterization.htm and
-more specifically its pictures of histograms of posterized and non posterized images.
+Usage
+-----
+
+Class to pass to the process function: Posterized
+
+How it works
+------------
+
+The posterized image detection first loads the given image as a grayscale image and calculates a histogram of its intensities. From this histogram the average derivative and the amount of local maxima are calculated. These values are fed to a support vector machine to calculate the final prediction. The initial idea that the average derivative and the number of local maxima differ in posterized and non-posterized images comes from `this article <http://www.cambridgeincolour.com/tutorials/posterization.htm>`_ and more specifically its pictures of histograms of both posterized and non-posterized images.
+
+Histogram of a posterized image
 
 .. image:: images/posterized_histogram.png
-Histogam of posterized image
+
+Histogram of a non-posterized image
 
 .. image:: images/non_posterized_histogram.png
-HIstogram of non posterized image
+Histogram of non posterized image
+
+
+.. image:: images/posterized_roc_curve.png
+Roc curve of posterized image filter

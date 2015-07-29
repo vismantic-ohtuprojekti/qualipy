@@ -4,6 +4,7 @@ Images with aspect ratio over 16:9 or 9:16 are considered
 to be of unconventional size by default.
 """
 
+from ..utils.image_utils import read_image
 from filter import Filter
 
 
@@ -12,20 +13,20 @@ class UnconventionalSize(Filter):
     """Filter for detecting images of unconventional size"""
 
     name = 'unconventional_size'
+    speed = 1
 
-    def __init__(self, max_aspect_ratio=16. / 9.):
+    def __init__(self, threshold=16. / 9., invert_threshold=False):
         """Initializes an unconventional size filter"""
-        self.parameters = {}
-        self.max_aspect = max_aspect_ratio
+        super(UnconventionalSize, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'image'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Checks if the image is of unconventional size
 
         :returns: bool
         """
-        height, width = self.parameters['image'].shape
+        height, width = read_image(image_path).shape
         aspect_ratio = max(height, width) / float(min(height, width))
-        return aspect_ratio > self.max_aspect
+
+        if return_boolean:
+            return self.boolean_result(aspect_ratio)
+        return aspect_ratio

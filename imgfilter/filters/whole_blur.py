@@ -31,6 +31,7 @@ from ..algorithms.focus_measure import *
 from ..algorithms.exif import analyze_picture_exposure
 from ..utils.result_combination import collective_result
 from ..utils.utils import *
+from ..utils.image_utils import read_image, sharpen, read_exif_tags
 
 from filter import Filter
 
@@ -54,34 +55,37 @@ def get_input_vector(img):
     return numpy.array(flatten(normalized_columns), dtype=numpy.float32)
 
 
+def make_prediction_focus(image_path):
+    svm = SVM()
+    svm.load(get_data('svm/whole_blur.yml'))
+
+    input_vec = get_input_vector(sharpen(read_image(image_path)))
+    return scaled_prediction(svm.predict(input_vec))
+
+
 class WholeBlur(Filter):
 
     """Filter for detecting blurred images"""
 
     name = 'whole_blur'
+    speed = 2
 
-    def __init__(self):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a blurred image filter"""
-        self.parameters = {}
+        super(WholeBlur, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'exif', 'sharpen'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Checks if the image is blurred.
 
         :returns: float
         """
-        exif = self.parameters['exif']
+        exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)
-        algo_prediction = self.make_prediction_focus()
+        algo_prediction = make_prediction_focus(image_path)
 
-        return collective_result([algo_prediction,
-                                  exif_prediction], 0.2)
+        prediction = collective_result([algo_prediction,
+                                        exif_prediction], 0.2)
 
-    def make_prediction_focus(self):
-        svm = SVM()
-        svm.load(get_data('svm/whole_blur.yml'))
-
-        input_vec = get_input_vector(self.parameters['sharpen'])
-        return scaled_prediction(svm.predict(input_vec))
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

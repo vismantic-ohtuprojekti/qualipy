@@ -21,8 +21,9 @@ from numpy.lib.stride_tricks import as_strided
 
 from .. import get_data
 from ..machine_learning.svm import SVM
-from ..algorithms.exif import analyze_background_blur
-from ..utils.result_combination import collective_result
+# from ..algorithms.exif import analyze_background_blur
+# from ..utils.result_combination import collective_result
+from ..utils.image_utils import read_image, resize, read_exif_tags
 from ..utils.utils import partition_matrix, scaled_prediction, jit
 
 from filter import Filter
@@ -78,15 +79,13 @@ class BlurredContext(Filter):
     """Filter for detecting images that have a blurred context"""
 
     name = 'blurred_context'
+    speed = 4
 
-    def __init__(self):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a blurred context filter"""
-        self.parameters = {}
+        super(BlurredContext, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'resize', 'exif'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Checks if the background of an image is blurred.
 
         :returns: float
@@ -94,11 +93,13 @@ class BlurredContext(Filter):
         svm = SVM()
         svm.load(get_data('svm/blurred_context.yml'))
 
-        input_vec = get_input_vector(self.parameters['resize'])
+        input_vec = get_input_vector(resize(read_image(image_path), 500))
         algo_prediction = scaled_prediction(svm.predict(input_vec))
 
-        exif_tags = self.parameters['exif']
-        exif_prediction = analyze_background_blur(exif_tags)
+        # exif_tags = read_exif_tags(image)
+        # exif_prediction = analyze_background_blur(exif_tags)
 
+        if return_boolean:
+            return self.boolean_result(algo_prediction)
         return algo_prediction
         # return collective_result([algo_prediction, exif_prediction], 0.0)

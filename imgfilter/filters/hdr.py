@@ -1,8 +1,9 @@
 import cv2
 import numpy
 
-from imgfilter.machine_learning.svm import SVM
-from imgfilter.utils.utils import *
+from ..machine_learning.svm import SVM
+from ..utils.utils import *
+from ..utils.image_utils import read_color_image
 from .. import get_data
 
 from filter import Filter
@@ -124,15 +125,13 @@ class HDR(Filter):
     """Filter for detecting HDR images"""
 
     name = 'hdr'
+    speed = 2
 
-    def __init__(self):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a HDR image filter"""
-        self.parameters = {}
+        super(HDR, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'color_image'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Detects if an image is a HDR image.
 
         :returns: float
@@ -140,5 +139,9 @@ class HDR(Filter):
         svm = SVM()
         svm.load(get_data('svm/hdr.yml'))
 
-        vector = get_input_vector(self.parameters['color_image'])
-        return scaled_prediction(svm.predict(vector))
+        vector = get_input_vector(read_color_image(image_path))
+        prediction = scaled_prediction(svm.predict(vector))
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

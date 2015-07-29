@@ -5,6 +5,8 @@ in comparison to the size of the image.
 
 import numpy
 
+from ..utils.image_utils import read_image
+from ..utils.object_extraction import extract_object
 from filter import Filter
 
 
@@ -23,8 +25,10 @@ class ObjectTooSmall(Filter):
     """Filter for detecting images where the object is too small"""
 
     name = 'object_too_small'
+    speed = 5
 
-    def __init__(self, min_ratio=0.05, is_saliency_map=False):
+    def __init__(self, threshold=0.05, invert_threshold=False,
+                 is_saliency_map=False):
         """Initializes a small object filter
 
         :param min_ratio: minimum ratio for an object to be considered
@@ -33,21 +37,21 @@ class ObjectTooSmall(Filter):
         :param is_saliency_map: whether the image is already a saliency map
         :type is_saliency_map: bool
         """
-        self.parameters = {}
-        self.min_ratio = min_ratio
+        super(ObjectTooSmall, self).__init__(threshold, invert_threshold)
         self.is_saliency_map = is_saliency_map
 
-    def required(self):
-        return {'image', 'extract_object'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Checks if the object in an image is too small.
 
         :returns: float
         """
         if self.is_saliency_map:
-            obj = self.parameters['image']
+            obj = read_image(image_path)
         else:
-            _, obj = self.parameters['extract_object']
+            _, obj = extract_object(image_path)
 
-        return get_object_ratio(obj) < self.min_ratio
+        prediction = get_object_ratio(obj)
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

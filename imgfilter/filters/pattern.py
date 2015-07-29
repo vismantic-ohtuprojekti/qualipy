@@ -21,6 +21,7 @@ smaller density than non-pattern-like images.
 import cv2
 import numpy
 
+from ..utils.image_utils import read_color_image, reduce_colors
 from ..utils.statistic_common import *
 from ..analyzers.magnitude_spectrum import count_magnitude_spectrum
 
@@ -79,26 +80,29 @@ def scaled_prediction(prediction):
         return linear_normalize(prediction, 0.0, 0.4).item(0)
 
 
-class PatternDetection(Filter):
+class Pattern(Filter):
 
     """Filter for detecting pattern-like images"""
 
-    name = 'pattern_detection'
+    name = 'pattern'
+    speed = 3
 
-    def __init__(self):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a pattern detection filter"""
-        self.parameters = {}
+        super(Pattern, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'reduce_colors'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         """Checks if the image is pattern-like.
 
         :returns: float
         """
-        two_color_gray_image = cv2.cvtColor(self.parameters['reduce_colors'],
+        image = read_color_image(image_path)
+        two_color_gray_image = cv2.cvtColor(reduce_colors(image, 2),
                                             cv2.COLOR_BGR2GRAY)
 
         magnitude_spectrum = count_magnitude_spectrum(two_color_gray_image)
-        return scaled_prediction(pattern_recognition(magnitude_spectrum))
+        prediction = scaled_prediction(pattern_recognition(magnitude_spectrum))
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

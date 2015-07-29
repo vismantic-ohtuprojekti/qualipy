@@ -1,70 +1,40 @@
-import numpy as np
 import cv2
+import numpy
 
-from imgfilter.machine_learning.svm import SVM
 from .. import get_data
-
-from ..utils.statistic_common import linear_normalize
+from ..machine_learning.svm import SVM
+from ..utils.image_utils import read_image
+from ..utils.utils import scaled_prediction
 
 from filter import Filter
 
 
 def get_input_vector(img):
-    hist = cv2.calcHist([img], [0], None, [256], [0,255])
+    hist = cv2.calcHist([img], [0], None, [256], [0, 255])
 
-    peaks = np.array([])
-    move_status = 'level'
+    diffs = numpy.diff(hist.T[0])  # calculate derivatives
+    sum_of_derivatives = numpy.sum(numpy.abs(diffs))
+    derivative_average = sum_of_derivatives / 255.
+    number_of_peaks = numpy.sum((diffs[:-1] > 0) & (diffs[1:] < 0))
 
-    sum_of_derivates = 0.0
-
-    for i in range(0, hist.shape[0] - 1):
-        # Calculate derivate
-        current_derivate = hist[i + 1] - hist[i]
-
-        # Update move status based on current derivate
-        current_move_status = ''
-        if current_derivate < 0:
-            current_move_status = 'decreasing'
-        elif current_derivate > 0:
-            current_move_status = 'increasing'
-        else:
-            current_move_status = 'level'
-
-        # Check if found a peak and update peaks
-        if move_status == 'increasing' and current_move_status == 'decreasing':
-            peaks = np.append(peaks, hist[i])
-
-        # Update derivate sum
-        sum_of_derivates += np.abs(current_derivate)
-
-        # Update move status
-        move_status = current_move_status
-
-    # Caluculate average of derivate and number of peaks
-    derivate_average = (1.0 / 255.0) * sum_of_derivates
-    number_of_peaks = peaks.shape[0]
-
-    result = np.array([derivate_average[0], number_of_peaks])
-    return result.astype(np.float32)
+    return numpy.array([derivative_average, number_of_peaks],
+                       dtype=numpy.float32)
 
 
 class Posterized(Filter):
 
     name = 'posterized'
+    speed = 1
 
-    def __init__(self):
-        self.parameters = {}
+    def __init__(self, threshold=0.5, invert_threshold=False):
+        super(Posterized, self).__init__(threshold, invert_threshold)
 
-    def required(self):
-        return {'image'}
-
-    def run(self):
+    def predict(self, image_path, return_boolean=True):
         svm = SVM()
         svm.load(get_data('svm/posterized.yml'))
-        prediction = svm.predict(get_input_vector(self.parameters['image']))
-        if prediction < -1.0:
-            return 1.0
-        elif prediction > 1.0:
-            return 0.0
-        else:
-            return 1.0 - (prediction - (-1.0)) / (1.0 - (-1.0))
+        prediction = svm.predict(get_input_vector(read_image(image_path)))
+        prediction = scaled_prediction(prediction)
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

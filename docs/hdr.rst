@@ -20,7 +20,7 @@ ROC curve:
 How it works
 ------------
 
-We focus on detecting images that have a very noticable or bad HDR effect, for example:
+We focus on detecting images that have a very noticeable or bad HDR effect, for example:
 
 .. image:: images/hdr_example1.jpg
    :width: 210px

@@ -73,13 +73,13 @@ class MultipleSalientRegions(Filter):
                                                      invert_threshold)
         self.is_saliency_map = is_saliency_map
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the image contains multiple salient regions.
 
         :returns: float
         """
         if self.is_saliency_map:
-            saliency_map = read_image(image_path)
+            saliency_map = read_image(image_path, ROI)
         else:
             saliency_map, _ = extract_object(image_path)
 

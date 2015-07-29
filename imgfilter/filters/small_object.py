@@ -40,13 +40,13 @@ class ObjectTooSmall(Filter):
         super(ObjectTooSmall, self).__init__(threshold, invert_threshold)
         self.is_saliency_map = is_saliency_map
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the object in an image is too small.
 
         :returns: float
         """
         if self.is_saliency_map:
-            obj = read_image(image_path)
+            obj = read_image(image_path, ROI)
         else:
             _, obj = extract_object(image_path)
 

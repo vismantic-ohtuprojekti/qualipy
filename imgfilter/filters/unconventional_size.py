@@ -19,12 +19,12 @@ class UnconventionalSize(Filter):
         """Initializes an unconventional size filter"""
         super(UnconventionalSize, self).__init__(threshold, invert_threshold)
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the image is of unconventional size
 
         :returns: bool
         """
-        height, width = read_image(image_path).shape
+        height, width = read_image(image_path, ROI).shape
         aspect_ratio = max(height, width) / float(min(height, width))
 
         if return_boolean:

@@ -16,10 +16,10 @@ class Exposure(Filter):
     def __init__(self, threshold=0.5, invert_threshold=False):
         super(Exposure, self).__init__(threshold, invert_threshold)
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """ Checks if image is over- or underexposed
         """
-        image = read_image(image_path)
+        image = read_image(image_path, ROI)
         histogram = cv2.calcHist([image], [0], None, [256], [0, 256])
 
         # normalize

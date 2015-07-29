@@ -10,7 +10,7 @@ class Filter(object):
         self.invert_threshold = invert_threshold
         self.compare_func = operator.gt
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         pass
 
     def boolean_result(self, prediction):

@@ -85,7 +85,7 @@ class BlurredContext(Filter):
         """Initializes a blurred context filter"""
         super(BlurredContext, self).__init__(threshold, invert_threshold)
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the background of an image is blurred.
 
         :returns: float
@@ -93,7 +93,7 @@ class BlurredContext(Filter):
         svm = SVM()
         svm.load(get_data('svm/blurred_context.yml'))
 
-        input_vec = get_input_vector(resize(read_image(image_path), 500))
+        input_vec = get_input_vector(resize(read_image(image_path, ROI), 500))
         algo_prediction = scaled_prediction(svm.predict(input_vec))
 
         # exif_tags = read_exif_tags(image)

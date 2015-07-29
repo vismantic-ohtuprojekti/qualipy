@@ -91,12 +91,12 @@ class Pattern(Filter):
         """Initializes a pattern detection filter"""
         super(Pattern, self).__init__(threshold, invert_threshold)
 
-    def predict(self, image_path, return_boolean=True):
+    def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the image is pattern-like.
 
         :returns: float
         """
-        image = read_color_image(image_path)
+        image = read_color_image(image_path, ROI)
         two_color_gray_image = cv2.cvtColor(reduce_colors(image, 2),
                                             cv2.COLOR_BGR2GRAY)
 

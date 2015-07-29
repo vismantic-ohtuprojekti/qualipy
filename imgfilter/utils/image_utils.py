@@ -5,18 +5,27 @@ import numpy
 import exifread
 
 
-def read_image(image_path):
-    return cv2.cvtColor(read_color_image(image_path), cv2.COLOR_BGR2GRAY)
+def read_image(image_path, ROI=None):
+    return cv2.cvtColor(read_color_image(image_path, ROI), cv2.COLOR_BGR2GRAY)
 
 
-def read_color_image(image_path):
+def read_color_image(image_path, ROI=None):
     """Read an image from a file as grayscale
 
     :param image_path: path to the image file
     :type image_path: str
     :returns: numpy.ndarray
     """
-    return cv2.imread(image_path)
+    image = cv2.imread(image_path)
+
+    if ROI is None:
+        return image
+
+    if len(ROI) != 4:
+        raise TypeError
+
+    x, y, w, h = ROI
+    return image[x:x + w, y:y + h]
 
 
 def resize(image, size):

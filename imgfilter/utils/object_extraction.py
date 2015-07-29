@@ -4,6 +4,8 @@ from ctypes import cdll, c_char_p, c_bool
 
 import cv2
 
+from utils import file_cache
+
 
 def _saliency(image_path, saliency_map_path, saliency_mask_path):
     """Python wrapper for running the saliency detection.
@@ -50,6 +52,7 @@ def _run_object_extraction(image_path):
     return temp1, temp2
 
 
+@file_cache
 def extract_object(image_path):
     full, binarized = _run_object_extraction(image_path)
     data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),

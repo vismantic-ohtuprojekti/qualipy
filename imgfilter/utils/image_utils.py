@@ -4,11 +4,15 @@ import cv2
 import numpy
 import exifread
 
+from utils import file_cache
 
+
+@file_cache
 def read_image(image_path, ROI=None):
     return cv2.cvtColor(read_color_image(image_path, ROI), cv2.COLOR_BGR2GRAY)
 
 
+@file_cache
 def read_color_image(image_path, ROI=None):
     """Read an image from a file as grayscale
 
@@ -60,6 +64,7 @@ def read_exif_tags(image_path):
         return exifread.process_file(image, details=False)
 
 
+@file_cache
 def reduce_colors(image, colors):
     """Reduces the number of colors in a given image to certain
     amount. The algorithm uses the k-nearest neighbors method to

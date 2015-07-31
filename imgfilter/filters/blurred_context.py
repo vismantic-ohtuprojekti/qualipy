@@ -16,6 +16,7 @@ vector machine has been trained using 450 blurred and 450 undistorted
 images that were downloaded from Flickr and labeled by hand.
 """
 
+import cv2
 import numpy
 from numpy.lib.stride_tricks import as_strided
 
@@ -85,16 +86,16 @@ class BlurredContext(Filter):
         """Initializes a blurred context filter"""
         super(BlurredContext, self).__init__(threshold, invert_threshold)
 
+        self. svm = SVM()
+        self.svm.load(get_data('svm/blurred_context.yml'))
+
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the background of an image is blurred.
 
         :returns: float
         """
-        svm = SVM()
-        svm.load(get_data('svm/blurred_context.yml'))
-
         input_vec = get_input_vector(resize(read_image(image_path, ROI), 500))
-        algo_prediction = scaled_prediction(svm.predict(input_vec))
+        algo_prediction = scaled_prediction(self.svm.predict(input_vec))
 
         # exif_tags = read_exif_tags(image)
         # exif_prediction = analyze_background_blur(exif_tags)
@@ -103,3 +104,15 @@ class BlurredContext(Filter):
             return self.boolean_result(algo_prediction)
         return algo_prediction
         # return collective_result([algo_prediction, exif_prediction], 0.0)
+
+    def train(self, images, labels):
+        super(BlurredContext, self).train(
+            images, labels, self.svm,
+            lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+            lambda img: get_input_vector(resize(img, 500)))
+
+    def load(self, path):
+        self.svm.load(path)
+
+    def save(self, path):
+        self.svm.save(path)

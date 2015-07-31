@@ -55,10 +55,7 @@ def get_input_vector(img):
     return numpy.array(flatten(normalized_columns), dtype=numpy.float32)
 
 
-def make_prediction_focus(image_path, ROI):
-    svm = SVM()
-    svm.load(get_data('svm/whole_blur.yml'))
-
+def make_prediction_focus(svm, image_path, ROI):
     input_vec = get_input_vector(sharpen(read_image(image_path, ROI)))
     return scaled_prediction(svm.predict(input_vec))
 
@@ -74,6 +71,9 @@ class WholeBlur(Filter):
         """Initializes a blurred image filter"""
         super(WholeBlur, self).__init__(threshold, invert_threshold)
 
+        self.svm = SVM()
+        self.svm.load(get_data('svm/whole_blur.yml'))
+
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the image is blurred.
 
@@ -81,7 +81,7 @@ class WholeBlur(Filter):
         """
         exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)
-        algo_prediction = make_prediction_focus(image_path, ROI)
+        algo_prediction = make_prediction_focus(self.svm, image_path, ROI)
 
         prediction = collective_result([algo_prediction,
                                         exif_prediction], 0.2)
@@ -89,3 +89,15 @@ class WholeBlur(Filter):
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
+
+    def train(self, images, labels):
+        super(WholeBlur, self).train(
+            images, labels, self.svm,
+            lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+            lambda img: get_input_vector(sharpen(img)))
+
+    def load(self, path):
+        self.svm.load(path)
+
+    def save(self, path):
+        self.svm.save(path)

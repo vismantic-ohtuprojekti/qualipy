@@ -1,5 +1,7 @@
 import operator
 
+import numpy
+
 
 class Filter(object):
 
@@ -12,6 +14,18 @@ class Filter(object):
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         pass
+
+    def train(self, images, labels, svm, read_image, get_input_vector):
+        samples = []
+        for image in images:
+            img = read_image(image)
+            if img is None:
+                continue
+            samples.append(get_input_vector(img))
+
+        samples = numpy.array(samples, dtype=numpy.float32)
+        labels = numpy.array(labels, dtype=numpy.float32)
+        svm.train(samples, labels)
 
     def boolean_result(self, prediction):
         if self.invert_threshold:

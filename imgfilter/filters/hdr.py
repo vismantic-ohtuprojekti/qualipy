@@ -131,17 +131,27 @@ class HDR(Filter):
         """Initializes a HDR image filter"""
         super(HDR, self).__init__(threshold, invert_threshold)
 
+        self.svm = SVM()
+        self.svm.load(get_data('svm/hdr.yml'))
+
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Detects if an image is a HDR image.
 
         :returns: float
         """
-        svm = SVM()
-        svm.load(get_data('svm/hdr.yml'))
-
         vector = get_input_vector(read_color_image(image_path, ROI))
-        prediction = scaled_prediction(svm.predict(vector))
+        prediction = scaled_prediction(self.svm.predict(vector))
 
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
+
+    def train(self, images, labels):
+        super(HDR, self).train(images, labels, self.svm,
+                               cv2.imread, get_input_vector)
+
+    def load(self, path):
+        self.svm.load(path)
+
+    def save(self, path):
+        self.svm.save(path)

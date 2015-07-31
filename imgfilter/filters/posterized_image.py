@@ -29,12 +29,26 @@ class Posterized(Filter):
     def __init__(self, threshold=0.5, invert_threshold=False):
         super(Posterized, self).__init__(threshold, invert_threshold)
 
+        self.svm = SVM()
+        self.svm.load(get_data('svm/posterized.yml'))
+
     def predict(self, image_path, return_boolean=True, ROI=None):
-        svm = SVM()
-        svm.load(get_data('svm/posterized.yml'))
-        prediction = svm.predict(get_input_vector(read_image(image_path, ROI)))
+        image = read_image(image_path, ROI)
+        prediction = self.svm.predict(get_input_vector(image))
         prediction = scaled_prediction(prediction)
 
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
+
+    def train(self, images, labels):
+        super(Posterized, self).train(
+            images, labels, self.svm,
+            lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+            get_input_vector)
+
+    def load(self, path):
+        self.svm.load(path)
+
+    def save(self, path):
+        self.svm.save(path)

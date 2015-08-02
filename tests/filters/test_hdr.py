@@ -16,13 +16,11 @@ HDR_IMAGE_GRAY = cv2.cvtColor(HDR_IMAGE, cv2.COLOR_BGR2GRAY)
 
 
 def test_recognizes_hdr_image():
-    res = imgfilter.process(HDR_IMAGE_PATH, [HDR()])
-    assert res['hdr'] > 0.5
+    assert not imgfilter.process(HDR_IMAGE_PATH, [HDR()])
 
 
 def test_recognizes_non_hdr_image():
-    res = imgfilter.process(NON_HDR_IMAGE_PATH, [HDR()])
-    assert res['hdr'] < 0.5
+    assert imgfilter.process(NON_HDR_IMAGE_PATH, [HDR()])
 
 
 def test_hdr_image_has_lower_contrast():

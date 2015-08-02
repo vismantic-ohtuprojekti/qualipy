@@ -99,3 +99,24 @@ def sharpen(image):
     """
     blur = cv2.GaussianBlur(image, (5, 5), 0)
     return cv2.addWeighted(image, 1.5, blur, -0.5, 0)
+
+
+def logarithmic_transformation2D(array_2D):
+    """Performs a logarithmic transformation of a matrix.
+    :param array_2D: a numpy matrix
+    :type array_2D: numpy.ndarray
+    :returns: numpy.ndarray
+    """
+    c = 1 / numpy.log(1 + numpy.abs(numpy.amax(array_2D)))
+    return c * numpy.log(1 + numpy.abs(array_2D))
+
+
+def count_magnitude_spectrum(image):
+    """Returns the magnitude spectrum of an image.
+    :param image: the image matrix
+    :type image: numpy.ndarray
+    :returns: numpy.ndarray
+    """
+    fft = numpy.fft.fft2(image)
+    fshift = numpy.fft.fftshift(fft)
+    return logarithmic_transformation2D(fshift)

@@ -21,9 +21,8 @@ smaller density than non-pattern-like images.
 import cv2
 import numpy
 
-from ..utils.image_utils import read_color_image, reduce_colors
+from ..utils.image_utils import *
 from ..utils.statistic_common import *
-from ..analyzers.magnitude_spectrum import count_magnitude_spectrum
 
 from filter import Filter
 

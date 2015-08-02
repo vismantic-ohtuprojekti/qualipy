@@ -18,7 +18,8 @@ import shlex
 
 import mock
 
-MOCK_MODULES = ['numpy', 'numpy.lib', 'numpy.lib.stride_tricks', 'cv2']
+MOCK_MODULES = ['numpy', 'numpy.lib', 'numpy.lib.stride_tricks',
+                'cv2', 'numba']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
 
@@ -291,3 +292,5 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+autodoc_member_order = 'bysource'

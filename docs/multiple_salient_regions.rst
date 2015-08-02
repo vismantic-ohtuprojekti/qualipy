@@ -4,13 +4,13 @@ Multiple salient regions
 Usage
 -----
 
-The filter can be used in combination with the imgfilter.process function by adding a **MultipleSalientRegions** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **MultipleSalientRegions** class instance to the list of filters to be used.
 
-Parameters
-----------
+.. currentmodule:: imgfilter.filters.multiple_salient_regions
+.. autoclass:: MultipleSalientRegions
+   :members:
 
-The **is_saliency_map** parameter is used to specify that the given image is already a
-saliency map.
+   .. automethod:: __init__
 
 How it works
 ------------

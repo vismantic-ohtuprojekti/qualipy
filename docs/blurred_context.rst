@@ -4,15 +4,18 @@ Blurred context
 Usage
 -----
 
-Class to pass to the process function: BlurredContext
-
-Parameters
-----------
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **BlurredContext** class instance to the list of filters to be used.
 
 .. currentmodule:: imgfilter.filters.blurred_context
 .. autoclass:: BlurredContext
+   :members:
 
-The **threshold** parameter is used to define the point where higher values than the threshold (default 0.5) are classified as blurred. The effect of different thresholds can be seen in the following graph, where x-axis is the threshold and y-axis is the percentage of correct predictions:
+   .. automethod:: __init__
+
+Performance
+-----------
+
+The effect of different thresholds can be seen in the following graph, where x-axis is the threshold and y-axis is the percentage of correct predictions:
 
 .. image:: images/thresholds_blurred_context.png
    :width: 650px

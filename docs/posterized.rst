@@ -4,7 +4,13 @@ Posterized image detection
 Usage
 -----
 
-Class to pass to the process function: Posterized
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Posterized** class instance to the list of filters to be used.
+
+.. currentmodule:: imgfilter.filters.posterized_image
+.. autoclass:: Posterized
+   :members:
+
+   .. automethod:: __init__
 
 How it works
 ------------
@@ -18,8 +24,9 @@ Histogram of a posterized image
 Histogram of a non-posterized image
 
 .. image:: images/non_posterized_histogram.png
+
 Histogram of non posterized image
 
-
 .. image:: images/posterized_roc_curve.png
+
 Roc curve of posterized image filter

@@ -15,7 +15,7 @@ List of filters
    blurred_context
    pattern_detection
    unconventional_size
-   over_exposed
+   exposure
    small_object
    multiple_salient_regions
    hdr

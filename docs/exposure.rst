@@ -1,10 +1,19 @@
-Over exposure detection
-=======================
+Exposure
+========
 
 Usage
 -----
 
-The filter can be used in combination with the imgfilter.process function by adding a **Exposure** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Exposure** class instance to the list of filters to be used.
+
+.. currentmodule:: imgfilter.filters.exposure
+.. autoclass:: Exposure
+   :members:
+
+   .. automethod:: __init__
+
+Performance
+-----------
 
 ROC curve:
 

@@ -4,13 +4,16 @@ HDR
 Usage
 -----
 
-Class to pass to the process function: HDR
-
-Parameters
-----------
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **HDR** class instance to the list of filters to be used.
 
 .. currentmodule:: imgfilter.filters.hdr
 .. autoclass:: HDR
+   :members:
+
+   .. automethod:: __init__
+
+Performance
+-----------
 
 ROC curve:
 

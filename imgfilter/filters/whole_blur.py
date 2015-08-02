@@ -68,16 +68,33 @@ class WholeBlur(Filter):
     speed = 2
 
     def __init__(self, threshold=0.5, invert_threshold=False):
-        """Initializes a blurred image filter"""
+        """Initializes a blurred image filter
+
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered blurred
+        :type invert_threshold: bool
+        """
         super(WholeBlur, self).__init__(threshold, invert_threshold)
 
         self.svm = SVM()
         self.svm.load(get_data('svm/whole_blur.yml'))
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        """Checks if the image is blurred.
+        """Predict if a given image is blurred.
 
-        :returns: float
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                              float between 0 and 1 or as a boolean
+                              (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: bool or float depending on return_boolean parameter
         """
         exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)
@@ -91,13 +108,33 @@ class WholeBlur(Filter):
         return prediction
 
     def train(self, images, labels):
+        """Retrain the filter with new training images. The new
+        model needs to be saved with the save function for later
+        use.
+
+        :param images: list of image paths to training images
+        :type images: list
+        :param labels: list of labels associated with the images,
+                       0 for negative and 1 for positive
+        :type labels: list
+        """
         super(WholeBlur, self).train(
             images, labels, self.svm,
             lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
             lambda img: get_input_vector(sharpen(img)))
 
     def load(self, path):
+        """Load an SVM model from a file.
+
+        :param path: path to the SVM data file
+        :type path: str
+        """
         self.svm.load(path)
 
     def save(self, path):
+        """Save the current SVM model to a file.
+
+        :param path: path to the destination file
+        :type path: str
+        """
         self.svm.save(path)

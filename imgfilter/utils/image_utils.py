@@ -64,7 +64,6 @@ def read_exif_tags(image_path):
         return exifread.process_file(image, details=False)
 
 
-@file_cache
 def reduce_colors(image, colors):
     """Reduces the number of colors in a given image to certain
     amount. The algorithm uses the k-nearest neighbors method to

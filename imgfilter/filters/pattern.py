@@ -76,7 +76,7 @@ def scaled_prediction(prediction):
     elif prediction > 0.4:
         return 0.0
     else:
-        return linear_normalize(prediction, 0.0, 0.4).item(0)
+        return 1 - linear_normalize(prediction, 0.0, 0.4).item(0)
 
 
 class Pattern(Filter):

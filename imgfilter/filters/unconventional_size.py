@@ -16,13 +16,31 @@ class UnconventionalSize(Filter):
     speed = 1
 
     def __init__(self, threshold=16. / 9., invert_threshold=False):
-        """Initializes an unconventional size filter"""
+        """Initializes an unconventional size image filter
+
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered positive
+        :type invert_threshold: bool
+        """
         super(UnconventionalSize, self).__init__(threshold, invert_threshold)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        """Checks if the image is of unconventional size
+        """Check if a given image is of unconventional size
 
-        :returns: bool
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
         """
         height, width = read_image(image_path, ROI).shape
         aspect_ratio = max(height, width) / float(min(height, width))

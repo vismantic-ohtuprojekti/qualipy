@@ -10,12 +10,23 @@ def process(images, filters, return_predictions=False,
             combine_results=True, sort_filters=True):
     """Processes an image or a list of images using the specified
     set of filters. Each filter is applied to each image and the
-    results are returned as list of maps, where the name of the
-    filter acts as a key.
+    results are returned as dict of dicts, where the name of the
+    image acts as a key to a dict of filter results.
 
     :param image_paths: an image or a list of images to process
+    :type image_paths: str or list
     :param filters: a list of filters to apply to each image
     :type filters: list
+    :param return_predictions: return predictions as a floats
+                               in range [0, 1] instead of bools
+    :type return_predictions: bool
+    :param combine_results: combine the results of the filters
+                            into a single bool, which is false
+                            if one or more filters returned a
+                            positive result, and true otherwise
+    :type combine_results: bool
+    :param sort_filters: run filters in order of their speed
+    :type sort_filters: bool
     :returns: dict
     """
     if sort_filters:
@@ -35,14 +46,6 @@ def process(images, filters, return_predictions=False,
 
 
 def __process_image(image, filters, return_predictions, combine_results):
-    """Processes a single image.
-
-    :param image: path to an image
-    :type image: str
-    :param filters: list of filters to use
-    :type filters: list
-    :returns: dict
-    """
     results = {}
     for filt in filters:
         if isinstance(image, str):
@@ -63,14 +66,6 @@ def __process_image(image, filters, return_predictions, combine_results):
 
 
 def __process_images(images, filters, return_predictions, combine_results):
-    """Processes a list of images.
-
-    :param image: list of image paths
-    :type image: list
-    :param filters: list of filters to use
-    :type filters: list
-    :returns: dict
-    """
     return {image: __process_image(image, filters,
                                    return_predictions, combine_results)
             for image in images}

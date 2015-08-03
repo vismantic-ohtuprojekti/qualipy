@@ -66,7 +66,15 @@ class MultipleSalientRegions(Filter):
                  is_saliency_map=False):
         """Initializes a multiple salient regions filter
 
-        :param is_saliency_map: whether the image is already a saliency map
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered positive
+        :type invert_threshold: bool
+        :param: is_saliency_map: whether the given image is already a
+                                 saliency map
         :type is_saliency_map: bool
         """
         super(MultipleSalientRegions, self).__init__(threshold,
@@ -74,9 +82,18 @@ class MultipleSalientRegions(Filter):
         self.is_saliency_map = is_saliency_map
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        """Checks if the image contains multiple salient regions.
+        """Predict if a given image has multiple salient regions
 
-        :returns: float
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
         """
         if self.is_saliency_map:
             saliency_map = read_image(image_path, ROI)

@@ -31,10 +31,15 @@ class ObjectTooSmall(Filter):
                  is_saliency_map=False):
         """Initializes a small object filter
 
-        :param min_ratio: minimum ratio for an object to be considered
-                          too small in comparison to the whole image
-        :type min_ratio: float
-        :param is_saliency_map: whether the image is already a saliency map
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered positive
+        :type invert_threshold: bool
+        :param: is_saliency_map: whether the given image is already a
+                                 saliency map
         :type is_saliency_map: bool
         """
         super(ObjectTooSmall, self).__init__(threshold, invert_threshold)
@@ -43,7 +48,16 @@ class ObjectTooSmall(Filter):
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Checks if the object in an image is too small.
 
-        :returns: float
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
         """
         if self.is_saliency_map:
             obj = read_image(image_path, ROI)

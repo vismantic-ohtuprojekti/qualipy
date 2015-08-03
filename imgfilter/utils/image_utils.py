@@ -9,12 +9,18 @@ from utils import file_cache
 
 @file_cache
 def read_image(image_path, ROI=None):
+    """Read an image from a file in grayscale
+
+    :param image_path: path to the image file
+    :type image_path: str
+    :returns: numpy.ndarray
+    """
     return cv2.cvtColor(read_color_image(image_path, ROI), cv2.COLOR_BGR2GRAY)
 
 
 @file_cache
 def read_color_image(image_path, ROI=None):
-    """Read an image from a file as grayscale
+    """Read an image from a file in BGR format
 
     :param image_path: path to the image file
     :type image_path: str

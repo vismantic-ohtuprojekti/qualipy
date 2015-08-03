@@ -75,7 +75,7 @@ class WholeBlur(Filter):
         :type threshold: float
         :param invert_threshold: whether the result should be greater than
                                  the given threshold (default) or lower
-                                 for an image to be considered blurred
+                                 for an image to be considered positive
         :type invert_threshold: bool
         """
         super(WholeBlur, self).__init__(threshold, invert_threshold)
@@ -84,17 +84,18 @@ class WholeBlur(Filter):
         self.svm.load(get_data('svm/whole_blur.yml'))
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        """Predict if a given image is blurred.
+        """Predict if a given image is blurred
 
         :param image_path: path to the image
         :type image_path: str
         :param return_boolean: whether to return the result as a
-                              float between 0 and 1 or as a boolean
-                              (threshold is given to the class)
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
         :type return_boolean: bool
         :param ROI: possible region of interest as a 4-tuple
                     (x0, y0, width, height), None if not needed
-        :returns: bool or float depending on return_boolean parameter
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
         """
         exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)

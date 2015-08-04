@@ -16,6 +16,13 @@ import sys
 import os
 import shlex
 
+import mock
+
+MOCK_MODULES = ['numpy', 'numpy.lib', 'numpy.lib.stride_tricks',
+                'cv2', 'numba']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = mock.Mock()
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -285,3 +292,5 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+autodoc_member_order = 'bysource'

@@ -1,6 +1,17 @@
 Pattern detection
 =================
 
+Usage
+-----
+
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Pattern** class instance to the list of filters to be used.
+
+.. currentmodule:: imgfilter.filters.pattern
+.. autoclass:: Pattern
+   :members:
+
+   .. automethod:: __init__
+
 How it works
 ------------
 The image is first turned into grayscale, after which discrete fast fourier transformation is applied to construct the magnitude spectrum of the image. Then frequencies which have intermediate or low intensities are removed from the magnitude spectrum and all frequencies with high intensity are intensified to the max value. After this the distance from the center for each high intensity frequency is calculated. From this set of distances anomalies are removed by using the `local outlier factor method <http://en.wikipedia.org/wiki/Local_outlier_factor>`_.

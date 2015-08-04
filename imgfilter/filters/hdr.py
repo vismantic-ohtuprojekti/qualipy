@@ -1,8 +1,9 @@
 import cv2
 import numpy
 
-from imgfilter.machine_learning.svm import SVM
-from imgfilter.utils.utils import *
+from ..machine_learning.svm import SVM
+from ..utils.utils import *
+from ..utils.image_utils import read_color_image
 from .. import get_data
 
 from filter import Filter
@@ -124,21 +125,84 @@ class HDR(Filter):
     """Filter for detecting HDR images"""
 
     name = 'hdr'
+    speed = 2
 
-    def __init__(self):
-        """Initializes a HDR image filter"""
-        self.parameters = {}
+    def __init__(self, threshold=0.5, invert_threshold=False, svm_file=None):
+        """Initializes a HDR image filter
 
-    def required(self):
-        return {'color_image'}
-
-    def run(self):
-        """Detects if an image is a HDR image.
-
-        :returns: float
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered positive
+        :type invert_threshold: bool
+        :param svm_file: path to a file to load an SVM model from, overrides
+                         the default SVM model
+        :type svm_file: str
         """
-        svm = SVM()
-        svm.load(get_data('svm/hdr.yml'))
+        super(HDR, self).__init__(threshold, invert_threshold)
 
-        vector = get_input_vector(self.parameters['color_image'])
-        return scaled_prediction(svm.predict(vector))
+        self.svm = SVM()
+        if svm_file is None:
+            self.svm.load(get_data('svm/hdr.yml'))
+        else:
+            self.svm.load(svm_file)
+
+    def predict(self, image_path, return_boolean=True, ROI=None):
+        """Predict if a given image is a HDR image
+
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
+        """
+        vector = get_input_vector(read_color_image(image_path, ROI))
+        prediction = scaled_prediction(self.svm.predict(vector))
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction
+
+    def train(self, images, labels, save_path=None):
+        """Retrain the filter with new training images. The new
+        model needs to be saved with the save function for later
+        use.
+
+        :param images: list of image paths to training images
+        :type images: list
+        :param labels: list of labels associated with the images,
+                       0 for negative and 1 for positive
+        :type labels: list
+        :param save_path: possible filepath to save the resulting
+                          model to, None if not needed
+        :type save_path: str
+        """
+        super(HDR, self).train(images, labels, self.svm,
+                               cv2.imread, get_input_vector)
+
+        if save_path is not None:
+            self.save(save_path)
+
+    def load(self, path):
+        """Load an SVM model from a file. Note that a model can
+        also be given on initialization of the class.
+
+        :param path: path to the SVM data file
+        :type path: str
+        """
+        self.svm.load(path)
+
+    def save(self, path):
+        """Save the current SVM model to a file.
+
+        :param path: path to the destination file
+        :type path: str
+        """
+        self.svm.save(path)

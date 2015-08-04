@@ -18,6 +18,8 @@ import cv2
 import numpy
 
 from filter import Filter
+from ..utils.image_utils import read_image
+from ..utils.object_extraction import extract_object
 
 
 def count_threshold(saliency_map):
@@ -58,28 +60,45 @@ class MultipleSalientRegions(Filter):
     """Filter for detecting images with multiple salient regions"""
 
     name = 'multiple_salient_regions'
+    speed = 5
 
-    def __init__(self, is_saliency_map=False):
+    def __init__(self, threshold=0.5, invert_threshold=False,
+                 is_saliency_map=False):
         """Initializes a multiple salient regions filter
 
-        :param is_saliency_map: whether the image is already a saliency map
+        :param threshold: threshold at which the given prediction is changed
+                          from negative to positive
+        :type threshold: float
+        :param invert_threshold: whether the result should be greater than
+                                 the given threshold (default) or lower
+                                 for an image to be considered positive
+        :type invert_threshold: bool
+        :param: is_saliency_map: whether the given image is already a
+                                 saliency map
         :type is_saliency_map: bool
         """
-        self.parameters = {}
+        super(MultipleSalientRegions, self).__init__(threshold,
+                                                     invert_threshold)
         self.is_saliency_map = is_saliency_map
 
-    def required(self):
-        return {'image', 'extract_object'}
+    def predict(self, image_path, return_boolean=True, ROI=None):
+        """Predict if a given image has multiple salient regions
 
-    def run(self):
-        """Checks if the image contains multiple salient regions.
-
-        :returns: float
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
         """
         if self.is_saliency_map:
-            saliency_map = self.parameters['image']
+            saliency_map = read_image(image_path, ROI)
         else:
-            saliency_map, _ = self.parameters['extract_object']
+            saliency_map, _ = extract_object(image_path)
 
         areas = count_areas(saliency_map)
 
@@ -88,4 +107,8 @@ class MultipleSalientRegions(Filter):
             return 1.0
 
         prediction = (numpy.sum(areas) / numpy.amax(areas)) ** 2 - 1.0
-        return min(prediction, 1)
+        prediction = min(prediction, 1)
+
+        if return_boolean:
+            return self.boolean_result(prediction)
+        return prediction

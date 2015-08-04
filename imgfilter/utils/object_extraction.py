@@ -1,17 +1,13 @@
-"""
-Analyzer for running an object extraction algorithm on an image.
-Tailored for https://github.com/MingMingCheng/CmCode
-"""
-
 import os
-import cv2
 import tempfile
-
 from ctypes import cdll, c_char_p, c_bool
-from analyzer import Analyzer
+
+import cv2
+
+from utils import file_cache
 
 
-def saliency(image_path, saliency_map_path, saliency_mask_path):
+def _saliency(image_path, saliency_map_path, saliency_mask_path):
     """Python wrapper for running the saliency detection.
 
     :param image_path: path to the image file
@@ -39,7 +35,7 @@ def saliency(image_path, saliency_map_path, saliency_mask_path):
                                      csaliency_mask_path)
 
 
-def run_object_extraction(image_path):
+def _run_object_extraction(image_path):
     """Runs an object extraction algorithm on an image and returns
     the path to the resulting image.
 
@@ -50,32 +46,18 @@ def run_object_extraction(image_path):
     mktemp = lambda: tempfile.mkstemp(suffix=".jpg")[1]
     temp1, temp2 = mktemp(), mktemp()
 
-    if not saliency(image_path, temp1, temp2):
+    if not _saliency(image_path, temp1, temp2):
         return None
 
     return temp1, temp2
 
 
-class ObjectExtraction(Analyzer):
+@file_cache
+def extract_object(image_path):
+    full, binarized = _run_object_extraction(image_path)
+    data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+            cv2.imread(binarized, cv2.CV_LOAD_IMAGE_GRAYSCALE))
 
-    """Analyzer for running an object extraction algorithm on an image"""
-
-    def __init__(self):
-        """Initializes an object extraction analyzer"""
-        self.name = 'extract_object'
-        self.data = None
-
-    def run(self, image, image_path):
-        """Runs the object extraction analyzer.
-
-        :param image: the image matrix
-        :type image: numpy.ndarray
-        :param image_path: path to the image file
-        :type image_path: str
-        """
-        full, binarized = run_object_extraction(image_path)
-        self.data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),
-                     cv2.imread(binarized, cv2.CV_LOAD_IMAGE_GRAYSCALE))
-
-        os.unlink(full)
-        os.unlink(binarized)
+    os.unlink(full)
+    os.unlink(binarized)
+    return data

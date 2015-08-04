@@ -1,10 +1,19 @@
-Exposure detection
-=======================
+Exposure
+========
 
 Usage
 -----
+This filter is used to recognize over- or underexposed images.
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Exposure** class instance to the list of filters to be used.
 
-The filter can be used in combination with the imgfilter.process function by adding a **Exposure** class instance to the list of filters to be used.
+.. currentmodule:: imgfilter.filters.exposure
+.. autoclass:: Exposure
+   :members:
+
+   .. automethod:: __init__
+
+Performance
+-----------
 
 ROC curve:
 
@@ -14,7 +23,7 @@ ROC curve:
 How it works
 ------------
 
-The filter converts the image to grayscale and makes a histogram of it. It then calculates the percentage of pixels with greater than 250 intensity and normalizes the result (result * 50) to a float between 0 and 1. If there's none over 250 then the picture is recognized under exposed.
+The filter converts the image to grayscale and makes a histogram of it. It then calculates the percentage of pixels with greater than 250 intensity and normalizes the result (result * 50) to a float between 0 and 1. If there are no pixels over 250 intensity, the picture is recognized under exposed.
 
 Examples:
 ---------

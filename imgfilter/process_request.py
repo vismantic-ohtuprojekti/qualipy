@@ -15,13 +15,30 @@ def get_filter(name):
     return None
 
 
-def process_request(request_json):
-    """Process json request which contains two arrays
-    one array which contains path of the images and
-    other which contains which filters to apply for
-    given images
+def get_argument(request, arg_name, default):
+    if arg_name in request:
+        return request[arg_name]
+    return default
 
-    :param request_json: json which contains the two arrays
+
+def process_request(request_json):
+    """Process a list of images from a JSON request.
+    Example JSON request:
+
+    { "images": {
+        "ko.jpg": [ 0, 1, 2, 3 ],
+        "ok.jpg": null
+        },
+    "filters": {
+        "whole_blur": { "threshold": 0.5}
+        },
+    "return_predictions": false,
+    "combine_results": true,
+    "sort_filters": true
+    }
+
+    :param request_json: the JSON request
+    :type request_json: str
     """
     request = json.loads(request_json)
 
@@ -32,4 +49,12 @@ def process_request(request_json):
             raise ValueError
         filters.append(filter_obj(**params))
 
-    return process(request['images'], filters)
+    return_predictions = get_argument(request, 'return_predictions', False)
+    combine_results = get_argument(request, 'combine_results', True)
+    sort_filters = get_argument(request, 'sort_filters', True)
+
+    images = [(img, tuple(roi) if roi else None)
+              for img, roi in request['images'].items()]
+
+    return process(images, filters, return_predictions, combine_results,
+                   sort_filters)

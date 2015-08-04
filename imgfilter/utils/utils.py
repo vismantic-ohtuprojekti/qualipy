@@ -1,6 +1,7 @@
 """
 Common utilities used in the library.
 """
+from functools import wraps
 
 import numpy
 
@@ -16,6 +17,26 @@ except ImportError:
 
     def jit(func):
         return func
+
+
+def file_cache(f):
+
+    cache = {'sig': None, 'val': None}
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        sig = (args, tuple(sorted(kwargs.items())))
+
+        if sig == cache['sig']:
+            return cache['val']
+
+        result = f(*args, **kwargs)
+        cache['val'] = result
+        cache['sig'] = sig
+
+        return result
+
+    return wrapper
 
 
 def partition_matrix(matrix, n):

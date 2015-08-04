@@ -1,6 +1,19 @@
 import numpy
 
+import imgfilter
 from imgfilter.filters.whole_blur import *
+
+
+BLURRED = 'tests/images/blurred.jpg'
+NON_BLURRED = 'tests/images/lama.jpg'
+
+
+def test_recognizes_blurred_image():
+    assert not imgfilter.process(BLURRED, [WholeBlur()])
+
+
+def test_doesnt_recognize_non_blurred_image():
+    assert imgfilter.process(NON_BLURRED, [WholeBlur()])
 
 
 def test_input_vector_is_of_right_size():

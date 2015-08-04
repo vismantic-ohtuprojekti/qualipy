@@ -1,6 +1,10 @@
 import numpy
 
+import imgfilter
 from imgfilter.filters.blurred_context import *
+
+BLURRED_CONTEXT = 'tests/images/blurred_context.jpg'
+NON_BLURRED_CONTEXT = 'tests/images/exposure_sample_good.jpg'
 
 
 def test_blurry_degree_works_for_all_zeroes():
@@ -24,3 +28,11 @@ def test_input_vector_is_of_right_size():
 def test_input_vector_is_of_right_type():
     mat = numpy.eye(50)
     assert get_input_vector(mat).dtype == numpy.float32
+
+
+def test_recognizes_blurred_context():
+    assert not imgfilter.process(BLURRED_CONTEXT, [BlurredContext()])
+
+
+def test_doesnt_recognize_normal_image():
+    assert imgfilter.process(NON_BLURRED_CONTEXT, [BlurredContext()])

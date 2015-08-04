@@ -4,13 +4,16 @@ HDR
 Usage
 -----
 
-Class to pass to the process function: HDR
-
-Parameters
-----------
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **HDR** class instance to the list of filters to be used.
 
 .. currentmodule:: imgfilter.filters.hdr
 .. autoclass:: HDR
+   :members:
+
+   .. automethod:: __init__
+
+Performance
+-----------
 
 ROC curve:
 
@@ -20,7 +23,7 @@ ROC curve:
 How it works
 ------------
 
-We focus on detecting images that have a very noticable or bad HDR effect, for example:
+We focus on detecting images that have a very noticeable or bad HDR effect, for example:
 
 .. image:: images/hdr_example1.jpg
    :width: 210px

@@ -5,12 +5,18 @@ Frame detection
 Usage
 -----
 
-The filter recognizes images that have frames added in them. At the moment only frames that surround the whole image are recognized.
-The filter can be used in combination with the imgfilter.process function by adding a **Framed** class instance to the list of filters to be used.
+The filter recognizes images that are framed, or in other words, images that have four homogeneous edges around them. It doesn't recognize images where only two sides are the same color or images where the frames have a texture added in them.
+The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Framed** class instance to the list of filters to be used.
+
+.. currentmodule:: imgfilter.filters.Framed
+.. autoclass:: Framed
+   :members:
+
+   .. automethod:: __init__
 
 ROC curve:
 
-.. image:: images/exposure_roc_curve.png
+.. image:: images/framed/framed_roc.png
    :width: 650px
 
 How it works

@@ -82,7 +82,7 @@ class BlurredContext(Filter):
     name = 'blurred_context'
     speed = 4
 
-    def __init__(self, threshold=0.5, invert_threshold=False):
+    def __init__(self, threshold=0.5, invert_threshold=False, svm_file=None):
         """Initializes a blurred context filter
 
         :param threshold: threshold at which the resulting prediction
@@ -92,11 +92,17 @@ class BlurredContext(Filter):
                                  the given threshold (default) or lower
                                  for an image to be considered positive
         :type invert_threshold: bool
+        :param svm_file: path to a file to load an SVM model from, overrides
+                         the default SVM model
+        :type svm_file: str
         """
         super(BlurredContext, self).__init__(threshold, invert_threshold)
 
-        self. svm = SVM()
-        self.svm.load(get_data('svm/blurred_context.yml'))
+        self.svm = SVM()
+        if svm_file is None:
+            self.svm.load(get_data('svm/blurred_context.yml'))
+        else:
+            self.svm.load(svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image has a blurred context
@@ -123,7 +129,7 @@ class BlurredContext(Filter):
         return algo_prediction
         # return collective_result([algo_prediction, exif_prediction], 0.0)
 
-    def train(self, images, labels):
+    def train(self, images, labels, save_path=None):
         """Retrain the filter with new training images. The new
         model needs to be saved with the save function for later
         use.
@@ -133,14 +139,21 @@ class BlurredContext(Filter):
         :param labels: list of labels associated with the images,
                        0 for negative and 1 for positive
         :type labels: list
+        :param save_path: possible filepath to save the resulting
+                          model to, None if not needed
+        :type save_path: str
         """
         super(BlurredContext, self).train(
             images, labels, self.svm,
             lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
             lambda img: get_input_vector(resize(img, 500)))
 
+        if save_path is not None:
+            self.save(save_path)
+
     def load(self, path):
-        """Load an SVM model from a file.
+        """Load an SVM model from a file. Note that a model can
+        also be given on initialization of the class.
 
         :param path: path to the SVM data file
         :type path: str

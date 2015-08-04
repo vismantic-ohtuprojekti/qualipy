@@ -13,6 +13,8 @@ List of filters
 
    whole_blur
    blurred_context
+   exposure
+   framed
    pattern_detection
    unconventional_size
    over_exposed

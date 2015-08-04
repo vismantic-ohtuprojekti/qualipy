@@ -1,4 +1,4 @@
-Over exposure detection
+Exposure detection
 =======================
 
 Usage

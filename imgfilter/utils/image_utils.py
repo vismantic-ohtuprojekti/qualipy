@@ -32,7 +32,7 @@ def read_color_image(image_path, ROI=None):
         return image
 
     if len(ROI) != 4:
-        raise TypeError
+        raise TypeError("ROI needs to be of length 4")
 
     x, y, w, h = ROI
     return image[x:x + w, y:y + h]

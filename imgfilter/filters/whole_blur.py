@@ -26,14 +26,13 @@ exif data, if possible.
 import numpy
 
 from .. import get_data
-from ..machine_learning.svm import SVM
 from ..algorithms.focus_measure import *
 from ..algorithms.exif import analyze_picture_exposure
 from ..utils.result_combination import collective_result
 from ..utils.utils import *
 from ..utils.image_utils import read_image, sharpen, read_exif_tags
 
-from filter import Filter
+from svm_filter import SVMFilter
 
 
 def get_input_vector(img):
@@ -60,7 +59,7 @@ def make_prediction_focus(svm, image_path, ROI):
     return scaled_prediction(svm.predict(input_vec))
 
 
-class WholeBlur(Filter):
+class WholeBlur(SVMFilter):
 
     """Filter for detecting blurred images"""
 
@@ -81,13 +80,12 @@ class WholeBlur(Filter):
                          the default SVM model
         :type svm_file: str
         """
-        super(WholeBlur, self).__init__(threshold, invert_threshold)
-
-        self.svm = SVM()
         if svm_file is None:
-            self.svm.load(get_data('svm/whole_blur.yml'))
+            super(WholeBlur, self).__init__(threshold, invert_threshold,
+                                            get_data('svm/whole_blur.yml'))
         else:
-            self.svm.load(svm_file)
+            super(WholeBlur, self).__init__(threshold, invert_threshold,
+                                            svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is blurred
@@ -129,25 +127,6 @@ class WholeBlur(Filter):
         :type save_path: str
         """
         super(WholeBlur, self).train(
-            images, labels, self.svm,
+            images, labels, save_path,
             lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
             lambda img: get_input_vector(sharpen(img)))
-
-        if save_path is not None:
-            self.save(save_path)
-
-    def load(self, path):
-        """Load an SVM model from a file.
-
-        :param path: path to the SVM data file
-        :type path: str
-        """
-        self.svm.load(path)
-
-    def save(self, path):
-        """Save the current SVM model to a file.
-
-        :param path: path to the destination file
-        :type path: str
-        """
-        self.svm.save(path)

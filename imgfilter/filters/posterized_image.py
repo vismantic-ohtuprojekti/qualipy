@@ -1,34 +1,28 @@
 import cv2
 import numpy
 
-from .. import get_data
-from ..machine_learning.svm import SVM
 from ..utils.image_utils import read_image
-from ..utils.utils import scaled_prediction
+from ..utils.histogram_analyzation import largest, normalize, \
+                                          calculate_peak_value
 
 from filter import Filter
 
 
 def get_input_vector(img):
     hist = cv2.calcHist([img], [0], None, [256], [0, 255])
+    hist = normalize(hist)
 
-    diffs = numpy.diff(hist.T[0])  # calculate derivatives
-    sum_of_derivatives = numpy.sum(numpy.abs(diffs))
-    derivative_average = sum_of_derivatives / 255.
-    number_of_peaks = numpy.sum((diffs[:-1] > 0) & (diffs[1:] < 0))
-
-    return numpy.array([derivative_average, number_of_peaks],
+    return numpy.array([numpy.average(largest(calculate_peak_value(hist), 0.2))],
                        dtype=numpy.float32)
 
 
 class Posterized(Filter):
-
     """Filter for detecting posterized images"""
 
     name = 'posterized'
     speed = 1
 
-    def __init__(self, threshold=0.5, invert_threshold=False, svm_file=None):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a posterized image filter
 
         :param threshold: threshold at which the given prediction is changed
@@ -40,12 +34,6 @@ class Posterized(Filter):
         :type invert_threshold: bool
         """
         super(Posterized, self).__init__(threshold, invert_threshold)
-
-        self.svm = SVM()
-        if svm_file is None:
-            self.svm.load(get_data('svm/posterized.yml'))
-        else:
-            self.svm.load(svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is posterized
@@ -62,48 +50,13 @@ class Posterized(Filter):
                   return_boolean parameter
         """
         image = read_image(image_path, ROI)
-        prediction = self.svm.predict(get_input_vector(image))
-        prediction = scaled_prediction(prediction)
+        prediction = get_input_vector(image)[0]
+
+        if prediction >= 0.002:
+            return 1.0
+        else:
+            return 0.0
 
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
-
-    def train(self, images, labels, save_path=None):
-        """Retrain the filter with new training images. The new
-        model needs to be saved with the save function for later
-        use.
-
-        :param images: list of image paths to training images
-        :type images: list
-        :param labels: list of labels associated with the images,
-                       0 for negative and 1 for positive
-        :type labels: list
-        :param save_path: possible filepath to save the resulting
-                          model to, None if not needed
-        :type save_path: str
-        """
-        super(Posterized, self).train(
-            images, labels, self.svm,
-            lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
-            get_input_vector)
-
-        if save_path is not None:
-            self.save(save_path)
-
-    def load(self, path):
-        """Load an SVM model from a file. Note that a model can
-        also be given on initialization of the class.
-
-        :param path: path to the SVM data file
-        :type path: str
-        """
-        self.svm.load(path)
-
-    def save(self, path):
-        """Save the current SVM model to a file.
-
-        :param path: path to the destination file
-        :type path: str
-        """
-        self.svm.save(path)

@@ -1,12 +1,11 @@
 import cv2
 import numpy
 
-from ..machine_learning.svm import SVM
 from ..utils.utils import *
 from ..utils.image_utils import read_color_image
 from .. import get_data
 
-from filter import Filter
+from svm_filter import SVMFilter
 
 
 def histogram_features(hist, maximum, step):
@@ -120,7 +119,7 @@ def get_input_vector(image):
                               cont, edge)).astype(numpy.float32)
 
 
-class HDR(Filter):
+class HDR(SVMFilter):
 
     """Filter for detecting HDR images"""
 
@@ -141,13 +140,11 @@ class HDR(Filter):
                          the default SVM model
         :type svm_file: str
         """
-        super(HDR, self).__init__(threshold, invert_threshold)
-
-        self.svm = SVM()
         if svm_file is None:
-            self.svm.load(get_data('svm/hdr.yml'))
+            super(HDR, self).__init__(threshold, invert_threshold,
+                                      get_data('svm/hdr.yml'))
         else:
-            self.svm.load(svm_file)
+            super(HDR, self).__init__(threshold, invert_threshold, svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is a HDR image
@@ -184,25 +181,5 @@ class HDR(Filter):
                           model to, None if not needed
         :type save_path: str
         """
-        super(HDR, self).train(images, labels, self.svm,
+        super(HDR, self).train(images, labels, save_path,
                                cv2.imread, get_input_vector)
-
-        if save_path is not None:
-            self.save(save_path)
-
-    def load(self, path):
-        """Load an SVM model from a file. Note that a model can
-        also be given on initialization of the class.
-
-        :param path: path to the SVM data file
-        :type path: str
-        """
-        self.svm.load(path)
-
-    def save(self, path):
-        """Save the current SVM model to a file.
-
-        :param path: path to the destination file
-        :type path: str
-        """
-        self.svm.save(path)

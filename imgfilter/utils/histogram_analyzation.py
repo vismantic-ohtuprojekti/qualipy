@@ -14,7 +14,7 @@ class LocationData(object):
         return 'index: ' + str(self.index) + ' value: ' + str(self.value)
 
 
-def draw_histrogram(histogram):
+def draw_histogram(histogram):
     plt.plot(histogram, color = 'red')
     plt.xlim([0, histogram.shape[0]])
     plt.show()

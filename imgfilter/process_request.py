@@ -26,6 +26,7 @@ def process_request(request_json):
 
     :param request_json: the JSON request
     :type request_json: str
+    :returns: see the documentation for the process function
     """
     request = json.loads(request_json)
 

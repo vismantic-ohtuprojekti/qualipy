@@ -1,18 +1,38 @@
 import cv2
-import numpy
+import numpy as np
 
 from ..utils.image_utils import read_image
 from ..utils.histogram_analyzation import normalize
 from ..utils.histogram_analyzation import calculate_peak_value
+from ..utils.histogram_analyzation import largest
+from ..utils.statistic_common import linear_normalize
 
 from filter import Filter
 
 
 def get_input_vector(img):
-    hist = cv2.calcHist([img], [0], None, [256], [0,255])
-    hist = histgram_util.normalize(hist)
+    """
+    Returns numpy array which contains average of 20 prosent of the largest
+    peak values of the histgram of given image. This value can ve used to predict
+    whether image is posterized or not good threshold is around 0.002. This functions
+    result can also be given to the SVM.
 
-    return np.array([np.average(largest(calculate_peak_value(hist), 0.2))]).astype(np.float32)
+    :param img: image to be processed
+
+    :returns: Returns numpy float32 array which contains the prediction
+    """
+
+    hist = cv2.calcHist([img], [0], None, [256], [0,255])
+    hist = normalize(hist)
+
+    peak_values = calculate_peak_value(hist)
+
+    if len(peak_values) == 0:
+        return np.array([0.0]).astype(np.float32)
+
+    largest_peak_values = largest(peak_values, 0.2)
+
+    return np.array([np.average(largest_peak_values)]).astype(np.float32)
 
 
 class Posterized(Filter):
@@ -52,10 +72,12 @@ class Posterized(Filter):
         image = read_image(image_path, ROI)
         prediction =  get_input_vector(image)[0]
 
-        if prediction >= 0.002:
-            return 1.0
+        if prediction > 0.004:
+            prediction = 1.0
+        elif prediction < 0.0:
+            prediction = 0.0
         else:
-            return 0.0
+            prediction = linear_normalize(prediction, 0.0, 0.004)
 
         if return_boolean:
             return self.boolean_result(prediction)

@@ -2,8 +2,6 @@ import numpy as np
 import cv2
 import math
 
-from matplotlib import pyplot as plt
-
 
 class LocationData(object):
     def __init__(self, index, value):
@@ -14,13 +12,10 @@ class LocationData(object):
         return 'index: ' + str(self.index) + ' value: ' + str(self.value)
 
 
-def draw_histrogram(histogram):
-    plt.plot(histogram, color = 'red')
-    plt.xlim([0, histogram.shape[0]])
-    plt.show()
-
-
 def calc_mean(histogram):
+    if histogram.shape[0] == 0:
+        return 0
+
     values = 0
     for i, value in enumerate(histogram):
         values += (value * i)
@@ -29,6 +24,9 @@ def calc_mean(histogram):
 
 
 def calc_variance(histogram, mean):
+    if histogram.shape[0] == 0:
+        return 0
+
     variance = 0
     for i, value in enumerate(histogram):
         variance += math.pow((mean - i), 2) * value
@@ -44,6 +42,9 @@ def calc_standard_deviation(histogram):
 
 
 def normalize(histogram):
+    if histogram.shape[0] == 0:
+        return np.array([])
+
     return np.divide(histogram.astype(np.float32), np.sum(histogram).astype(np.float32)).astype(np.float32)
 
 
@@ -146,6 +147,9 @@ def calculate_min_values(histogram, amount = 1):
 
 
 def calculate_peak_value(histogram):
+    if histogram.shape[0] == 0:
+        return 0
+
     peak_values = []
 
     local_end_points = calculate_local_maximums(histogram) + calculate_local_minimums(histogram)
@@ -219,6 +223,9 @@ def largest(histogram, prosent):
     amount = int(histogram.shape[0] * prosent)
     sorted = np.sort(histogram)
     sorted = sorted[::-1]
+
+    if amount == 0:
+        amount = histogram.shape[0]
 
     for i in range(0, amount):
         largest.append(sorted[i])

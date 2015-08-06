@@ -41,6 +41,13 @@ Over-exposure detection
 * Correct predictions for over-exposed images: 86.00 %
 * Correct predictions for normal images: 88.00 %
 
+Posterized detection
+--------------------
+For 140 images downloaded from both google and flickr
+
+* Correct predictions for all samples:  85.10 %
+* Correct predictions for over-exposed images: 88.60 %
+* Correct predictions for normal images: 81.70 %
 
 Testing library code documentation
 ==================================

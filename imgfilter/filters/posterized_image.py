@@ -2,21 +2,15 @@ import cv2
 import numpy as np
 
 from ..utils.image_utils import read_image
-<<<<<<< HEAD
 from ..utils.histogram_analyzation import normalize
 from ..utils.histogram_analyzation import calculate_peak_value
 from ..utils.histogram_analyzation import largest
 from ..utils.statistic_common import linear_normalize
-=======
-from ..utils.histogram_analyzation import largest, normalize, \
-                                          calculate_peak_value
->>>>>>> ea6759a4f7f4dc554cfcfbfa6413e4cc10a1140e
 
 from filter import Filter
 
 
 def get_input_vector(img):
-<<<<<<< HEAD
     """
     Returns numpy array which contains average of 20 prosent of the largest
     peak values of the histgram of given image. This value can ve used to predict

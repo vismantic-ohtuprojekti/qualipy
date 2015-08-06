@@ -1,8 +1,5 @@
 import numpy as np
-import cv2
 import math
-
-from matplotlib import pyplot as plt
 
 
 class LocationData(object):
@@ -12,12 +9,6 @@ class LocationData(object):
 
     def __repr__(self):
         return 'index: ' + str(self.index) + ' value: ' + str(self.value)
-
-
-def draw_histrogram(histogram):
-    plt.plot(histogram, color = 'red')
-    plt.xlim([0, histogram.shape[0]])
-    plt.show()
 
 
 def calc_mean(histogram):

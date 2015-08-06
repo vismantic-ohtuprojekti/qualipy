@@ -22,7 +22,18 @@ Examples
 
 Example usage of the process function::
 
-    imgfilter.process(["1.jpg", ("2.jpg", 50, 50, 200, 200)],
+    imgfilter.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
+                      [
+                        HDR(threshold=0.6),
+                        Pattern(),
+                        BlurredContext(threshold=0.3,
+                                       invert_threshold=True),
+                      ],
+                     )
+
+Same command using magic thresholds::
+
+    imgfilter.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
                       [
                         HDR() > 0.6,
                         Pattern(),

@@ -2,15 +2,21 @@ import cv2
 import numpy as np
 
 from ..utils.image_utils import read_image
+<<<<<<< HEAD
 from ..utils.histogram_analyzation import normalize
 from ..utils.histogram_analyzation import calculate_peak_value
 from ..utils.histogram_analyzation import largest
 from ..utils.statistic_common import linear_normalize
+=======
+from ..utils.histogram_analyzation import largest, normalize, \
+                                          calculate_peak_value
+>>>>>>> ea6759a4f7f4dc554cfcfbfa6413e4cc10a1140e
 
 from filter import Filter
 
 
 def get_input_vector(img):
+<<<<<<< HEAD
     """
     Returns numpy array which contains average of 20 prosent of the largest
     peak values of the histgram of given image. This value can ve used to predict
@@ -41,7 +47,7 @@ class Posterized(Filter):
     name = 'posterized'
     speed = 1
 
-    def __init__(self, threshold=0.5, invert_threshold=False, svm_file=None):
+    def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes a posterized image filter
 
         :param threshold: threshold at which the given prediction is changed
@@ -53,7 +59,6 @@ class Posterized(Filter):
         :type invert_threshold: bool
         """
         super(Posterized, self).__init__(threshold, invert_threshold)
-
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is posterized
@@ -70,7 +75,7 @@ class Posterized(Filter):
                   return_boolean parameter
         """
         image = read_image(image_path, ROI)
-        prediction =  get_input_vector(image)[0]
+        prediction = get_input_vector(image)[0]
 
         if prediction > 0.004:
             prediction = 1.0
@@ -81,5 +86,4 @@ class Posterized(Filter):
 
         if return_boolean:
             return self.boolean_result(prediction)
-
         return prediction

@@ -21,13 +21,12 @@ import numpy
 from numpy.lib.stride_tricks import as_strided
 
 from .. import get_data
-from ..machine_learning.svm import SVM
 # from ..algorithms.exif import analyze_background_blur
 # from ..utils.result_combination import collective_result
 from ..utils.image_utils import read_image, resize, read_exif_tags
 from ..utils.utils import partition_matrix, scaled_prediction, jit
 
-from filter import Filter
+from svm_filter import SVMFilter
 
 
 @jit
@@ -75,7 +74,7 @@ def get_input_vector(img):
                        dtype=numpy.float32)
 
 
-class BlurredContext(Filter):
+class BlurredContext(SVMFilter):
 
     """Filter for detecting images that have a blurred context"""
 
@@ -96,13 +95,13 @@ class BlurredContext(Filter):
                          the default SVM model
         :type svm_file: str
         """
-        super(BlurredContext, self).__init__(threshold, invert_threshold)
-
-        self.svm = SVM()
         if svm_file is None:
-            self.svm.load(get_data('svm/blurred_context.yml'))
+            super(BlurredContext, self).__init__(
+                threshold, invert_threshold,
+                get_data('svm/blurred_context.yml'))
         else:
-            self.svm.load(svm_file)
+            super(BlurredContext, self).__init__(threshold, invert_threshold,
+                                                 svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image has a blurred context
@@ -118,6 +117,9 @@ class BlurredContext(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image_path should be a string")
+
         input_vec = get_input_vector(resize(read_image(image_path, ROI), 500))
         algo_prediction = scaled_prediction(self.svm.predict(input_vec))
 
@@ -144,26 +146,6 @@ class BlurredContext(Filter):
         :type save_path: str
         """
         super(BlurredContext, self).train(
-            images, labels, self.svm,
+            images, labels, save_path,
             lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
             lambda img: get_input_vector(resize(img, 500)))
-
-        if save_path is not None:
-            self.save(save_path)
-
-    def load(self, path):
-        """Load an SVM model from a file. Note that a model can
-        also be given on initialization of the class.
-
-        :param path: path to the SVM data file
-        :type path: str
-        """
-        self.svm.load(path)
-
-    def save(self, path):
-        """Save the current SVM model to a file.
-
-        :param path: path to the destination file
-        :type path: str
-        """
-        self.svm.save(path)

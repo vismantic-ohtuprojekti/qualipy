@@ -22,3 +22,4 @@ List of filters
    multiple_salient_regions
    hdr
    posterized
+   cross_processed

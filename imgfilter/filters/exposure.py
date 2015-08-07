@@ -12,8 +12,9 @@ class Exposure(Filter):
 
     name = "exposure"
     speed = 1
+    negative_exp = False
 
-    def __init__(self, threshold=0.5, invert_threshold=False):
+    def __init__(self, threshold=0.5, invert_threshold=False, under_exposed_as_negative=False):
         """Initializes an exposure filter
 
         :param threshold: threshold at which the given prediction is changed
@@ -23,8 +24,12 @@ class Exposure(Filter):
                                  the given threshold (default) or lower
                                  for an image to be considered positive
         :type invert_threshold: bool
+        :param under_exposed_as_negative: whether under-exposed images should return -1 instead of 1.
+                                          threshold and boolean logic is unaffected by the flag
+        :type under_exposed_as_negative: bool
         """
         super(Exposure, self).__init__(threshold, invert_threshold)
+        self.negative_exp = under_exposed_as_negative
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is over- or underexposed
@@ -45,9 +50,17 @@ class Exposure(Filter):
 
         # normalize
         clip = clipping_percentage(histogram, 250, True) * 50
-
-        prediction = 1 if clip < 0.0001 else min(1, clip)
+        
+        # return -1 for under-exposed if flag is set
+        prediction = None
+        if clip < 0.0001:
+            if self.negative_exp:
+                prediction = -1
+            else:
+                prediction = 1
+        else:
+            prediction = min(1, clip)
 
         if return_boolean:
-            return self.boolean_result(prediction)
+            return self.boolean_result(abs(prediction))
         return prediction

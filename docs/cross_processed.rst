@@ -1,4 +1,4 @@
-Cross Processed image detection
+Cross Processed
 ===============================
 
 Usage

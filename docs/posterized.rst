@@ -1,4 +1,4 @@
-Posterized image detection
+Posterized
 ==========================
 
 Usage

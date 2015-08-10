@@ -1,4 +1,4 @@
-Pattern detection
+Pattern
 =================
 
 Usage

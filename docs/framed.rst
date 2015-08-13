@@ -1,4 +1,4 @@
-Frame detection
+Framed
 =======================
 
 Usage

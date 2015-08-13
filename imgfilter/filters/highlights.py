@@ -4,7 +4,7 @@ from ..utils.image_utils import read_image
 from ..utils.utils import partition_matrix
 from ..utils.histogram_analyzation import *
 
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 
 from filter import Filter
 

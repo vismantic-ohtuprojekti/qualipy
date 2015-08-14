@@ -26,8 +26,8 @@ exif data, if possible.
 import numpy
 
 from .. import get_data
-from ..algorithms.focus_measure import *
-from ..algorithms.exif import analyze_picture_exposure
+from ..utils.focus_measure import *
+from ..utils.exif import analyze_picture_exposure
 from ..utils.result_combination import collective_result
 from ..utils.utils import *
 from ..utils.image_utils import read_image, sharpen, read_exif_tags

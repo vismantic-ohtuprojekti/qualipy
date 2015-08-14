@@ -2,7 +2,7 @@ import cv2
 import numpy
 
 from imgfilter.utils.image_utils import *
-from imgfilter.algorithms.focus_measure import *
+from imgfilter.utils.focus_measure import *
 
 IMAGE = cv2.imread('tests/images/lama.jpg')
 

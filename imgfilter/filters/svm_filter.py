@@ -1,7 +1,7 @@
 import numpy
 
 from filter import Filter
-from ..machine_learning.svm import SVM
+from ..utils.svm import SVM
 
 
 class SVMFilter(Filter):

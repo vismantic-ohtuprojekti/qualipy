@@ -19,7 +19,8 @@ import shlex
 import mock
 
 MOCK_MODULES = ['numpy', 'numpy.lib', 'numpy.lib.stride_tricks',
-                'cv2', 'numba']
+                'cv2', 'numba', 'matplotlib', 'matplotlib.pyplot',
+                'pyplot', 'pylab']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
 

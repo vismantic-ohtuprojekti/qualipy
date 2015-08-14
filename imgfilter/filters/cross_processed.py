@@ -12,7 +12,6 @@ from ..utils.histogram_analyzation import largest
 from ..utils.histogram_analyzation import calculate_continuous_distribution
 from ..utils.histogram_analyzation import calculate_derivates
 
-from imgfilter.machine_learning.svm import SVM
 from .. import get_data
 
 from svm_filter import SVMFilter

@@ -1,7 +1,8 @@
 import numpy
+import pytest
 
-import imgfilter
 from imgfilter.filters.blurred_context import *
+
 
 BLURRED_CONTEXT = 'tests/images/blurred_context.jpg'
 NON_BLURRED_CONTEXT = 'tests/images/exposure_sample_good.jpg'
@@ -31,8 +32,26 @@ def test_input_vector_is_of_right_type():
 
 
 def test_recognizes_blurred_context():
-    assert not imgfilter.process(BLURRED_CONTEXT, [BlurredContext()])
+    assert BlurredContext().predict(BLURRED_CONTEXT)
 
 
 def test_doesnt_recognize_normal_image():
-    assert imgfilter.process(NON_BLURRED_CONTEXT, [BlurredContext()])
+    assert not BlurredContext().predict(NON_BLURRED_CONTEXT)
+
+
+def test_setting_threshold():
+    assert not BlurredContext(threshold=1).predict(BLURRED_CONTEXT)
+
+
+def test_inverting_threshold():
+    assert BlurredContext(1.01, invert_threshold=True).predict(BLURRED_CONTEXT)
+
+
+def test_can_return_float():
+    assert type(BlurredContext().predict(BLURRED_CONTEXT,
+                                         return_boolean=False)) == float
+
+
+def test_wrong_path_type_raises_exception():
+    with pytest.raises(TypeError):
+        assert BlurredContext().predict(0)

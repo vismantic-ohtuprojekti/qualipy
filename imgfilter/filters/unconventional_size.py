@@ -42,6 +42,9 @@ class UnconventionalSize(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image_path should be a string")
+
         height, width = read_image(image_path, ROI).shape
         aspect_ratio = max(height, width) / float(min(height, width))
 

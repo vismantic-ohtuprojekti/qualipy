@@ -1,7 +1,6 @@
 import cv2
+import pytest
 
-import imgfilter
-from imgfilter.filters import *
 from imgfilter.filters.hdr import *
 
 
@@ -13,14 +12,6 @@ HDR_IMAGE = cv2.imread(HDR_IMAGE_PATH)
 
 NON_HDR_IMAGE_GRAY = cv2.cvtColor(NON_HDR_IMAGE, cv2.COLOR_BGR2GRAY)
 HDR_IMAGE_GRAY = cv2.cvtColor(HDR_IMAGE, cv2.COLOR_BGR2GRAY)
-
-
-def test_recognizes_hdr_image():
-    assert not imgfilter.process(HDR_IMAGE_PATH, [HDR()])
-
-
-def test_recognizes_non_hdr_image():
-    assert imgfilter.process(NON_HDR_IMAGE_PATH, [HDR()])
 
 
 def test_hdr_image_has_lower_contrast():
@@ -45,3 +36,28 @@ def test_input_vector_is_of_right_size():
 
 def test_input_vector_is_of_right_type():
     assert get_input_vector(HDR_IMAGE).dtype == numpy.float32
+
+
+def test_recognizes_hdr_image():
+    assert HDR().predict(HDR_IMAGE_PATH)
+
+
+def test_doesnt_recognize_normal_image():
+    assert not HDR().predict(NON_HDR_IMAGE_PATH)
+
+
+def test_setting_threshold():
+    assert not HDR(threshold=1).predict(HDR_IMAGE_PATH)
+
+
+def test_inverting_threshold():
+    assert HDR(1.01, invert_threshold=True).predict(HDR_IMAGE_PATH)
+
+
+def test_can_return_float():
+    assert type(HDR().predict(HDR_IMAGE_PATH, return_boolean=False)) != bool
+
+
+def test_wrong_path_type_raises_exception():
+    with pytest.raises(TypeError):
+        assert HDR().predict(0)

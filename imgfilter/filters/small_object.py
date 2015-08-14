@@ -59,6 +59,9 @@ class ObjectTooSmall(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image_path should be a string")
+
         if self.is_saliency_map:
             obj = read_image(image_path, ROI)
         else:
@@ -67,5 +70,5 @@ class ObjectTooSmall(Filter):
         prediction = get_object_ratio(obj)
 
         if return_boolean:
-            return self.boolean_result(prediction)
+            return not self.boolean_result(prediction)
         return prediction

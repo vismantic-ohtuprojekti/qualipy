@@ -1,37 +1,44 @@
+"""Filter for detecting posterized images.
+
+The posterized image detection first loads the given image as a grayscale
+image and calculates a histogram of its pixel intensities. From this
+histogram the value for each local max point calculated which measures
+how sharp the peak is. Calculating value takes into account how wide the
+peak is meaning how big distance is between local min before the local
+max point and after it. Second feature that is measured is how large peak
+is meaning how the is average difference between value at local max and
+two local mins next to it. Posterized images have naturally more sharp
+peaks since colors in image are lacking many different shades.
+"""
+
 import cv2
 import numpy as np
 
 from ..utils.image_utils import read_image
-from ..utils.histogram_analyzation import normalize
-from ..utils.histogram_analyzation import calculate_peak_value
-from ..utils.histogram_analyzation import largest
+from ..utils.histogram_analyzation import normalize, largest, calculate_peak_value
 from ..utils.statistic_common import linear_normalize
 
 from filter import Filter
 
 
 def get_input_vector(img):
-    """
-    Returns numpy array which contains average of 20 prosent of the largest
-    peak values of the histgram of given image. This value can ve used to predict
-    whether image is posterized or not good threshold is around 0.002. This functions
-    result can also be given to the SVM.
+    """Returns a numpy array which contains the average of 20 percent of
+    the largest peak values of the histogram of a given image. This value
+    can be used to predict whether an image is posterized or not. The
+    result can also be given to an SVM.
 
     :param img: image to be processed
-
-    :returns: Returns numpy float32 array which contains the prediction
+    :type img: numpy.ndarray
+    :returns: a numpy array which contains the prediction
     """
-
-    hist = cv2.calcHist([img], [0], None, [256], [0,255])
+    hist = cv2.calcHist([img], [0], None, [256], [0, 255])
     hist = normalize(hist)
-
     peak_values = calculate_peak_value(hist)
 
     if len(peak_values) == 0:
         return np.array([0.0]).astype(np.float32)
 
     largest_peak_values = largest(peak_values, 0.2)
-
     return np.array([np.average(largest_peak_values)]).astype(np.float32)
 
 
@@ -68,6 +75,9 @@ class Posterized(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image_path should be a string")
+
         image = read_image(image_path, ROI)
         prediction = get_input_vector(image)[0]
 

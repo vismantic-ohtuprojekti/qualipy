@@ -6,7 +6,7 @@ from exposure import Exposure
 from small_object import ObjectTooSmall
 from multiple_salient_regions import MultipleSalientRegions
 from hdr import HDR
-from posterized_image import Posterized
+from posterized import Posterized
 from cross_processed import CrossProcessed
 from framed import Framed
 from highlights import Highlights

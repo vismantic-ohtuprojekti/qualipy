@@ -1,18 +1,33 @@
-import numpy as np
 import cv2
-from ..utils.image_utils import read_image
-from ..utils.utils import partition_matrix
-from ..utils.histogram_analyzation import *
 
-#from matplotlib import pyplot as plt
+from ..utils.image_utils import read_image
+from ..utils.histogram_analyzation import *
 
 from filter import Filter
 
+
+def count_areas(contours, num_sides=7, area_size=50):
+    """Counts the number of areas that are not rectangular or too small
+    from the list of contours.
+
+    :param contours: list of contours
+    :returns: int -- number of non-rectangular objects found
+    """
+    count = 0
+    for cnt in contours:
+        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        if len(approx) > num_sides and cv2.contourArea(cnt) > area_size:
+            count += 1
+    return count
+
+
 class Highlights(Filter):
+
+    """Filter for detecting images that have highlights"""
 
     name = 'highlights'
     speed = 2
-    
+
     def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes an highlights filter
 
@@ -27,51 +42,28 @@ class Highlights(Filter):
         super(Highlights, self).__init__(threshold, invert_threshold)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        image = read_image(image_path, ROI)   
-        blur = cv2.GaussianBlur(image,(5,5),0)
-        ret,thresh = cv2.threshold(blur,250,255,0)
-        
-        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        """Predict if a given image has highlights
+
+        :param image_path: path to the image
+        :type image_path: str
+        :param return_boolean: whether to return the result as a
+                               float between 0 and 1 or as a boolean
+                               (threshold is given to the class)
+        :type return_boolean: bool
+        :param ROI: possible region of interest as a 4-tuple
+                    (x0, y0, width, height), None if not needed
+        :returns: the prediction as a bool or float depending on the
+                  return_boolean parameter
+        """
+        image = read_image(image_path, ROI)
+        blur = cv2.GaussianBlur(image, (5, 5), 0)
+        ret, thresh = cv2.threshold(blur, 250, 255, 0)
+
+        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,
+                                               cv2.CHAIN_APPROX_SIMPLE)
         areas = count_areas(contours)
-        
         prediction = 1 if areas > 0 else 0
-        
-        #if prediction == 0:
-        #    show_debug(image, thresh, areas)
-        
+
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
-   
-def count_areas(contours, num_sides = 7, area_size = 50):
-    """Counts the number of areas that are not rectangular or too small from the list of contours
-
-    :param image: contours
-    :returns: int -- number of non-rectangular objects found
-    """
-
-    i = 0
-    for cnt in contours:
-        approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
-        if len(approx) > num_sides and cv2.contourArea(cnt) > area_size:
-            i += 1
-    return i
-
-def show_debug(image, thresh, areas):
-    cv2.imshow('orig', image)
-    cv2.imshow('highlight', thresh)
-    print areas
-    cv2.waitKey(0)
- 
-def find_threshold(normalized):
-    for i, value in enumerate(normalized):
-        if value > 0.99:
-            return i
-            
-#hist = cv2.calcHist([image], [0], None, [255], [0, 255])
-#normalized = normalize(hist)
-#normalized = calculate_continuous_distribution(normalized)
-#threshold = find_threshold(normalized)
-#if threshold > 0:
-#    threshold == 250
-    

@@ -1,3 +1,29 @@
+"""Filter for detecting HDR images.
+
+We focus on detecting images that have a very noticeable or bad
+HDR effect. Several features based on experimentation are looked
+for in images. As the objective of high-dynamic-range imaging is
+to reproduce a greater dynamic range of luminance, we look at the
+luminance of the image by extracting the Y channel of the image
+converted into the XYZ color space. We also consider the chrominance
+of the image (as luma is typically paired with chrominance) by
+looking at the U and V channels of the image converted into the YUV
+color space.
+
+Additionally, we calculate the contrast of the image, as HDR images
+often exhibit a lower amount of contrast than normal images
+(broadening the tonal range comes at the expense of decreased
+contrast). The contrast is calculated with the root mean squared
+contrast formula. The final feature is the amount of edges present
+in comparison to the size of the image, calculated using a Laplacian
+edge detector. HDR images usually have a higher amount of edges
+present than their normal counterparts.
+
+Finally, these features are fed into a support vector machine, which
+has by default been trained with 200 non-HDR and 200 HDR images
+collected from various sources and labeled by hand.
+"""
+
 import cv2
 import numpy
 

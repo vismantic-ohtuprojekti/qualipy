@@ -1,4 +1,4 @@
-from imgfilter.algorithms import exif
+from imgfilter.utils import exif
 
 
 def test_exposure_max_values():

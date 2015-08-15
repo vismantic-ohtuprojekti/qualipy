@@ -113,6 +113,9 @@ class Pattern(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image path should be a string")
+
         image = read_color_image(image_path, ROI)
         two_color_gray_image = cv2.cvtColor(reduce_colors(image, 2),
                                             cv2.COLOR_BGR2GRAY)

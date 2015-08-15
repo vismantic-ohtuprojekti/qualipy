@@ -1,5 +1,5 @@
-Blur detection
-==============
+Whole blur
+==========
 
 Usage
 -----

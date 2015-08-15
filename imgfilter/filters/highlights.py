@@ -1,29 +1,35 @@
 import cv2
-import numpy
 
 from ..utils.image_utils import read_image
-from ..utils.histogram_analyzation import largest, normalize, \
-                                          calculate_peak_value
+from ..utils.histogram_analyzation import *
 
 from filter import Filter
 
 
-def get_input_vector(img):
-    hist = cv2.calcHist([img], [0], None, [256], [0, 255])
-    hist = normalize(hist)
+def count_areas(contours, num_sides=7, area_size=50):
+    """Counts the number of areas that are not rectangular or too small
+    from the list of contours.
 
-    return numpy.array([numpy.average(largest(calculate_peak_value(hist), 0.2))],
-                       dtype=numpy.float32)
+    :param contours: list of contours
+    :returns: int -- number of non-rectangular objects found
+    """
+    count = 0
+    for cnt in contours:
+        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        if len(approx) > num_sides and cv2.contourArea(cnt) > area_size:
+            count += 1
+    return count
 
 
-class Posterized(Filter):
-    """Filter for detecting posterized images"""
+class Highlights(Filter):
 
-    name = 'posterized'
-    speed = 1
+    """Filter for detecting images that have highlights"""
+
+    name = 'highlights'
+    speed = 2
 
     def __init__(self, threshold=0.5, invert_threshold=False):
-        """Initializes a posterized image filter
+        """Initializes an highlights filter
 
         :param threshold: threshold at which the given prediction is changed
                           from negative to positive
@@ -33,10 +39,10 @@ class Posterized(Filter):
                                  for an image to be considered positive
         :type invert_threshold: bool
         """
-        super(Posterized, self).__init__(threshold, invert_threshold)
+        super(Highlights, self).__init__(threshold, invert_threshold)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
-        """Predict if a given image is posterized
+        """Predict if a given image has highlights
 
         :param image_path: path to the image
         :type image_path: str
@@ -50,12 +56,13 @@ class Posterized(Filter):
                   return_boolean parameter
         """
         image = read_image(image_path, ROI)
-        prediction = get_input_vector(image)[0]
+        blur = cv2.GaussianBlur(image, (5, 5), 0)
+        ret, thresh = cv2.threshold(blur, 250, 255, 0)
 
-        if prediction >= 0.002:
-            return 1.0
-        else:
-            return 0.0
+        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,
+                                               cv2.CHAIN_APPROX_SIMPLE)
+        areas = count_areas(contours)
+        prediction = 1 if areas > 0 else 0
 
         if return_boolean:
             return self.boolean_result(prediction)

@@ -4,13 +4,13 @@ Utilities
 Exif
 ====
 
-.. automodule:: imgfilter.algorithms.exif
+.. automodule:: imgfilter.utils.exif
    :members:
 
 SVM
 ===
 
-.. automodule:: imgfilter.machine_learning.svm
+.. automodule:: imgfilter.utils.svm
    :members:
 
 Flickr image downloader

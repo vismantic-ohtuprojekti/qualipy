@@ -1,12 +1,12 @@
-Posterized image detection
-==========================
+Posterized
+==========
 
 Usage
 -----
 
 The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Posterized** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.posterized_image
+.. currentmodule:: imgfilter.filters.posterized
 .. autoclass:: Posterized
    :members:
 
@@ -15,7 +15,12 @@ The filter can be used by itself or in combination with the *imgfilter.process* 
 How it works
 ------------
 
-The posterized image detection first loads the given image as a grayscale image and calculates a histogram of its intensities. From this histogram the average derivative and the amount of local maxima are calculated. These values are fed to a support vector machine to calculate the final prediction. The initial idea that the average derivative and the number of local maxima differ in posterized and non-posterized images comes from `this article <http://www.cambridgeincolour.com/tutorials/posterization.htm>`_ and more specifically its pictures of histograms of both posterized and non-posterized images.
+The posterized image detection first loads the given image as a grayscale image and calculates a histogram of its pixel intensities.
+From this histogram the value for each local max point calculated which measures how sharp the peak is. Calculating value takes into account
+how wide the peak is meaning how big distance is between local min before the local max point and after it. Second feature that
+is measured is how large peak is meaning how the is average difference between value at local max and two local mins next to it.
+Posterized images have naturally more sharp peaks since colors in image are lacking many different shades. There are images of both
+typical posterized image and normal image. Also Roc curve of posterized detection is provided.
 
 Histogram of a posterized image
 

@@ -11,14 +11,14 @@ List of filters
 .. toctree::
    :titlesonly:
 
-   whole_blur
    blurred_context
+   cross_processed
    exposure
    framed
-   pattern_detection
-   unconventional_size
-   exposure
-   small_object
-   multiple_salient_regions
    hdr
+   multiple_salient_regions
+   pattern_detection
    posterized
+   small_object
+   unconventional_size
+   whole_blur

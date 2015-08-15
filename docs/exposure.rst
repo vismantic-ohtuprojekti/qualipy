@@ -23,24 +23,22 @@ ROC curve:
 How it works
 ------------
 
-The filter converts the image to grayscale and makes a histogram of it. It then calculates the percentage of pixels with greater than 250 intensity and normalizes the result (result * 50) to a float between 0 and 1. If there are no pixels over 250 intensity, the picture is recognized under exposed.
+The image is first converted to grayscale and a histogram of its intensities is produced. The filter then calculates the percentage of pixels with greater than 250 intensity and normalizes the result (result * 50) to a float between 0 and 1. If there are no pixels over 250 intensity, the picture is recognized as underexposed.
 
 Examples:
 ---------
 
-Sample image recognized as over-exposured: (value: 1.0)
+Sample image recognized as over-exposed: (value: 1.0)
 
 .. image:: images/over_exposure_sample.jpg
    :width: 200px
 
-Sample image recognized as under-exposured: (value: 1.0)
+Sample image recognized as under-exposed: (value: 1.0)
    
 .. image:: images/under_exposure_sample.jpg
    :width: 200px
 
-Sample image not recognized as under- or over-exposured: (value: 0.31)
+Sample image not recognized as under- or over-exposed: (value: 0.31)
 
 .. image:: images/exposure_sample_good.jpg
    :width: 200px
-
-

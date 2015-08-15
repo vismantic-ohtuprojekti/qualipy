@@ -26,8 +26,8 @@ exif data, if possible.
 import numpy
 
 from .. import get_data
-from ..algorithms.focus_measure import *
-from ..algorithms.exif import analyze_picture_exposure
+from ..utils.focus_measure import *
+from ..utils.exif import analyze_picture_exposure
 from ..utils.result_combination import collective_result
 from ..utils.utils import *
 from ..utils.image_utils import read_image, sharpen, read_exif_tags
@@ -101,6 +101,9 @@ class WholeBlur(SVMFilter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
+        if not isinstance(image_path, str):
+            raise TypeError("image_path should be a string")
+
         exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)
         algo_prediction = make_prediction_focus(self.svm, image_path, ROI)

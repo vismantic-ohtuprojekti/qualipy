@@ -1,5 +1,5 @@
-Frame detection
-=======================
+Framed
+======
 
 Usage
 -----

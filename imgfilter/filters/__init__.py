@@ -9,3 +9,5 @@ from hdr import HDR
 from posterized_image import Posterized
 from cross_processed import CrossProcessed
 from framed import Framed
+from highlights import Highlights
+from fisheye import Fisheye

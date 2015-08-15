@@ -7,9 +7,13 @@ before_install:
  - sudo apt-get update
  - sudo apt-get install python-opencv
  - sudo dpkg -L python-opencv
+ - pip install pytest-cov coveralls
 
 # command to install dependencies
 install: "pip install -r requirements.txt"
 
 # command to run tests
 script: "python setup.py develop && py.test"
+
+after_success:
+ - coveralls

@@ -28,7 +28,14 @@ class SVMFilter(Filter):
 
         samples = numpy.array(samples, dtype=numpy.float32)
         labels = numpy.array(labels, dtype=numpy.float32)
-        self.svm.train(samples, labels)
+
+        if len(samples) != len(labels):
+            raise ValueError("samples and labels should have same length")
+
+        try:
+            self.svm.train(samples, labels)
+        except:
+            raise ValueError("too few training samples")
 
         if save_path is not None:
             self.save(save_path)

@@ -61,3 +61,13 @@ def test_can_return_float():
 def test_wrong_path_type_raises_exception():
     with pytest.raises(TypeError):
         assert HDR().predict(0)
+
+
+def test_training_with_too_few_images_causes_exception():
+    with pytest.raises(ValueError):
+        HDR().train([HDR_IMAGE_PATH], [0])
+
+
+def test_training_with_invalid_number_of_labels_causes_exception():
+    with pytest.raises(ValueError):
+        HDR().train([HDR_IMAGE_PATH], [])

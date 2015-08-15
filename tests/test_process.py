@@ -70,8 +70,14 @@ def test_fails_for_invalid_images():
 
 
 def test_works_with_magic_thresholds():
-    assert imgfilter.process(TEST_IMG,
-                             [Framed() > 0.1, Pattern() > 0.3, HDR() > 0.5])
+    assert not imgfilter.process(TEST_IMG,
+                                 [Framed() == 1,
+                                  Pattern() > 0.3,
+                                  HDR() >= 0.5,
+                                  UnconventionalSize() <= 16 / 9.,
+                                  Exposure() != 1,
+                                  Highlights() < 0.1
+                                  ])
 
 
 def test_process_request_works():

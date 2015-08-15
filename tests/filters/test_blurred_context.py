@@ -54,4 +54,14 @@ def test_can_return_float():
 
 def test_wrong_path_type_raises_exception():
     with pytest.raises(TypeError):
-        assert BlurredContext().predict(0)
+        BlurredContext().predict(0)
+
+
+def test_training_with_too_few_images_causes_exception():
+    with pytest.raises(ValueError):
+        BlurredContext().train([BLURRED_CONTEXT], [0])
+
+
+def test_training_with_invalid_number_of_labels_causes_exception():
+    with pytest.raises(ValueError):
+        BlurredContext().train([BLURRED_CONTEXT], [])

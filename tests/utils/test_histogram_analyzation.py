@@ -1,3 +1,5 @@
+import numpy
+
 from imgfilter.utils.histogram_analyzation import *
 
 

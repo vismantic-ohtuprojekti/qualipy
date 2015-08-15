@@ -3,7 +3,6 @@ import cv2
 from .. import get_data
 from ..utils.image_utils import read_image, read_color_image
 from ..utils.utils import partition_matrix, scaled_prediction
-from matplotlib import pyplot as plt
 
 from svm_filter import SVMFilter
 

@@ -17,7 +17,7 @@ def test_processes_single_image_correctly():
 
 
 def test_processes_list_of_images_correctly():
-    assert len(imgfilter.process([TEST_IMG], [Framed()], True)) == 1
+    assert len(imgfilter.process([TEST_IMG], [Framed()], None, True)) == 1
 
 
 def test_images_exist_in_resulting_dict():
@@ -34,30 +34,34 @@ def test_returns_False_when_some_filters_return_positive():
 
 
 def test_returns_float_when_correct_parameter_is_set():
-    assert imgfilter.process(TEST_IMG, [Framed()], True)['framed'] == 0.
-    assert imgfilter.process(TEST_IMG, [Framed()], True, False)['framed'] == 0.
+    assert imgfilter.process(TEST_IMG, [Framed()], None, True)['framed'] == 0.
+    assert imgfilter.process(TEST_IMG, [Framed()], None, True, False)['framed'] == 0.
 
 
 def test_returns_boolean_for_each_filter_when_not_combining_results():
-    assert imgfilter.process(TEST_IMG, [Framed()], False, False)['framed'] == False
+    assert imgfilter.process(TEST_IMG, [Framed()], None, False, False)['framed'] == False
 
 
 def test_ROI_can_be_None():
-    assert imgfilter.process((TEST_IMG, None), [Framed()])
+    assert imgfilter.process(TEST_IMG, [Framed()], None)
 
 
 def test_works_correctly_for_valid_ROI():
-    assert imgfilter.process((TEST_IMG, (0, 0, 100, 100)), [Framed()])
+    assert imgfilter.process(TEST_IMG, [Framed()], (0, 0, 100, 100))
+
+
+def test_works_correctly_for_multiple_ROIs():
+    assert imgfilter.process([TEST_IMG, TEST_IMG2], [Framed()], [(0, 0, 100, 100), None])
 
 
 def test_fails_for_invalid_type_ROI():
     with pytest.raises(TypeError):
-        assert imgfilter.process((TEST_IMG, 10), [Framed()])
+        assert imgfilter.process(TEST_IMG, [Framed()], 1)
 
 
 def test_fails_for_invalid_length_ROI():
     with pytest.raises(TypeError):
-        assert imgfilter.process((TEST_IMG, (10, 10, 100)), [Framed()])
+        assert imgfilter.process(TEST_IMG, [Framed()], (10, 10, 100))
 
 
 def test_fails_for_invalid_images():
@@ -68,3 +72,90 @@ def test_fails_for_invalid_images():
 def test_works_with_magic_thresholds():
     assert imgfilter.process(TEST_IMG,
                              [Framed() > 0.1, Pattern() > 0.3, HDR() > 0.5])
+
+
+def test_process_request_works():
+    json = r"""{ "images": { "tests/images/lama.jpg": null },
+                 "filters": { "framed": { } } }
+            """
+    assert imgfilter.process_request(json)[TEST_IMG]
+
+
+def test_process_request_works_for_multiple_images():
+    json = r"""{ "images": { "tests/images/lama.jpg": null,
+                             "tests/images/framed.jpg": null },
+                 "filters": { "framed": { } } }
+            """
+    assert len(imgfilter.process_request(json)) == 2
+
+
+def test_process_request_works_for_multiple_filters():
+    json = r"""{ "images": { "tests/images/lama.jpg": null },
+                 "filters": { "framed": { },
+                              "exposure": { } } }
+            """
+    assert imgfilter.process_request(json)[TEST_IMG]
+
+
+def test_process_request_works_for_ROI():
+    json = r"""{ "images": { "tests/images/lama.jpg": [0, 0, 200, 200] },
+                 "filters": { "framed": { } } }
+            """
+    assert imgfilter.process_request(json)[TEST_IMG]
+
+
+def test_process_request_works_for_parameters():
+    json = r"""{ "images": { "tests/images/lama.jpg": null },
+                 "filters": { "framed": { } },
+                 "combine_results": false }
+            """
+    assert type(imgfilter.process_request(json)[TEST_IMG]) != bool
+
+
+def test_process_request_works_for_filter_parameters():
+    json = r"""{ "images": { "tests/images/framed.jpg": null },
+                 "filters": { "framed": { "threshold": 1.01,
+                                          "invert_threshold": true } } }
+            """
+    assert not imgfilter.process_request(json)[TEST_IMG2]
+
+
+def test_process_request_fails_for_invalid_json():
+    json = r"""{ "images":  "tests/images/lama.jpg": null },
+                 "filters": { "framed": { } } }
+            """
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)
+
+
+def test_process_request_fails_for_no_images():
+    json = r"""{ "filters": { "framed": { } } }"""
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)
+
+
+def test_process_request_fails_for_no_filters():
+    json = r"""{ "images": { "tests/images/lama.jpg": null } }"""
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)
+
+
+def test_process_request_fails_for_invalid_parameters():
+    json = r"""{ "images": { "tests/images/framed.jpg": null },
+                 "filters": { "framed": { "x": 1.01 } } }
+            """
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)
+
+
+def test_process_request_fials_for_invalid_ROI():
+    json = r"""{ "images": { "tests/images/lama.jpg": [0, 0, 200] },
+                 "filters": { "framed": { } } }
+            """
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)

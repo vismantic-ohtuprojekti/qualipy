@@ -1,10 +1,37 @@
 import cv2
 import numpy
+import pytest
 
 from imgfilter.utils.image_utils import *
 from imgfilter.utils.focus_measure import *
 
-IMAGE = cv2.imread('tests/images/lama.jpg')
+IMAGE_PATH = 'tests/images/lama.jpg'
+IMAGE = cv2.imread(IMAGE_PATH)
+IMAGE_GRAY = cv2.cvtColor(IMAGE, cv2.COLOR_BGR2GRAY)
+
+
+def test_raises_exception_for_invalid_image():
+    with pytest.raises(IOError):
+        read_image('fail')
+
+
+def test_can_read_valid_image():
+    assert read_image(IMAGE_PATH).shape == IMAGE_GRAY.shape
+
+
+def test_extract_roi_works():
+    assert extract_ROI(IMAGE_PATH, IMAGE,
+                       (20, 20, 20, 20)).shape == (20, 20, 3)
+
+
+def test_fails_for_invalid_roi():
+    with pytest.raises(TypeError):
+        extract_ROI(IMAGE_PATH, IMAGE_GRAY, (0, 0, 0))
+
+
+def test_fails_for_too_large_roi():
+    with pytest.raises(ValueError):
+        extract_ROI(IMAGE_PATH, IMAGE_GRAY, (0, 0, 1e5, 1e5))
 
 
 def test_reduces_image_correctly_to_one_color():

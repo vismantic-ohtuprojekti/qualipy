@@ -1,5 +1,6 @@
 import os
-from process import process
+
+from process import process, process_request
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 

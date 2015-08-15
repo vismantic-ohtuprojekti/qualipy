@@ -1,5 +1,7 @@
 """Various utility functions for dealing with images."""
 
+import os.path
+
 import cv2
 import numpy
 import exifread
@@ -15,7 +17,8 @@ def read_image(image_path, ROI=None):
     :type image_path: str
     :returns: numpy.ndarray
     """
-    return cv2.cvtColor(read_color_image(image_path, ROI), cv2.COLOR_BGR2GRAY)
+    image = read_color_image(image_path, ROI)
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
 @file_cache
@@ -26,8 +29,25 @@ def read_color_image(image_path, ROI=None):
     :type image_path: str
     :returns: numpy.ndarray
     """
-    image = cv2.imread(image_path)
+    if not os.path.isfile(image_path):
+        raise IOError("Image not found: %s" % image_path)
 
+    image = cv2.imread(image_path)
+    if image is None:
+        raise IOError("Unable to read image: %s" % image_path)
+
+    return extract_ROI(image_path, image, ROI)
+
+
+def extract_ROI(image_path, image, ROI):
+    """Extract the region of interest out of an image
+
+    :param image_path: path to the image file
+    :type image_path: str
+    :param image: the image matrix
+    :type image: numpy.ndarray
+    :returns: numpy.ndarray -- the region of interest
+    """
     if ROI is None:
         return image
 
@@ -35,6 +55,12 @@ def read_color_image(image_path, ROI=None):
         raise TypeError("ROI needs to be of length 4")
 
     x, y, w, h = ROI
+    height, width, _ = image.shape
+
+    if x < 0 or y < 0 or x + w > width or y + h > height:
+        raise ValueError("Invalid dimensions for ROI for image: %s"
+                         % image_path)
+
     return image[x:x + w, y:y + h]
 
 
@@ -108,6 +134,7 @@ def sharpen(image):
 
 def logarithmic_transformation2D(array_2D):
     """Performs a logarithmic transformation of a matrix.
+
     :param array_2D: a numpy matrix
     :type array_2D: numpy.ndarray
     :returns: numpy.ndarray
@@ -118,6 +145,7 @@ def logarithmic_transformation2D(array_2D):
 
 def count_magnitude_spectrum(image):
     """Returns the magnitude spectrum of an image.
+
     :param image: the image matrix
     :type image: numpy.ndarray
     :returns: numpy.ndarray

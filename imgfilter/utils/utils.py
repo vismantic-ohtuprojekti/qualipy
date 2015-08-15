@@ -92,7 +92,7 @@ def scaled_prediction(prediction):
     :type prediction: float
     :returns: float
     """
-    pred = 1 - (1 + prediction) / 2
+    pred = 1 - (1 + prediction) / 2.
 
     if pred < 0:
         return 0
@@ -102,7 +102,7 @@ def scaled_prediction(prediction):
     return pred
 
 
-def clipping_percentage(histogram, threshold, overThreshold):
+def clipping_percentage(histogram, threshold, over_threshold):
     """Calculates percentage of images high of low intensity pixels
 
     :param histogram: intensity histogram
@@ -110,15 +110,16 @@ def clipping_percentage(histogram, threshold, overThreshold):
     :param threshold: threshold intensity which is used to get
                       intensity amounts over or under it
     :type threshold: int
-    :param overThreshold: whether to get the intensity amount over
+    :param over_threshold: whether to get the intensity amount over
                           (True) or under (False) threshold
-    :type overThreshold: boolean
+    :type over_threshold: bool
     :returns: float
     """
     total = numpy.sum(histogram)
     if total < 0.0005:  # avoid division by zero
         return 0
-    if overThreshold:
+
+    if over_threshold:
         return float(numpy.sum(histogram[threshold:])) / total
     else:
         return float(numpy.sum(histogram[:threshold])) / total

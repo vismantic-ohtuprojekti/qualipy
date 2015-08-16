@@ -14,16 +14,10 @@ The filter can be used by itself or in combination with the *imgfilter.process* 
 
 How it works
 ------------
-In order to detect cross processed image filter first separates both 20 % of the brigthest and
-the darkest pixels in the image. This is useful since usually in cross processed image all
-dark areas have some same color (not black) and also bright areas have some same color (not white).
-In order to avoid black and white colors they are removed from darkest and brigthest areas.
+In order to detect cross processed images, the filter first separates both 20% of the brightest and the darkest pixels in the image. This is useful since usually in cross processed images all dark areas have the same color (not black) and also bright areas have the same color (not white). In order to avoid black and white colors they are removed from the darkest and brightest areas.
 
-After this tree values are calculated for both dark and bright areas. Value which indicates
-normal image is prefered over cross processed since normal image can in this analyse look
-partly cross processed. Tree calculated values are average sharpness of the peaks, area size
-where there are lots of pixels and standard deviation.
+After this, three values are calculated for both dark and bright areas: the average sharpness of the peaks, size of an area where there are many pixels and the standard deviation. A value which indicates a normal image is preferred over one indicating a cross processed image, since normal images in this analyzation can look partly cross processed.
+
+ROC curve:
 
 .. image:: images/cross_processed_roc_curve.png
-
-roc curve of cross processed image filter

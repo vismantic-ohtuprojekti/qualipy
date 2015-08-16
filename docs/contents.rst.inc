@@ -4,42 +4,36 @@ Contents:
    :maxdepth: 2
 
 
-API Documentation
------------------
+API
+---
 
 .. toctree::
    :maxdepth: 2
 
    api
 
-Installation
+Usage
 ------------
 
 .. toctree::
    :maxdepth: 2
 
    installation
+   examples
+   sample
 
-Testing Documentation
----------------------
+Testing
+-------
 
 .. toctree::
    :maxdepth: 2
 
    testing
 
-Architecture Documentation
---------------------------
+Architecture
+------------
 
 .. toctree::
    :maxdepth: 2
 
    architecture
-
-Training Documentation
-----------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   training

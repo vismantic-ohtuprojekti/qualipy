@@ -13,10 +13,6 @@ from a JSON request.
 .. automodule:: imgfilter.process
    :members:
 
-.. currentmodule:: imgfilter.process_request
-.. automodule:: imgfilter.process_request
-   :members:
-
 Examples
 --------
 

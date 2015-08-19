@@ -64,3 +64,13 @@ Use the process_request function to run filters from a JSON request::
     ...         """
     >>> imgfilter.process_request(json)
     False
+
+Train the whole_blur filter::
+
+    >>> import glob, imgfilter
+    >>> from imgfilter.filters import *
+    >>> positives = glob.glob('positives/*.jpg')
+    >>> negatives = glob.glob('negatives/*.jpg')
+    >>> labels = ([1] * len(positives)) + ([0] * len(negatives))
+    >>> wb = WholeBlur()
+    >>> wb.train(positives + negatives, labels, 'new.yml')

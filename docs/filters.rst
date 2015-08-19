@@ -16,6 +16,7 @@ List of filters
    exposure
    framed
    hdr
+   highlights
    multiple_salient_regions
    pattern_detection
    posterized

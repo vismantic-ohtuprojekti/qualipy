@@ -7,7 +7,11 @@ import cv2
 
 class StatModel(object):
 
+    def __init__(self):
+        self.fn = None
+
     def load(self, fn):
+        self.fn = fn
         self.model.load(fn)
 
     def save(self, fn):
@@ -38,3 +42,13 @@ class SVM(StatModel):
         :returns: numpy.float32
         """
         return self.model.predict(sample, True)
+
+    def __getstate__(self):
+        return self.fn
+
+    def __setstate__(self, state):
+        self.__init__()
+        self.fn = state
+
+        if self.fn is not None:
+            self.model.load(state)

@@ -15,7 +15,7 @@ The filter can be used by itself or in combination with the *imgfilter.process* 
 How it works
 ------------
 
-The posterized image detection first loads the given image as a grayscale image and calculates a histogram of its pixel intensities.
+The posterized image detection first loads the given image as a grayscale image and calculates a histogram of it's pixel intensities.
 From this histogram the value for each local max point calculated which measures how sharp the peak is. Calculating value takes into account
 how wide the peak is meaning how big distance is between local min before the local max point and after it. Second feature that
 is measured is how large peak is meaning how the is average difference between value at local max and two local mins next to it.

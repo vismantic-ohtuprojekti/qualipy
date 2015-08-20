@@ -23,7 +23,7 @@ The saliency map is binarized using a threshold which is calculated individually
 for each image as the weighted average of 3/4 of the biggest saliency values.
 Using this threshold, the image is binarized into solid regions. All regions and
 their sizes are calculated using OpenCV's contour detection. The actual prediction
-is constructed by dividing the sum of of the areas of all the regions by the area
+is constructed by dividing the sum of the areas of all the regions by the area
 of the largest region and squaring the result. This way if the saliency map contains
 some small independent areas, the whole image is not considered to have multiple
 salient regions.

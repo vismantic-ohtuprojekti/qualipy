@@ -10,6 +10,9 @@ class LocationData(object):
     def __repr__(self):
         return 'index: ' + str(self.index) + ' value: ' + str(self.value)
 
+    def __eq__(self, other):
+        return other.index == self.index and other.value == self.value
+
 
 """
 def draw_histogram(histogram):

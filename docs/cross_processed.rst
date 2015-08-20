@@ -24,6 +24,10 @@ normal image is prefered over cross processed since normal image can in this ana
 partly cross processed. Tree calculated values are average sharpness of the peaks, area size
 where there are lots of pixels and standard deviation.
 
+Special Cases
+-------------
+Cross processed detection has some problems detecting images which contain red as one of the magnified colors. This is because red is both at the start and at the end of the hue histogram when trying to find magnified areas red often is interepted as two areas instead of one.
+
 .. image:: images/cross_processed_roc_curve.png
 
 roc curve of cross processed image filter

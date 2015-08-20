@@ -1,7 +1,7 @@
 from imgfilter.utils.exif import *
 
-EXIF = parse_exif('tests/images/exif.jpg')
-NOEXIF = parse_exif('tests/images/lama.jpg')
+EXIF = parse_exif('tests/images/exif.JPG')
+NOEXIF = parse_exif('tests/images/lama.JPG')
 
 def test_analyze_background_blur():
     res = analyze_background_blur(EXIF)

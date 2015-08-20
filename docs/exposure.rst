@@ -42,3 +42,11 @@ Sample image not recognized as under- or over-exposed: (value: 0.31)
 
 .. image:: images/exposure_sample_good.jpg
    :width: 200px
+   
+In the following images the high-intensity pixels were scattered around the images causing the image to be recognized over-exposed, but to human eye they seem quite normal:
+
+.. image:: images/exposure/false_pos1.jpg
+   :width: 300px
+   
+.. image:: images/exposure/false_pos3.jpg
+   :width: 300px

@@ -18,7 +18,7 @@ def test_input_vector_is_of_right_type():
     assert get_input_vector(img).dtype == numpy.float32
 
 
-def test_recognizes_blurred_context():
+def test_recognizes_posterized():
     assert Posterized().predict(POSTERIZED)
 
 

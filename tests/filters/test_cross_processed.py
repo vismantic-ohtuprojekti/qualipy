@@ -40,3 +40,23 @@ def test_training_with_too_few_images_causes_exception():
 def test_training_with_invalid_number_of_labels_causes_exception():
     with pytest.raises(ValueError):
         CrossProcessed().train([CROSS_PROCESSED], [])
+
+
+def test_invalid_svm_file_causes_exception():
+    with pytest.raises(TypeError):
+        CrossProcessed(svm_file=0)
+
+
+def test_invalid_load_path_causes_exception():
+    with pytest.raises(TypeError):
+        CrossProcessed().load(0)
+
+
+def test_svm_file_not_found_causes_exception():
+    with pytest.raises(ValueError):
+        CrossProcessed().load('fail')
+
+
+def test_invalid_save_path_causes_exception():
+    with pytest.raises(TypeError):
+        CrossProcessed().save(0)

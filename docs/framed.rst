@@ -21,7 +21,7 @@ ROC curve:
 How it works
 ------------
 
-The filter first binarizes the image with adaptive thresholding and uses findContours-method from opencv to detect any rectangles in the image.
+The filter first binarizes the image with adaptive thresholding and uses the findContours method from OpenCV to detect any rectangles in the image.
 
 *"Contours can be explained simply as a curve joining all the continuous points (along the boundary), having same color or intensity. The contours are a useful tool for shape analysis and object detection and recognition."*
 
@@ -47,5 +47,12 @@ Sample images not recognized as framed: (value: 0.0)
 .. image:: images/framed/negative.jpg
    :width: 400px
 
+Pictures with homogeneous or mono-color background that surrounds the object can produce false-positives such as the following:
+
+.. image:: images/framed/false_pos1.jpg
+   :width: 300px
+
+.. image:: images/framed/false_pos2.jpg
+   :width: 300px
 
 

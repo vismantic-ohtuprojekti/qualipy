@@ -65,3 +65,23 @@ def test_training_with_too_few_images_causes_exception():
 def test_training_with_invalid_number_of_labels_causes_exception():
     with pytest.raises(ValueError):
         BlurredContext().train([BLURRED_CONTEXT], [])
+
+
+def test_invalid_svm_file_causes_exception():
+    with pytest.raises(TypeError):
+        BlurredContext(svm_file=0)
+
+
+def test_invalid_load_path_causes_exception():
+    with pytest.raises(TypeError):
+        BlurredContext().load(0)
+
+
+def test_svm_file_not_found_causes_exception():
+    with pytest.raises(ValueError):
+        BlurredContext().load('fail')
+
+
+def test_invalid_save_path_causes_exception():
+    with pytest.raises(TypeError):
+        BlurredContext().save(0)

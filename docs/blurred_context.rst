@@ -62,3 +62,12 @@ Sample undistorted images from the training set:
    :width: 215px
 .. image:: images/blurred_context_sample6.jpg
    :width: 215px
+
+Most false positives result from images having a homogeneous background, such as pictures with a clear sky or water, due to similar blur maps for blurred regions and solid color (it's impossible to tell from a region containing only a solid color whether it's blurred or not). This could possibly be corrected by adding features that deal with the variation of color to the SVM or by adding an additional check for low amount of colors. Sample images for images that are recognized as false positives:
+
+.. image:: images/blurred_context_fp1.jpg
+   :width: 215px
+.. image:: images/blurred_context_fp2.jpg
+   :width: 215px
+.. image:: images/blurred_context_fp3.jpg
+   :width: 215px

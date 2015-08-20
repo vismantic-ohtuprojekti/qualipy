@@ -4,7 +4,18 @@
 Testing of filters
 ******************
 
-Accuracy testing was used to measure how well each filter performs.  For accuracy testing, there is a module accuracy_test which provides functionality for running the test for a given datase. It records the accuracy of the algorithm for all samples and as well as the accuracy for each sample category separately.
+Running tests
+=============
+
+To run unit tests for the project, run::
+
+    py.test
+
+in the project's root folder. This requires the pytest package to be installed. Current test coverage can be seen `here <https://coveralls.io/github/vismantic-ohtuprojekti/image-filtering-suite>`_.
+
+Accuracy testing was used to measure how well each filter performs. Accuracy tests are provided as scripts in tests/accuracy and can be run, for example::
+
+    python tests/accuracy/exposure.py
 
 Accuracy test results of the filters
 ====================================

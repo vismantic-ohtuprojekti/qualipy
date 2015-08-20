@@ -1,3 +1,5 @@
+import os.path
+
 import numpy
 
 from filter import Filter
@@ -48,6 +50,9 @@ class SVMFilter(Filter):
         """
         if not isinstance(path, str):
             raise TypeError("path should be a string")
+
+        if not os.path.isfile(path):
+            raise ValueError("invalid file path for SVM model")
 
         self.svm.load(path)
 

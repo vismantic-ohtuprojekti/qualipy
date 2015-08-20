@@ -7,7 +7,7 @@ FRAMED = 'tests/images/framed.jpg'
 NON_FRAMED = 'tests/images/lama.jpg'
 
 
-def test_recognizes_blurred_context():
+def test_recognizes_framed():
     assert Framed().predict(FRAMED)
 
 

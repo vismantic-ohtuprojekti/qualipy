@@ -7,7 +7,7 @@ HIGHLIGHTS = 'tests/images/highlights.jpg'
 NON_HIGHLIGHTS = 'tests/images/framed.jpg'
 
 
-def test_recognizes_blurred_context():
+def test_recognizes_highlights():
     assert Highlights().predict(HIGHLIGHTS)
 
 

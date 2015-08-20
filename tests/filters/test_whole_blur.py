@@ -18,7 +18,7 @@ def test_input_vector_is_of_right_type():
     assert get_input_vector(mat).dtype == numpy.float32
 
 
-def test_recognizes_blurred_context():
+def test_recognizes_whole_blur():
     assert WholeBlur().predict(BLURRED)
 
 
@@ -51,3 +51,23 @@ def test_training_with_too_few_images_causes_exception():
 def test_training_with_invalid_number_of_labels_causes_exception():
     with pytest.raises(ValueError):
         WholeBlur().train([BLURRED], [])
+
+
+def test_invalid_svm_file_causes_exception():
+    with pytest.raises(TypeError):
+        WholeBlur(svm_file=0)
+
+
+def test_invalid_load_path_causes_exception():
+    with pytest.raises(TypeError):
+        WholeBlur().load(0)
+
+
+def test_svm_file_not_found_causes_exception():
+    with pytest.raises(ValueError):
+        WholeBlur().load('fail')
+
+
+def test_invalid_save_path_causes_exception():
+    with pytest.raises(TypeError):
+        WholeBlur().save(0)

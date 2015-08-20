@@ -31,7 +31,7 @@ def get_input_vector(img):
     :type img: numpy.ndarray
     :returns: a numpy array which contains the prediction
     """
-    hist = cv2.calcHist([img], [0], None, [256], [0, 255])
+    hist = cv2.calcHist([img], [0], None, [256], [0, 255]).T[0]
     hist = normalize(hist)
     peak_values = calculate_peak_value(hist)
 
@@ -86,7 +86,7 @@ class Posterized(Filter):
         elif prediction < 0.0:
             prediction = 0.0
         else:
-            prediction = linear_normalize(prediction, 0.0, 0.004)
+            prediction = linear_normalize(prediction, 0.0, 0.004).item(0)
 
         if return_boolean:
             return self.boolean_result(prediction)

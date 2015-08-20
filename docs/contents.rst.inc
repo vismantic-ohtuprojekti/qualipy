@@ -21,6 +21,7 @@ Usage
    installation
    examples
    sample
+   celery
 
 Testing
 -------

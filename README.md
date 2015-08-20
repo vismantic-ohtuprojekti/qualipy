@@ -37,3 +37,5 @@ The Image Filtering Suite for Vismantic project implements image filtering modul
 [Meeting 24.7.2015](https://docs.google.com/document/d/1HjNiVAZvT8-a8zISrfPU2WmXOAR9hpz2YmfYnZJBpKg/edit?usp=sharing)
 
 [Meeting 07.8.2015](https://docs.google.com/document/d/1vlwAQvZowyo_An2fpclNpwQTUD3Ha2SixWiMoA_GqN0/edit?usp=sharing)
+
+[Meeting 21.8.2015](https://docs.google.com/document/d/1D5QyFqNyk8VzXLBVeXPtDPW4IvkmkF_i0Hp0fHLC14w/edit?usp=sharing)

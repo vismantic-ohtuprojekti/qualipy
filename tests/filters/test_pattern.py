@@ -7,7 +7,7 @@ PATTERN = 'tests/images/pattern.jpg'
 NON_PATTERN = 'tests/images/lama.jpg'
 
 
-def test_recognizes_blurred_context():
+def test_recognizes_pattern():
     assert Pattern().predict(PATTERN)
 
 

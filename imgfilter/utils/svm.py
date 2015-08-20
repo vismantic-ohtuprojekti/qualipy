@@ -8,20 +8,21 @@ import cv2
 class StatModel(object):
 
     def __init__(self):
-        self.fn = None
+        self.model_file = True
 
-    def load(self, fn):
-        self.fn = fn
-        self.model.load(fn)
+    def load(self, model_file):
+        self.model_file = model_file
+        self.model.load(model_file)
 
-    def save(self, fn):
-        self.model.save(fn)
+    def save(self, model_file):
+        self.model.save(model_file)
 
 
 class SVM(StatModel):
 
     def __init__(self):
         """Initializes an SVM"""
+        super(SVM, self).__init__()
         self.model = cv2.SVM()
 
     def train(self, samples, labels):
@@ -44,11 +45,22 @@ class SVM(StatModel):
         return self.model.predict(sample, True)
 
     def __getstate__(self):
-        return self.fn
+        """Get the current state of the object, namely the filepath to
+        the current SVM model. Used by the pickle module for serialization.
+
+        :returns: str -- the current state
+        """
+        return self.model_file
 
     def __setstate__(self, state):
-        self.__init__()
-        self.fn = state
+        """Set the current state of the object, namely the filepath to
+        an SVM model. Used by the pickle module for serialization.
 
-        if self.fn is not None:
-            self.model.load(state)
+        :param state: the new state
+        :type state: str
+        """
+        self.__init__()
+        self.model_file = state
+
+        if self.model_file is not True:
+            self.load(state)

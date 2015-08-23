@@ -3,7 +3,7 @@ Highlights
 
 Usage
 -----
-This filter recognizes images that contain one or more bright areas for example sun or spotlights from concerts. The difference to exposure-filter is that the bright area must be contiguous and the result is either 0: no highlights, or 1: one or more highlights.
+This filter recognizes images that contain one or more bright areas, for example the sun or spotlights from concerts. The difference to the exposure filter is that the bright area must be contiguous and the result is either 0: no highlights, or 1: one or more highlights.
 The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Highlights** class instance to the list of filters to be used.
 
 .. currentmodule:: imgfilter.filters.highlights
@@ -23,7 +23,7 @@ ROC curve:
 How it works
 ------------
 
-The image is first converted to grayscale and blurred to remove unwanted noise. Then the image is thresholded so that pixels with intensity over 250 are white and the rest are black, to help identify distinct highlighted areas. *cv2.findContours* is then used to count how many highlighted areas exist, after which we check if the areas are too small or rectangular in shape and count the resulting amount of highlighted areas.
+The image is first converted to grayscale and blurred to remove unwanted noise. Then the image is thresholded so that pixels with intensity over 250 are white and the rest are black, to help identify distinct highlighted areas. To count how many highlighted areas exist, OpenCV's findContours method is used to look for the areas in the thresholded image, and of the areas found, only those that are not either too small or rectangular are counted.
 
 Examples:
 ---------

@@ -45,7 +45,7 @@ class SVM(StatModel):
         return self.model.predict(sample, True)
 
     def __getstate__(self):
-        """Get the current state of the object, namely the filepath to
+        """Get the current state of the object, namely the file path to
         the current SVM model. Used by the pickle module for serialization.
 
         :returns: str -- the current state
@@ -53,7 +53,7 @@ class SVM(StatModel):
         return self.model_file
 
     def __setstate__(self, state):
-        """Set the current state of the object, namely the filepath to
+        """Set the current state of the object, namely the file path to
         an SVM model. Used by the pickle module for serialization.
 
         :param state: the new state

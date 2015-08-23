@@ -1,3 +1,20 @@
+"""
+Filter for detecting images that have highlights
+
+This filter recognizes images that contain one or more bright
+areas, for example the sun or spotlights from concerts. The
+difference to the exposure filter is that the bright area must
+be contiguous and the result is either 0 or 1.
+
+The image is first converted to grayscale and blurred to remove
+unwanted noise. Then the image is thresholded so that pixels with
+intensity over 250 are white and the rest are black, to help
+identify distinct highlighted areas. To count how many highlighted
+areas exist, OpenCV's findContours method is used to look for
+the areas in the thresholded image, and of the areas found, only
+those that are not either too small or rectangular are counted.
+"""
+
 import cv2
 
 from ..utils.image_utils import read_image

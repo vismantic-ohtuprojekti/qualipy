@@ -44,5 +44,4 @@ References
 
 1. Pertuz, S.; Puig D.; Garcia M., *Analysis of focus measure operators for shape-from-focus. Pattern Recognition,* Pattern Recognition, vol.46, no.5, pp.1227-1522, May 2013.
 
-
 2. Mavridaki, E.; Mezaris, V., *No-reference blur assessment in natural images using Fourier transform and spatial pyramids,* Image Processing (ICIP), 2014 IEEE International Conference on Image Processing, vol., no., pp.566-570, 27-30 Oct 2014.

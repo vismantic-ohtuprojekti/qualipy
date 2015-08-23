@@ -22,11 +22,27 @@ class SVMFilter(Filter):
 
     def train(self, images, labels, save_path, read_image,
               get_input_vector):
+        """Train an SVM-based filter
+
+        :param images: list of file paths to images
+        :type images: list
+        :param labels: list of labels for the corresponding images, every
+                       label should be either 0 or 1
+        :type labels: list
+        :param save_path: file path to save the resulting SVM model to,
+                          None if not needed
+        :type save_path: str
+        :param read_image: function to use for reading the image from a path
+        :type read_image: function
+        :param get_input_vector: function to use for constructing the input
+                                 vector for a sample image
+        :type get_input_vector: function
+        """
         samples = []
         for image in images:
             img = read_image(image)
             if img is None:
-                continue
+                raise IOError("unable to read image: %s" % image)
             samples.append(get_input_vector(img))
 
         samples = numpy.array(samples, dtype=numpy.float32)

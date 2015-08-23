@@ -23,6 +23,9 @@ from filter import Filter
 def findContours(image):
     """Converts the image to contain only edges and finds
     contours in that image.
+
+    :param image: the image matrix
+    :type image: numpy.ndarray
     """
     thresh = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                    cv2.THRESH_BINARY, 11, 2)
@@ -39,17 +42,14 @@ def analyzeContours(contours):
     if len(contours[0]) != 4 and len(contours[0]) != 8:
         return 0
 
-    first = [1, 1]
-    second = [1, 1]
-    prev = 0
-
-    # iterate coordinates and compare each pair to the previous
+    first, second, prev = [1, 1], [1, 1], 0
     for i, val in enumerate(numpy.nditer(contours[0])):
         if i % 2:
             second = [prev, val]
         else:
             first = [prev, val]
 
+        # compare pair to the previous pair
         for num in first:
             if num in second:
                 break

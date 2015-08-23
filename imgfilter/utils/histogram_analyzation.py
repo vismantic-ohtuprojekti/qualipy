@@ -3,8 +3,7 @@ import math
 
 
 class LocationData(object):
-    """
-    Contains both index and value of some histogram value.
+    """Contains both index and value of some histogram value.
     Has variables index and value to present index and value of histogram value.
     Also has equals and to string implementations
     """
@@ -20,8 +19,8 @@ class LocationData(object):
 
 
 def calc_mean(histogram):
-    """
-    Calculates mean of given histogram
+    """Calculates mean of given histogram
+
     :param histogram: histogram whichs mean is calculated (numpy array)
     :returns: returns mean of given histogram as float
     """
@@ -36,8 +35,8 @@ def calc_mean(histogram):
 
 
 def calc_variance(histogram, mean):
-    """
-    Calculates variance of given histogram
+    """Calculates variance of given histogram
+
     :param histogram: histogram whichs variance is calculated (numpy array)
     :returns: returns variance of given histogram as float
     """
@@ -52,8 +51,8 @@ def calc_variance(histogram, mean):
 
 
 def calc_standard_deviation(histogram):
-    """
-    Calculates standard deviation of given histogram
+    """Calculates standard deviation of given histogram
+
     :param histogram: histogram whichs standard deviation is calculated (numpy array)
     :returns: returns standard deviation of given histogram as float
     """
@@ -64,8 +63,8 @@ def calc_standard_deviation(histogram):
 
 
 def normalize(histogram):
-    """
-    Makes normalized histgram from given histgram.
+    """Makes normalized histgram from given histgram.
+
     :param histogram: histogram whichs normalized histgram is calculated (numpy array)
     :returns: returns normalized histogram (numpy array)
     """
@@ -76,10 +75,10 @@ def normalize(histogram):
 
 
 def remove_from_ends(histogram):
-    """
-    Sets two of the first and last values in the histogram to be zero.
+    """Sets two of the first and last values in the histogram to be zero.
     This can be used for example to remove effect of totally black and white
     areas of image in other calculations.
+
     :param histogram: histogram whichs ends are removed (numpy array)
     :returns: histgram which ends are removed (numpy array)
     """
@@ -97,8 +96,8 @@ def remove_from_ends(histogram):
 
 
 def calculate_continuous_distribution(histogram):
-    """
-    Calculates continuous distribution of given histogram.
+    """Calculates continuous distribution of given histogram.
+
     :param histogram: histogram whichs continuous distribution is calculated (numpy array)
     :returns: continuous distribution of given histogram (numpy array)
     """
@@ -113,9 +112,9 @@ def calculate_continuous_distribution(histogram):
 
 
 def calculate_local_maximums(histogram):
-    """
-    Calculates local max points of histogram. Meaning all points where
+    """Calculates local max points of histogram. Meaning all points where
     derivate turns from positive to negative.
+
     :param histogram: histogram whichs local max points are calculated (numpy array)
     :returns: Local max points of given histogram as array of LocationData objects
     """
@@ -143,9 +142,9 @@ def calculate_local_maximums(histogram):
 
 
 def calculate_local_minimums(histogram):
-    """
-    Calculates local min points of histogram. Meaning all points where
+    """Calculates local min points of histogram. Meaning all points where
     derivate turns from negative to positive.
+
     :param histogram: histogram whichs local min points are calculated (numpy array)
     :returns: Local min points of given histogram as array of LocationData objects
     """
@@ -173,8 +172,8 @@ def calculate_local_minimums(histogram):
 
 
 def calculate_max_values(histogram, amount = 1):
-    """
-    Retrieves given amount of largest values from given histogram.
+    """Retrieves given amount of largest values from given histogram.
+
     :param histogram: histogram which given amount of largest values are retrieved (numpy array)
     :param amount: defines how many largest values are to be retrieved. Default value is set to one
     :returns: Array which contains largest values from largest to smallest (python array)
@@ -192,8 +191,8 @@ def calculate_max_values(histogram, amount = 1):
 
 
 def calculate_min_values(histogram, amount = 1):
-    """
-    Retrieves given amount of smallest values from given histogram.
+    """Retrieves given amount of smallest values from given histogram.
+
     :param histogram: histogram which given amount of smallest values are retrieved (numpy array)
     :param amount: defines how many smallest values are to be retrieved. Default value is set to one
     :returns: Array which contains smallest values from smallest to largest (python array)
@@ -210,11 +209,11 @@ def calculate_min_values(histogram, amount = 1):
 
 
 def calculate_peak_value(histogram):
-    """
-    Calculates peak value for all peaks (local max points) in given histogram.
+    """Calculates peak value for all peaks (local max points) in given histogram.
     First histogram is normalized then all local max and min points are calculated.
     Then for each max point average difference from both preciding and trailing
     local min points is calculated.
+
     :param histogram: histogram which peak values are calculated (numpy array)
     :returns: peak values of given histogram (numpy array)
     """
@@ -235,14 +234,14 @@ def calculate_peak_value(histogram):
 
 
 def calculate_roughness(histogram):
-    """
-    Calculates roughness of given histogram. This is done by first calculating
+    """Calculates roughness of given histogram. This is done by first calculating
     local min points and local max points. This array is sorted by index.
     Then for each of these points absolute value of values of current point
     and next point is calculated and also difference between their indexs
     is calculated. usinf these to values roughness is calculated so that
     larger value distance and smaller index distance leads to higher
     roughness value. Sum of these values is is histgram's roughness value.
+
     :param histogram: histogram which's roughness is calculated
     :returns: roughness value for given histogram
     """
@@ -260,11 +259,11 @@ def calculate_roughness(histogram):
 
 
 def calculate_extream_values(histogram):
-    """
-    Calculates extream values of given histogram. Calculates how many large
+    """Calculates extream values of given histogram. Calculates how many large
     separate regions are in the given histogram. This method is not completly
     reliable and results may in some casses differ from what person would
     define as large separate areas.
+
     :param histogram: histogram which's roughness is calculated
     :returns:
     """
@@ -299,8 +298,8 @@ def calculate_extream_values(histogram):
 
 
 def calculate_derivates(histogram):
-    """
-    Calculates derivates of given histogram
+    """Calculates derivates of given histogram
+
     :param histogram: histogram which derivates are calculated (numpy array)
     :returns: derivates of given histogram (numpy array)
     """
@@ -313,9 +312,9 @@ def calculate_derivates(histogram):
 
 
 def largest(histogram, prosent):
-    """
-    Retrieves prosentage of largest values from given histogram
-    :param histgram: histogram which largest values are retrieved (numpy array)
+    """Retrieves prosentage of largest values from given histogram
+
+    :param histogram: histogram which largest values are retrieved (numpy array)
     :param prosent: defines how big prosentage of largest values are retrieved
     :returns: array of largest values (numpy array)
     """

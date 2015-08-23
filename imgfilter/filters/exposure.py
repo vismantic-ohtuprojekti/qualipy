@@ -40,10 +40,10 @@ class Exposure(Filter):
                                  the given threshold (default) or lower
                                  for an image to be considered positive
         :type invert_threshold: bool
-        :param negative_under_exposed: whether under-exposed images should
+        :param negative_under_exposed: whether underexposed images should
                                        return -1 instead of 1. The threshold
                                        and boolean logic is unaffected by
-                                       the flag.
+                                       the flag
         :type negative_under_exposed: bool
         """
         super(Exposure, self).__init__(threshold, invert_threshold)

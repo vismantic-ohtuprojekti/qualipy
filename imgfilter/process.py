@@ -52,6 +52,48 @@ def process(images, filters, ROIs=None, return_predictions=False,
     raise TypeError("images needs to be a str, 2-tuple or an iterable")
 
 
+def process_request(request_json):
+    """Process a list of images from a JSON request.
+    Example JSON request:
+
+    { "images": {
+        "ko.jpg": [ 0, 1, 2, 3 ],
+        "ok.jpg": null
+        },
+    "filters": {
+        "whole_blur": { "threshold": 0.5}
+        },
+    "return_predictions": false,
+    "combine_results": true,
+    "sort_filters": true
+    }
+
+    :param request_json: the JSON request
+    :type request_json: str
+    :returns: see the documentation for the process function
+    """
+    import imgfilter.filters
+    filter_classes = inspect.getmembers(imgfilter.filters, inspect.isclass)
+
+    try:
+        request = json.loads(request_json)
+    except:
+        raise ValueError("Invalid JSON format")
+
+    if 'images' not in request or 'filters' not in request:
+        raise ValueError("images or filters array not in JSON")
+
+    images, ROIs = __parse_images_and_ROIs(request['images'])
+    filters = __collect_filters(request['filters'], filter_classes)
+
+    return_predictions = __get_argument(request, 'return_predictions', False)
+    combine_results = __get_argument(request, 'combine_results', True)
+    sort_filters = __get_argument(request, 'sort_filters', True)
+
+    return process(images, filters, ROIs, return_predictions, combine_results,
+                   sort_filters)
+
+
 def __process_images(images, filters, ROIs, return_predictions,
                      combine_results):
     """Process a list of images"""
@@ -98,48 +140,6 @@ def __get_predict_args(image, ROI, return_predictions):
             raise TypeError("invalid length ROI for image: %s" % image)
 
     return image, not return_predictions, ROI
-
-
-def process_request(request_json):
-    """Process a list of images from a JSON request.
-    Example JSON request:
-
-    { "images": {
-        "ko.jpg": [ 0, 1, 2, 3 ],
-        "ok.jpg": null
-        },
-    "filters": {
-        "whole_blur": { "threshold": 0.5}
-        },
-    "return_predictions": false,
-    "combine_results": true,
-    "sort_filters": true
-    }
-
-    :param request_json: the JSON request
-    :type request_json: str
-    :returns: see the documentation for the process function
-    """
-    import imgfilter.filters
-    filter_classes = inspect.getmembers(imgfilter.filters, inspect.isclass)
-
-    try:
-        request = json.loads(request_json)
-    except:
-        raise ValueError("Invalid JSON format")
-
-    if 'images' not in request or 'filters' not in request:
-        raise ValueError("images or filters array not in JSON")
-
-    images, ROIs = __parse_images_and_ROIs(request['images'])
-    filters = __collect_filters(request['filters'], filter_classes)
-
-    return_predictions = __get_argument(request, 'return_predictions', False)
-    combine_results = __get_argument(request, 'combine_results', True)
-    sort_filters = __get_argument(request, 'sort_filters', True)
-
-    return process(images, filters, ROIs, return_predictions, combine_results,
-                   sort_filters)
 
 
 def __get_filter(name, filter_classes):

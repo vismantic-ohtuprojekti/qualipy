@@ -2,13 +2,14 @@
 
 The posterized image detection first loads the given image as a grayscale
 image and calculates a histogram of its pixel intensities. From this
-histogram the value for each local max point calculated which measures
-how sharp the peak is. Calculating value takes into account how wide the
-peak is meaning how big distance is between local min before the local
-max point and after it. Second feature that is measured is how large peak
-is meaning how the is average difference between value at local max and
-two local mins next to it. Posterized images have naturally more sharp
-peaks since colors in image are lacking many different shades.
+histogram the value for each local max point is calculated which measures
+how sharp the peak is. Calculating the value takes into account how wide
+the peak is, meaning how large the distance between the local minimum
+before and the local maximum after it is. The second feature measured is
+how large the peak is, meaning how big is the average difference between
+the value at the local maximum and two local minimums next to it.
+Posterized images have naturally more sharp peaks since colors in the
+image are lacking many different shades.
 """
 
 import cv2

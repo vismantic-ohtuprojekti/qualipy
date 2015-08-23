@@ -138,7 +138,7 @@ class BlurredContext(SVMFilter):
         :param labels: list of labels associated with the images,
                        0 for negative and 1 for positive
         :type labels: list
-        :param save_path: possible filepath to save the resulting
+        :param save_path: possible file path to save the resulting
                           model to, None if not needed
         :type save_path: str
         """

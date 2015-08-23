@@ -101,6 +101,9 @@ def contrast(luminance):
 
 
 def edge_ratio(obj):
+    """Calculates the ratio of amount of edges in the image to the size
+    of the image
+    """
     return numpy.count_nonzero(obj) / float(obj.size)
 
 

@@ -20,6 +20,11 @@ except ImportError:
 
 
 def file_cache(f):
+    """Decorator for caching the result of a function
+    for a single parameter at a time. If the function
+    is called with a new parameter, the currently
+    cached value is deleted.
+    """
 
     cache = {'sig': None, 'val': None}
 
@@ -46,7 +51,7 @@ def partition_matrix(matrix, n):
     :type matrix: numpy.ndarray
     :param n: the size of the side of one partition
     :type n: int
-    :returns: numpy.ndarray
+    :returns: list -- list of the partitions
     """
     height, width = matrix.shape
     y_stride, x_stride = height / n, width / n
@@ -80,7 +85,7 @@ def flatten(lists):
 
     :param lists: the list of lists to flatten
     :type lists: list
-    :returns: list
+    :returns: list -- the flattened list
     """
     return [item for sublist in lists for item in sublist]
 
@@ -90,7 +95,7 @@ def scaled_prediction(prediction):
 
     :param prediction: the prediction to scale
     :type prediction: float
-    :returns: float
+    :returns: float -- the scaled prediction
     """
     pred = 1 - (1 + prediction) / 2.
 
@@ -113,7 +118,7 @@ def clipping_percentage(histogram, threshold, over_threshold):
     :param over_threshold: whether to get the intensity amount over
                           (True) or under (False) threshold
     :type over_threshold: bool
-    :returns: float
+    :returns: float -- the clipping percentage
     """
     total = numpy.sum(histogram)
     if total < 0.0005:  # avoid division by zero

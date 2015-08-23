@@ -30,7 +30,7 @@ ROC curve:
 How it works
 ------------
 
-The filter first constructs a so-called "blur map" from the image using the method described by Su et al in their paper *Blurred Image Region Detection and Classification* (Proceedings of the 19th ACM International Conference on Multimedia, 2011): for each pixel, its "blurry degree" is estimated using the following formula:
+The filter first constructs a so-called "blur map" from the image using the method described in [1]: for each pixel, its "blurry degree" is estimated using the following formula:
 
 .. math::
 
@@ -63,7 +63,7 @@ Sample undistorted images from the training set:
 .. image:: images/blurred_context_sample6.jpg
    :width: 215px
 
-Most false positives result from images having a homogeneous background, such as pictures with a clear sky or water, due to similar blur maps for blurred regions and solid color (it's impossible to tell from a region containing only a solid color whether it's blurred or not). This could possibly be corrected by adding features that deal with the variation of color to the SVM or by adding an additional check for low amount of colors. Sample images for images that are recognized as false positives:
+Most false positives result from images having a homogeneous background, such as pictures with a clear sky or water, due to similar blur maps for blurred regions and solid color (it's impossible to tell from a region containing only a solid color whether it's blurred or not). This could possibly be corrected by adding features that deal with the variation of color to the SVM or by adding an additional check for low amount of colors. Sample images that result in false positives:
 
 .. image:: images/blurred_context_fp1.jpg
    :width: 215px
@@ -71,3 +71,8 @@ Most false positives result from images having a homogeneous background, such as
    :width: 215px
 .. image:: images/blurred_context_fp3.jpg
    :width: 215px
+
+References
+----------
+
+1. Su, B.; Lu S.; Tan C. L., *Blurred image region detection and classification*, In Proceedings of the 19th ACM international conference on Multimedia (MM '11), pp.1397-1400, 2011.

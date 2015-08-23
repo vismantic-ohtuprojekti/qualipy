@@ -12,6 +12,13 @@ The filter can be used by itself or in combination with the *imgfilter.process* 
 
    .. automethod:: __init__
 
+Performance
+-----------
+
+ROC curve:
+
+.. image:: images/pattern_roc_curve.png
+
 How it works
 ------------
 The image is first turned into grayscale, after which discrete fast fourier transformation is applied to construct the magnitude spectrum of the image. Then frequencies which have intermediate or low intensities are removed from the magnitude spectrum and all frequencies with high intensity are intensified to the max value. After this the distance from the center for each high intensity frequency is calculated. From this set of distances anomalies are removed by using the `local outlier factor method <http://en.wikipedia.org/wiki/Local_outlier_factor>`_.
@@ -20,12 +27,10 @@ The max from the set of distances is taken. This max distance is then used as a 
 
 Special Cases
 -------------
-Pattern detection doesn't work on images which don't have many repetitions of pattern (like some images of wallpaper). Also if single part of the pattern is very complex pattern detecting pattern may prove problematic. Other hard cases include for example sparse patterns.
+
+The filter doesn't work on images which don't have many repetitions of the pattern (like some images of wallpapers). Also, if a single part of the pattern is very complex, the detection may prove problematic. Other difficult cases include for example sparse patterns.
 
 .. image:: images/pattern.png
    :width: 325px
 .. image:: images/non_pattern.png
    :width: 325px
-
-.. image:: images/pattern_roc_curve.png
-Pattern detections roc curve

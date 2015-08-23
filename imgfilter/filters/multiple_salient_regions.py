@@ -105,7 +105,7 @@ class MultipleSalientRegions(Filter):
 
         # if areas is empty, there are no salient regions in the image
         if not areas.shape[0]:
-            return 1.0
+            return False if return_boolean else 0.
 
         prediction = (numpy.sum(areas) / numpy.amax(areas)) ** 2 - 1.0
         prediction = min(prediction, 1)

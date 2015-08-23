@@ -6,12 +6,12 @@ FISHEYE = 'tests/images/fisheye.jpg'
 NON_FISHEYE = 'tests/images/lama.jpg'
 
 
-# def test_recognizes_fisheye():
-#     assert Fisheye().predict(FISHEYE)
+def test_recognizes_fisheye():
+    assert Fisheye().predict(FISHEYE)
 
 
-# def test_doesnt_recognize_normal_image():
-#     assert not Fisheye().predict(NON_FISHEYE)
+def test_doesnt_recognize_normal_image():
+    assert not Fisheye().predict(NON_FISHEYE)
 
 
 def test_can_return_float():
@@ -23,11 +23,11 @@ def test_wrong_path_type_raises_exception():
         Fisheye().predict(0)
 
 
-# def test_training_with_too_few_images_causes_exception():
-#     with pytest.raises(ValueError):
-#         Fisheye().train([fisheye], [0])
+def test_training_with_too_few_images_causes_exception():
+    with pytest.raises(ValueError):
+        Fisheye().train([FISHEYE], [0])
 
 
-# def test_training_with_invalid_number_of_labels_causes_exception():
-#     with pytest.raises(ValueError):
-#         Fisheye().train([fisheye], [])
+def test_training_with_invalid_number_of_labels_causes_exception():
+    with pytest.raises(ValueError):
+        Fisheye().train([FISHEYE], [])

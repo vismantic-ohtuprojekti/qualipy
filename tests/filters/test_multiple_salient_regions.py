@@ -6,10 +6,10 @@ import pytest
 from imgfilter.filters.multiple_salient_regions import *
 
 
-def run_filter(saliency_map, filter_obj):
+def run_filter(saliency_map, filter_obj, return_boolean=True):
     with tempfile.NamedTemporaryFile(suffix='.jpg') as temp:
         cv2.imwrite(temp.name, saliency_map)
-        return filter_obj.predict(temp.name)
+        return filter_obj.predict(temp.name, return_boolean=return_boolean)
 
 
 def test_works_for_saliency_map_with_one_area():
@@ -27,6 +27,21 @@ def test_works_for_saliency_map_with_two_areas():
 
     assert run_filter(saliency_map,
                       MultipleSalientRegions(is_saliency_map=True))
+
+
+def test_works_for_saliency_map_with_no_areas():
+    saliency_map = numpy.zeros((100, 100), dtype=numpy.uint8)
+
+    assert not run_filter(saliency_map,
+                          MultipleSalientRegions(is_saliency_map=True))
+
+
+def test_can_return_float():
+    saliency_map = numpy.zeros((100, 100), dtype=numpy.uint8)
+    saliency_map[10:20, 10:20] = 255
+    assert type(run_filter(saliency_map,
+                           MultipleSalientRegions(is_saliency_map=True),
+                           False)) != bool
 
 
 def test_setting_threshold():

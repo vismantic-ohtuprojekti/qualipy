@@ -89,3 +89,22 @@ class Fisheye(SVMFilter):
         if return_boolean:
             return self.boolean_result(prediction)
         return prediction
+
+    def train(self, images, labels, save_path=None):
+        """Retrain the filter with new training images. The new
+        model needs to be saved with the save function for later
+        use.
+
+        :param images: list of image paths to training images
+        :type images: list
+        :param labels: list of labels associated with the images,
+                       0 for negative and 1 for positive
+        :type labels: list
+        :param save_path: possible file path to save the resulting
+                          model to, None if not needed
+        :type save_path: str
+        """
+        super(Fisheye, self).train(
+            images, labels, save_path,
+            lambda img: cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE),
+            get_input_vector)

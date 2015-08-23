@@ -1,5 +1,6 @@
 import cv2
 import numpy
+import tempfile
 import pytest
 
 from imgfilter.utils.image_utils import *
@@ -10,9 +11,17 @@ IMAGE = cv2.imread(IMAGE_PATH)
 IMAGE_GRAY = cv2.cvtColor(IMAGE, cv2.COLOR_BGR2GRAY)
 
 
-def test_raises_exception_for_invalid_image():
+def test_raises_exception_for_invalid_image_path():
     with pytest.raises(IOError):
         read_image('fail')
+
+
+def test_raises_exception_for_invalid_image():
+    with tempfile.NamedTemporaryFile(suffix='.jpg') as temp:
+        with open(temp.name, 'w') as out:
+            out.write('fail')
+        with pytest.raises(IOError):
+            read_image(temp.name)
 
 
 def test_can_read_valid_image():

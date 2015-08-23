@@ -64,6 +64,12 @@ def test_fails_for_invalid_length_ROI():
         assert imgfilter.process(TEST_IMG, [Framed()], (10, 10, 100))
 
 
+def test_fails_for_invalid_amount_of_ROIs():
+    with pytest.raises(ValueError):
+        assert imgfilter.process([TEST_IMG, TEST_IMG2], [Framed()],
+                                 [(0, 0, 100, 100)])
+
+
 def test_fails_for_invalid_images():
     with pytest.raises(TypeError):
         assert imgfilter.process(0, [Framed()])
@@ -144,6 +150,15 @@ def test_process_request_fails_for_no_images():
 
 def test_process_request_fails_for_no_filters():
     json = r"""{ "images": { "tests/images/lama.jpg": null } }"""
+
+    with pytest.raises(ValueError):
+        imgfilter.process_request(json)
+
+
+def test_process_request_fails_for_invalid_filter():
+    json = r"""{ "images": { "tests/images/framed.jpg": null },
+                 "filters": { "fail": {  } } }
+            """
 
     with pytest.raises(ValueError):
         imgfilter.process_request(json)

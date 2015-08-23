@@ -3,37 +3,44 @@ from imgfilter.utils.exif import *
 EXIF = parse_exif('tests/images/exif.JPG')
 NOEXIF = parse_exif('tests/images/lama.jpg')
 
+
 def test_analyze_background_blur():
     res = analyze_background_blur(EXIF)
     assert 0.4 < res
     assert 0.6 > res
+
 
 def test_analyze_picture_exposure():
     res = analyze_picture_exposure(EXIF)
     assert 0.6 > res
     assert 0.4 < res
 
+
 def test_correctly_parse_exif_data():
     # Exposure
     assert 1.0 / 75 > get_exposure_value(EXIF)
     assert 1.0 / 85 < get_exposure_value(EXIF)
-    
+
     # Focal length
     assert 17 < get_focal_value(EXIF)
     assert 19 > get_focal_value(EXIF)
-    
-    # ISO 
+
+    # ISO
     assert 80 == get_iso_value(EXIF)
 
     # Aperture
     assert 5 == get_aperture_value(EXIF)
 
+
 def test_parsing_returns_none_if_not_found():
-    assert None == get_exposure_value(NOEXIF)
-    assert None == get_focal_value(NOEXIF)
-    assert None == get_iso_value(NOEXIF)
-    assert None == get_aperture_value(NOEXIF)
-    
+    assert get_exposure_value(NOEXIF) is None
+    assert get_focal_value(NOEXIF) is None
+    assert get_iso_value(NOEXIF) is None
+    assert get_aperture_value(NOEXIF) is None
+    assert analyze_picture_exposure(NOEXIF) is None
+    assert analyze_background_blur(NOEXIF) is None
+
+
 def test_exposure_max_values():
     tags = {'EXIF ExposureTime': '15', 'EXIF FocalLength': '50', 'EXIF ApertureValue': '1'}
     assert 1.0 == analyze_picture_exposure(tags)

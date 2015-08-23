@@ -101,9 +101,6 @@ class WholeBlur(SVMFilter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
-        if not isinstance(image_path, str):
-            raise TypeError("image_path should be a string")
-
         exif = read_exif_tags(image_path)
         exif_prediction = analyze_picture_exposure(exif)
         algo_prediction = make_prediction_focus(self.svm, image_path, ROI)

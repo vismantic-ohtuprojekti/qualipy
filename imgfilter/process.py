@@ -42,7 +42,7 @@ def process(images, filters, ROIs=None, return_predictions=False,
     if sort_filters:
         filters.sort(key=attrgetter('speed'))
 
-    if isinstance(images, str):
+    if isinstance(images, str) or isinstance(images, unicode):
         return __process_image(images, filters, ROIs,
                                return_predictions, combine_results)
     elif isinstance(images, Iterable):

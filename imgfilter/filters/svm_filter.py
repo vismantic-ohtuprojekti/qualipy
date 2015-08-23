@@ -13,7 +13,8 @@ class SVMFilter(Filter):
     def __init__(self, threshold, invert_threshold, svm_file):
         super(SVMFilter, self).__init__(threshold, invert_threshold)
 
-        if not isinstance(svm_file, str):
+        if not (isinstance(svm_file, str) or
+                isinstance(svm_file, unicode)):
             raise TypeError("svm_file should be a string")
 
         self.svm = SVM()
@@ -48,7 +49,7 @@ class SVMFilter(Filter):
         :param path: path to the SVM data file
         :type path: str
         """
-        if not isinstance(path, str):
+        if not (isinstance(path, str) or isinstance(path, unicode)):
             raise TypeError("path should be a string")
 
         if not os.path.isfile(path):
@@ -62,7 +63,7 @@ class SVMFilter(Filter):
         :param path: path to the destination file
         :type path: str
         """
-        if not isinstance(path, str):
+        if not (isinstance(path, str) or isinstance(path, unicode)):
             raise TypeError("path should be a string")
 
         self.svm.save(path)

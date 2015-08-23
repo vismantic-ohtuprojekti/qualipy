@@ -117,9 +117,6 @@ class BlurredContext(SVMFilter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
-        if not isinstance(image_path, str):
-            raise TypeError("image_path should be a string")
-
         input_vec = get_input_vector(resize(read_image(image_path, ROI), 500))
         algo_prediction = scaled_prediction(self.svm.predict(input_vec))
 

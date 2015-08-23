@@ -17,9 +17,10 @@ considered to have multiple salient regions.
 import cv2
 import numpy
 
-from filter import Filter
 from ..utils.image_utils import read_image
 from ..utils.object_extraction import extract_object
+
+from filter import Filter
 
 
 def count_threshold(saliency_map):
@@ -95,9 +96,6 @@ class MultipleSalientRegions(Filter):
         :returns: the prediction as a bool or float depending on the
                   return_boolean parameter
         """
-        if not isinstance(image_path, str):
-            raise TypeError("image_path should be a string")
-
         if self.is_saliency_map:
             saliency_map = read_image(image_path, ROI)
         else:

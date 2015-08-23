@@ -54,6 +54,11 @@ def _run_object_extraction(image_path):
 
 @file_cache
 def extract_object(image_path):
+    if not (isinstance(image_path, str) or
+            isinstance(image_path, unicode)):
+        raise TypeError("image_path should be a string, not %s" %
+                        image_path)
+
     full, binarized = _run_object_extraction(image_path)
     data = (cv2.imread(full, cv2.CV_LOAD_IMAGE_GRAYSCALE),
             cv2.imread(binarized, cv2.CV_LOAD_IMAGE_GRAYSCALE))

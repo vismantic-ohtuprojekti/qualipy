@@ -29,6 +29,11 @@ def read_color_image(image_path, ROI=None):
     :type image_path: str
     :returns: numpy.ndarray
     """
+    if not (isinstance(image_path, str) or
+            isinstance(image_path, unicode)):
+        raise TypeError("image_path should be a string, not %s" %
+                        type(image_path))
+
     if not os.path.isfile(image_path):
         raise IOError("Image not found: %s" % image_path)
 

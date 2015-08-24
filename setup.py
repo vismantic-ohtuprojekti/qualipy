@@ -19,6 +19,6 @@ setup(
     packages=find_packages(exclude=['docs', 'tests*']),
     package_data={'imgfilter': ['data/svm/*', 'data/object_extraction/*']},
 
-    #install_requires=[i.strip() for i in
-    #                  open("requirements.txt").readlines()],
+    install_requires=[i.strip() for i in
+                      open("requirements.txt").readlines()],
 )

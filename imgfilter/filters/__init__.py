@@ -11,4 +11,5 @@ from cross_processed import CrossProcessed
 from framed import Framed
 from highlights import Highlights
 from fisheye import Fisheye
+from text_detection import TextDetection
 

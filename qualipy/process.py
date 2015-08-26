@@ -43,8 +43,8 @@ def process(images, filters, ROIs=None, return_predictions=False,
         filters.sort(key=attrgetter('speed'))
 
     if isinstance(images, str) or isinstance(images, unicode):
-        return __process_image(images, filters, ROIs,
-                               return_predictions, combine_results)
+        return {images: __process_image(images, filters, ROIs,
+                               return_predictions, combine_results)}
     elif isinstance(images, Iterable):
         return __process_images(images, filters, ROIs,
                                 return_predictions, combine_results)

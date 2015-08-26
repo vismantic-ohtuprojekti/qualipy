@@ -1,3 +1,9 @@
+"""
+Contains functionality for removing anomalies from
+one-dimensional arrays and normalizing one-dimensional
+arrays.
+"""
+
 import numpy
 
 
@@ -38,13 +44,13 @@ def linear_normalize_all(array_1D):
 
 
 def count_local_outlier_factor(entry, neighbors):
-    """Calculates local outliner factor for given entry using given neighbors.
-    Local outliner factor is average distance from neighbors
+    """Calculates local outlier factor for given entry using given
+    neighbors. Local outlier factor is average distance from neighbors
 
-    :param entry: entry which local outliner factor is calculated for
-    :param neighbors: neighbors which are used to calculate local outliner
-    factor for entry
-    :returns: local outliner factor for entry
+    :param entry: entry which local outlier factor is calculated for
+    :param neighbors: neighbors which are used to calculate local
+                      outlier factor for entry
+    :returns: local outlier factor for entry
     """
     outliers = numpy.abs(entry - neighbors)
     return numpy.mean(outliers)
@@ -64,8 +70,8 @@ def find_neighbors(index, k, sorted_array):
 
 def remove_anomalies(array_1D, max_outline_diff):
     """Removes anomalies from given one dimensional array. This is done by
-    calculating local outliner factor for all elements and discarding those
-    which have larger outliner factor than given max outline difference
+    calculating local outlier factor for all elements and discarding those
+    which have larger outlier factor than given max outline difference
 
     :param array_1D: array which from anomalies are removed from
     :param max_outline_diff: what is the max outlier_factor that is accepted

@@ -1,7 +1,7 @@
 SVM
 ===
-SVM utility Contains svm model. Filters use opencv's filters through
-these classes.
+
+Wrapper for OpenCV's support vector machine implementation.
 
 .. currentmodule:: qualipy.utils.svm
 .. autoclass:: SVM

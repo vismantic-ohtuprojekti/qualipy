@@ -10,7 +10,15 @@ app = Celery()
 # celery config file here:
 app.config_from_object('celeryconfig')
 
-def celery_process_list(images, filters, ROIs=None, return_predictions=False,
+@app.task
+def process_image(image, filters, ROI=None, return_predictions=False,
+            combine_results=False, sort_filters=True):
+    """Processes one image with process-function and returns the resulting value.
+    """ 
+    return qualipy.process(image, filters, ROI, return_predictions,
+            combine_results, sort_filters)
+
+def celery_process(images, filters, ROIs=None, return_predictions=False,
             combine_results=False, sort_filters=True):
     """Process a list of images by dividing the task into smaller celery-tasks.
     Returns a celery.result.ResultSet
@@ -24,15 +32,6 @@ def celery_process_list(images, filters, ROIs=None, return_predictions=False,
     
     return group(process_image.s(img, filters, ROI, return_predictions,
             combine_results, sort_filters) for img, ROI in zip(images, ROIs))()
-
-@app.task
-def process_image(image, filters, ROI=None, return_predictions=False,
-            combine_results=False, sort_filters=True):
-    """Processes one image with process-function and returns the resulting value.
-    """ 
-    return qualipy.process(image, filters, ROI, return_predictions,
-            combine_results, sort_filters)
-
 
 def get_job_status(job):
     """Returns the status of the job(celery.result.ResultSet) as a percentage of completed tasks
@@ -59,7 +58,7 @@ def celery_process_request(request_json):
     images, ROIs = __parse_images_and_ROIs(request['images'])
     filters = __collect_filters(request['filters'], filter_classes)
     
-    print images, ROIs
+    #print images, ROIs
 
     return_predictions = __get_argument(request, 'return_predictions', False)
     combine_results = __get_argument(request, 'combine_results', True)

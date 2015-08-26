@@ -1,6 +1,6 @@
 import pytest
 
-from imgfilter.filters.highlights import *
+from qualipy.filters.highlights import *
 
 
 HIGHLIGHTS = 'tests/images/highlights.jpg'

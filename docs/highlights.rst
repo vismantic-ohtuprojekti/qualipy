@@ -4,9 +4,9 @@ Highlights
 Usage
 -----
 This filter recognizes images that contain one or more bright areas, for example the sun or spotlights from concerts. The difference to the exposure filter is that the bright area must be contiguous and the result is either 0: no highlights, or 1: one or more highlights.
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Highlights** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **Highlights** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.highlights
+.. currentmodule:: qualipy.filters.highlights
 .. autoclass:: Highlights
    :members:
 

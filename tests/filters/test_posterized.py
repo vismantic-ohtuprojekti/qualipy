@@ -1,7 +1,7 @@
 import numpy
 import pytest
 
-from imgfilter.filters.posterized import *
+from qualipy.filters.posterized import *
 
 
 POSTERIZED = 'tests/images/posterized.png'

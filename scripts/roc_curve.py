@@ -3,8 +3,8 @@ import glob
 import numpy
 import pylab
 
-import imgfilter
-from imgfilter.filters import *
+import qualipy
+from qualipy.filters import *
 
 
 def get_images(path):
@@ -23,10 +23,10 @@ if __name__ == '__main__':
     positive_images = get_images(positive_path)
     negative_images = get_images(negative_path)
 
-    res = imgfilter.process(positive_images, [Posterized()], True)
+    res = qualipy.process(positive_images, [Posterized()], True)
     fst = numpy.array([x['posterized'] for x in res.values()],
                       dtype=numpy.float32)
-    res = imgfilter.process(negative_images, [Posterized()], True)
+    res = qualipy.process(negative_images, [Posterized()], True)
     snd = numpy.array([x['posterized'] for x in res.values()],
                       dtype=numpy.float32)
 

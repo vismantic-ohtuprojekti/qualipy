@@ -1,6 +1,6 @@
 import pytest
 
-from imgfilter.filters.cross_processed import *
+from qualipy.filters.cross_processed import *
 
 CROSS_PROCESSED = 'tests/images/cross_processed.png'
 NON_CROSS_PROCESSED = 'tests/images/framed.jpg'

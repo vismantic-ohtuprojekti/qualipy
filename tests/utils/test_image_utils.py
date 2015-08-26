@@ -3,8 +3,8 @@ import numpy
 import tempfile
 import pytest
 
-from imgfilter.utils.image_utils import *
-from imgfilter.utils.focus_measure import *
+from qualipy.utils.image_utils import *
+from qualipy.utils.focus_measure import *
 
 IMAGE_PATH = 'tests/images/lama.jpg'
 IMAGE = cv2.imread(IMAGE_PATH)

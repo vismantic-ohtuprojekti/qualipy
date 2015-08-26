@@ -1,7 +1,7 @@
 import numpy
 import pytest
 
-from imgfilter.filters.blurred_context import *
+from qualipy.filters.blurred_context import *
 
 
 BLURRED_CONTEXT = 'tests/images/blurred_context.jpg'

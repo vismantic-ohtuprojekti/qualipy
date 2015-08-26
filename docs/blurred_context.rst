@@ -4,9 +4,9 @@ Blurred context
 Usage
 -----
 
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **BlurredContext** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **BlurredContext** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.blurred_context
+.. currentmodule:: qualipy.filters.blurred_context
 .. autoclass:: BlurredContext
    :members:
 

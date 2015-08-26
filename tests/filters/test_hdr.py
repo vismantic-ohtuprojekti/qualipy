@@ -1,7 +1,7 @@
 import cv2
 import pytest
 
-from imgfilter.filters.hdr import *
+from qualipy.filters.hdr import *
 
 
 NON_HDR_IMAGE_PATH = 'tests/images/hdr1.jpg'

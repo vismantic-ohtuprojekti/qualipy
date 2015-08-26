@@ -3,7 +3,7 @@ import tempfile
 
 import numpy
 
-from imgfilter.utils.svm import *
+from qualipy.utils.svm import *
 
 
 def get_training_data():

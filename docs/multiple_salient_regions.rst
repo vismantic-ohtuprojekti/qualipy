@@ -4,9 +4,9 @@ Multiple salient regions
 Usage
 -----
 
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **MultipleSalientRegions** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **MultipleSalientRegions** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.multiple_salient_regions
+.. currentmodule:: qualipy.filters.multiple_salient_regions
 .. autoclass:: MultipleSalientRegions
    :members:
 

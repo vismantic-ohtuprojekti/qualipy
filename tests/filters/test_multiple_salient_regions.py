@@ -3,7 +3,7 @@ import tempfile
 import numpy
 import pytest
 
-from imgfilter.filters.multiple_salient_regions import *
+from qualipy.filters.multiple_salient_regions import *
 
 
 def run_filter(saliency_map, filter_obj, return_boolean=True):

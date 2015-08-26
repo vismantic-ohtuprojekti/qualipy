@@ -1,6 +1,6 @@
 import sys
 
-import imgfilter
+import qualipy
 import accuracy_test_lib
 
 
@@ -14,7 +14,7 @@ def run_accuracy_test(filter):
     extensions = ['.jpg', '.JPG', '.jpeg', '.png']
 
     def get_prediction(path):
-        return not imgfilter.process(path, [filter])
+        return not qualipy.process(path, [filter])
 
     test = accuracy_test_lib.AccuracyTest(get_prediction,
             ((True, positives), (False, negatives)), extensions)

@@ -4,7 +4,7 @@ import cv2
 import numpy
 import pytest
 
-from imgfilter.filters.unconventional_size import *
+from qualipy.filters.unconventional_size import *
 
 
 def run_filter(img, filter_obj):

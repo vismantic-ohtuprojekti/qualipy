@@ -1,6 +1,6 @@
 import pytest
 
-from imgfilter.filters.fisheye import *
+from qualipy.filters.fisheye import *
 
 FISHEYE = 'tests/images/fisheye.jpg'
 NON_FISHEYE = 'tests/images/lama.jpg'

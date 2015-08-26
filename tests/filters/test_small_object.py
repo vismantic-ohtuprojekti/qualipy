@@ -4,7 +4,7 @@ import cv2
 import numpy
 import pytest
 
-from imgfilter.filters.small_object import *
+from qualipy.filters.small_object import *
 
 
 def run_filter(saliency_map, filter_obj, return_boolean=True):

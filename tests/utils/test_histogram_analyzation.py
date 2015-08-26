@@ -1,6 +1,6 @@
 import numpy as np
 
-from imgfilter.utils.histogram_analyzation import *
+from qualipy.utils.histogram_analyzation import *
 
 def arrayNpEquals(arr1, arr2):
     comp = arr1 == arr2

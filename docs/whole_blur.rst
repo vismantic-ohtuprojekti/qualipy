@@ -4,9 +4,9 @@ Whole blur
 Usage
 -----
 
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **WholeBlur** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **WholeBlur** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.whole_blur
+.. currentmodule:: qualipy.filters.whole_blur
 .. autoclass:: WholeBlur
    :members:
 

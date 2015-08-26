@@ -1,4 +1,4 @@
-from imgfilter.filters import *
+from qualipy.filters import *
 import accuracy_test
 
 

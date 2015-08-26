@@ -4,9 +4,9 @@ HDR
 Usage
 -----
 
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **HDR** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **HDR** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.hdr
+.. currentmodule:: qualipy.filters.hdr
 .. autoclass:: HDR
    :members:
 

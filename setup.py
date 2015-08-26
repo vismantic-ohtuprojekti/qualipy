@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='imgfilter',
+    name='qualipy',
     version='0.0.1',
     description='Image filtering suite for Vismantic',
     url='https://github.com/vismantic-ohtuprojekti/image-filtering-suite',
@@ -17,7 +17,7 @@ setup(
     keywords='image processing filtering',
 
     packages=find_packages(exclude=['docs', 'tests*']),
-    package_data={'imgfilter': ['data/svm/*', 'data/object_extraction/*']},
+    package_data={'qualipy': ['data/svm/*', 'data/object_extraction/*']},
 
     #install_requires=[i.strip() for i in
     #	                  open("requirements.txt").readlines()],

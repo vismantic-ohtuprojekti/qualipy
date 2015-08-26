@@ -18,7 +18,7 @@ Example
 -------
 After the worker/workers have started, you can use the following example to assign tasks to workers::
 
-    import imgfilter
+    import qualipy
     from tasks import *
 
     if __name__ == "__main__":

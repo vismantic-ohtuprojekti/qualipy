@@ -1,6 +1,6 @@
 .. _api:
 
-.. module:: imgfilter.filters
+.. module:: qualipy.filters
 
 .. toctree::
 

@@ -1,7 +1,7 @@
 import pytest
 
-import imgfilter
-from imgfilter.filters import *
+import qualipy
+from qualipy.filters import *
 
 
 TEST_IMG = 'tests/images/lama.jpg'
@@ -9,74 +9,74 @@ TEST_IMG2 = 'tests/images/framed.jpg'
 
 
 def test_returns_true_for_no_filters():
-    assert imgfilter.process(TEST_IMG, []) == True
+    assert qualipy.process(TEST_IMG, []) == True
 
 
 def test_processes_single_image_correctly():
-    assert imgfilter.process(TEST_IMG, [Framed()])
+    assert qualipy.process(TEST_IMG, [Framed()])
 
 
 def test_processes_list_of_images_correctly():
-    assert len(imgfilter.process([TEST_IMG], [Framed()], None, True)) == 1
+    assert len(qualipy.process([TEST_IMG], [Framed()], None, True)) == 1
 
 
 def test_images_exist_in_resulting_dict():
-    res = imgfilter.process([TEST_IMG, TEST_IMG2], [])
+    res = qualipy.process([TEST_IMG, TEST_IMG2], [])
     assert TEST_IMG in res and TEST_IMG2 in res
 
 
 def test_returns_True_when_all_filters_return_negative():
-    assert imgfilter.process(TEST_IMG, [Framed(), Pattern()])
+    assert qualipy.process(TEST_IMG, [Framed(), Pattern()])
 
 
 def test_returns_False_when_some_filters_return_positive():
-    assert imgfilter.process(TEST_IMG2, [Framed(), Pattern()]) == False
+    assert qualipy.process(TEST_IMG2, [Framed(), Pattern()]) == False
 
 
 def test_returns_float_when_correct_parameter_is_set():
-    assert imgfilter.process(TEST_IMG, [Framed()], None, True)['framed'] == 0.
-    assert imgfilter.process(TEST_IMG, [Framed()], None, True, False)['framed'] == 0.
+    assert qualipy.process(TEST_IMG, [Framed()], None, True)['framed'] == 0.
+    assert qualipy.process(TEST_IMG, [Framed()], None, True, False)['framed'] == 0.
 
 
 def test_returns_boolean_for_each_filter_when_not_combining_results():
-    assert imgfilter.process(TEST_IMG, [Framed()], None, False, False)['framed'] == False
+    assert qualipy.process(TEST_IMG, [Framed()], None, False, False)['framed'] == False
 
 
 def test_ROI_can_be_None():
-    assert imgfilter.process(TEST_IMG, [Framed()], None)
+    assert qualipy.process(TEST_IMG, [Framed()], None)
 
 
 def test_works_correctly_for_valid_ROI():
-    assert imgfilter.process(TEST_IMG, [Framed()], (0, 0, 100, 100))
+    assert qualipy.process(TEST_IMG, [Framed()], (0, 0, 100, 100))
 
 
 def test_works_correctly_for_multiple_ROIs():
-    assert imgfilter.process([TEST_IMG, TEST_IMG2], [Framed()], [(0, 0, 100, 100), None])
+    assert qualipy.process([TEST_IMG, TEST_IMG2], [Framed()], [(0, 0, 100, 100), None])
 
 
 def test_fails_for_invalid_type_ROI():
     with pytest.raises(TypeError):
-        assert imgfilter.process(TEST_IMG, [Framed()], 1)
+        assert qualipy.process(TEST_IMG, [Framed()], 1)
 
 
 def test_fails_for_invalid_length_ROI():
     with pytest.raises(TypeError):
-        assert imgfilter.process(TEST_IMG, [Framed()], (10, 10, 100))
+        assert qualipy.process(TEST_IMG, [Framed()], (10, 10, 100))
 
 
 def test_fails_for_invalid_amount_of_ROIs():
     with pytest.raises(ValueError):
-        assert imgfilter.process([TEST_IMG, TEST_IMG2], [Framed()],
+        assert qualipy.process([TEST_IMG, TEST_IMG2], [Framed()],
                                  [(0, 0, 100, 100)])
 
 
 def test_fails_for_invalid_images():
     with pytest.raises(TypeError):
-        assert imgfilter.process(0, [Framed()])
+        assert qualipy.process(0, [Framed()])
 
 
 def test_works_with_magic_thresholds():
-    assert not imgfilter.process(TEST_IMG,
+    assert not qualipy.process(TEST_IMG,
                                  [Framed() == 1,
                                   Pattern() > 0.3,
                                   HDR() >= 0.5,
@@ -90,7 +90,7 @@ def test_process_request_works():
     json = r"""{ "images": { "tests/images/lama.jpg": null },
                  "filters": { "framed": { } } }
             """
-    assert imgfilter.process_request(json)[TEST_IMG]
+    assert qualipy.process_request(json)[TEST_IMG]
 
 
 def test_process_request_works_for_multiple_images():
@@ -98,7 +98,7 @@ def test_process_request_works_for_multiple_images():
                              "tests/images/framed.jpg": null },
                  "filters": { "framed": { } } }
             """
-    assert len(imgfilter.process_request(json)) == 2
+    assert len(qualipy.process_request(json)) == 2
 
 
 def test_process_request_works_for_multiple_filters():
@@ -106,14 +106,14 @@ def test_process_request_works_for_multiple_filters():
                  "filters": { "framed": { },
                               "exposure": { } } }
             """
-    assert imgfilter.process_request(json)[TEST_IMG]
+    assert qualipy.process_request(json)[TEST_IMG]
 
 
 def test_process_request_works_for_ROI():
     json = r"""{ "images": { "tests/images/lama.jpg": [0, 0, 200, 200] },
                  "filters": { "framed": { } } }
             """
-    assert imgfilter.process_request(json)[TEST_IMG]
+    assert qualipy.process_request(json)[TEST_IMG]
 
 
 def test_process_request_works_for_parameters():
@@ -121,7 +121,7 @@ def test_process_request_works_for_parameters():
                  "filters": { "framed": { } },
                  "combine_results": false }
             """
-    assert type(imgfilter.process_request(json)[TEST_IMG]) != bool
+    assert type(qualipy.process_request(json)[TEST_IMG]) != bool
 
 
 def test_process_request_works_for_filter_parameters():
@@ -129,7 +129,7 @@ def test_process_request_works_for_filter_parameters():
                  "filters": { "framed": { "threshold": 1.01,
                                           "invert_threshold": true } } }
             """
-    assert not imgfilter.process_request(json)[TEST_IMG2]
+    assert not qualipy.process_request(json)[TEST_IMG2]
 
 
 def test_process_request_fails_for_invalid_json():
@@ -138,21 +138,21 @@ def test_process_request_fails_for_invalid_json():
             """
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)
 
 
 def test_process_request_fails_for_no_images():
     json = r"""{ "filters": { "framed": { } } }"""
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)
 
 
 def test_process_request_fails_for_no_filters():
     json = r"""{ "images": { "tests/images/lama.jpg": null } }"""
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)
 
 
 def test_process_request_fails_for_invalid_filter():
@@ -161,7 +161,7 @@ def test_process_request_fails_for_invalid_filter():
             """
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)
 
 
 def test_process_request_fails_for_invalid_parameters():
@@ -170,7 +170,7 @@ def test_process_request_fails_for_invalid_parameters():
             """
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)
 
 
 def test_process_request_fials_for_invalid_ROI():
@@ -179,4 +179,4 @@ def test_process_request_fials_for_invalid_ROI():
             """
 
     with pytest.raises(ValueError):
-        imgfilter.process_request(json)
+        qualipy.process_request(json)

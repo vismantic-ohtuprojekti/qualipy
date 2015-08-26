@@ -5,9 +5,9 @@ Usage
 -----
 
 The filter recognizes images that are framed, or in other words, images that have four homogeneous edges around them. It doesn't recognize images where only two sides are the same color or images where the frames have a texture added in them.
-The filter can be used by itself or in combination with the *imgfilter.process* function by adding a **Framed** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **Framed** class instance to the list of filters to be used.
 
-.. currentmodule:: imgfilter.filters.framed
+.. currentmodule:: qualipy.filters.framed
 .. autoclass:: Framed
    :members:
 

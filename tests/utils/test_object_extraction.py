@@ -1,7 +1,7 @@
 import tempfile
 import pytest
 
-from imgfilter.utils.object_extraction import *
+from qualipy.utils.object_extraction import *
 
 
 def test_object_extraction_lib_not_found_raises_exception():

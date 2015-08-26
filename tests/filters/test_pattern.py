@@ -1,6 +1,6 @@
 import pytest
 
-from imgfilter.filters import *
+from qualipy.filters import *
 
 
 PATTERN = 'tests/images/pattern.jpg'

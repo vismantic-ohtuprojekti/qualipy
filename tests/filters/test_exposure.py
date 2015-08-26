@@ -1,7 +1,7 @@
 import numpy
 import pytest
 
-from imgfilter.filters.exposure import *
+from qualipy.filters.exposure import *
 
 
 OVER_EXPOSED_IMAGE = 'tests/images/over_exposure_sample.jpg'

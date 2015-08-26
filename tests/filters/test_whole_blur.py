@@ -1,7 +1,7 @@
 import numpy
 import pytest
 
-from imgfilter.filters.whole_blur import *
+from qualipy.filters.whole_blur import *
 
 
 BLURRED = 'tests/images/blurred.jpg'

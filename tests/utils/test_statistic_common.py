@@ -1,6 +1,6 @@
 import numpy
 
-from imgfilter.utils.statistic_common import *
+from qualipy.utils.statistic_common import *
 
 
 def test_removes_anomalies_correctly():

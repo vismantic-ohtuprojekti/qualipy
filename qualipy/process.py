@@ -72,8 +72,8 @@ def process_request(request_json):
     :type request_json: str
     :returns: see the documentation for the process function
     """
-    import imgfilter.filters
-    filter_classes = inspect.getmembers(imgfilter.filters, inspect.isclass)
+    import qualipy.filters
+    filter_classes = inspect.getmembers(qualipy.filters, inspect.isclass)
 
     try:
         request = json.loads(request_json)

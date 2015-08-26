@@ -1,4 +1,4 @@
-from imgfilter.utils.exif import *
+from qualipy.utils.exif import *
 
 EXIF = parse_exif('tests/images/exif.JPG')
 NOEXIF = parse_exif('tests/images/lama.jpg')

@@ -9,8 +9,8 @@ multiple images simultaneously. The process_request
 can be used to handle calls to the process function
 from a JSON request.
 
-.. currentmodule:: imgfilter.process
-.. automodule:: imgfilter.process
+.. currentmodule:: qualipy.process
+.. automodule:: qualipy.process
    :members:
 
 Examples
@@ -18,7 +18,7 @@ Examples
 
 Example usage of the process function::
 
-    imgfilter.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
+    qualipy.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
                       [
                         HDR(threshold=0.6),
                         Pattern(),
@@ -29,7 +29,7 @@ Example usage of the process function::
 
 Same command using magic thresholds::
 
-    imgfilter.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
+    qualipy.process(["1.jpg", ("2.jpg", (50, 50, 200, 200))],
                       [
                         HDR() > 0.6,
                         Pattern(),

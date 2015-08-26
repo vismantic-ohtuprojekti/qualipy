@@ -1,6 +1,6 @@
 import numpy
 
-from imgfilter.utils.utils import *
+from qualipy.utils.utils import *
 
 
 def test_partition_matrix_returns_correct_number_of_partitions():

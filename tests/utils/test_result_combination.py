@@ -1,4 +1,4 @@
-from imgfilter.utils.result_combination import *
+from qualipy.utils.result_combination import *
 
 
 def test_collective_result_for_two_uncertain():

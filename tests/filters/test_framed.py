@@ -1,6 +1,6 @@
 import pytest
 
-from imgfilter.filters.framed import *
+from qualipy.filters.framed import *
 
 
 FRAMED = 'tests/images/framed.jpg'

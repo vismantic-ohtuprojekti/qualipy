@@ -9,7 +9,7 @@ TEST_IMG2 = 'tests/images/framed.jpg'
 
 
 def test_returns_true_for_no_filters():
-    assert qualipy.process(TEST_IMG, []) == True
+    assert qualipy.process(TEST_IMG, []) == {TEST_IMG: True}
 
 
 def test_processes_single_image_correctly():
@@ -30,16 +30,16 @@ def test_returns_True_when_all_filters_return_negative():
 
 
 def test_returns_False_when_some_filters_return_positive():
-    assert qualipy.process(TEST_IMG2, [Framed(), Pattern()]) == False
+    assert qualipy.process(TEST_IMG2, [Framed(), Pattern()]) == {TEST_IMG2: False}
 
 
 def test_returns_float_when_correct_parameter_is_set():
-    assert qualipy.process(TEST_IMG, [Framed()], None, True)['framed'] == 0.
-    assert qualipy.process(TEST_IMG, [Framed()], None, True, False)['framed'] == 0.
+    assert qualipy.process(TEST_IMG, [Framed()], None, True)[TEST_IMG]['framed'] == 0. 
+    assert qualipy.process(TEST_IMG, [Framed()], None, True, False)[TEST_IMG]['framed'] == 0.
 
 
 def test_returns_boolean_for_each_filter_when_not_combining_results():
-    assert qualipy.process(TEST_IMG, [Framed()], None, False, False)['framed'] == False
+    assert qualipy.process(TEST_IMG, [Framed()], None, False, False)[TEST_IMG]['framed'] == 0. 
 
 
 def test_ROI_can_be_None():
@@ -76,14 +76,14 @@ def test_fails_for_invalid_images():
 
 
 def test_works_with_magic_thresholds():
-    assert not qualipy.process(TEST_IMG,
+    assert qualipy.process(TEST_IMG,
                                  [Framed() == 1,
                                   Pattern() > 0.3,
                                   HDR() >= 0.5,
                                   UnconventionalSize() <= 16 / 9.,
                                   Exposure() != 1,
                                   Highlights() < 0.1
-                                  ])
+                                  ]) == {TEST_IMG: False} 
 
 
 def test_process_request_works():

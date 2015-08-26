@@ -17,7 +17,7 @@ install:
 # command to run tests
 script: 
  - python setup.py develop
- - py.test --cov=imgfilter tests/
+ - py.test --cov=qualipy tests/
 
 after_success:
  - coveralls

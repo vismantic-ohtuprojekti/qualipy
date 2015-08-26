@@ -22,5 +22,6 @@ List of filters
    pattern_detection
    posterized
    small_object
+   text_detection
    unconventional_size
    whole_blur

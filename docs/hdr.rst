@@ -51,3 +51,10 @@ Additionally, we calculate the contrast of the image, as HDR images often exhibi
    :width: 325px
 
 Finally, these features are fed into a support vector machine, which has by default been trained with 200 non-HDR and 200 HDR images collected from various sources and labeled by hand.
+
+Most false positives result from either very sharp images or images having many large dark areas. Additional features would be needed to mitigate these problems. Sample images that result in false positives:
+
+.. image:: images/hdr_fail1.jpg
+   :width: 325px
+.. image:: images/hdr_fail2.jpg
+   :width: 325px

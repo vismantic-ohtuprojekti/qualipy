@@ -1,8 +1,7 @@
 .. _testing:
 
-
-Testing of filters
-******************
+Testing the project
+*******************
 
 Running tests
 =============
@@ -13,57 +12,19 @@ To run unit tests for the project, run::
 
 in the project's root folder. This requires the pytest package to be installed. Current test coverage can be seen `here <https://coveralls.io/github/vismantic-ohtuprojekti/image-filtering-suite>`_.
 
-Accuracy testing was used to measure how well each filter performs. Accuracy tests are provided as scripts in tests/accuracy and can be run, for example::
+Accuracy tests are provided as scripts in tests/accuracy and can be run, for example::
 
-    python tests/accuracy/exposure.py
+    python tests/accuracy/exposure.py positives/ negatives/
 
-Accuracy test results of the filters
-====================================
+What's been tested
+==================
 
-Blur detection
---------------
-Accuracy test results for the whole blur filter using the `CERTH Image Blur Dataset <http://mklab.iti.gr/project/imageblur>`_:
+Accuracy testing was used to measure how well each filter performs for a collection of hand-picked test images. Results for these accuracy tests  are in the "Accuracy test results" section of the documentation, as well as graphs in the documentation for individual filters. See above how to run accuracy tests for your chosen filter.
 
-* Correct preditions for all samples: 80,30 %
-* Correct predictions for blurred images: 72,51 %
-* Correct predictions for undistorted images: 85,74 %
+To test written code for bugs and to air refactoring, unit testing was employed. The project makes use of the pytest package for unit tests and pytest-cov for the test coverage results. These tests are also automatically run for each commit on the continuous integration server, provided by `Travis <https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite>`_.
 
-Blurred context detection
--------------------------
-For training the blurred context detection, 525 blurred and 525 undistorted images were downloaded from Flickr and labeled by hand. From these sets, 75 blurred and 75 undistorted images were randomly moved before training from the training set to a separate evaluation set. The filter's performance for this evaluation set is as follows:
+The unit tests for each filter test at least the filter's basic functionality, for example that the filter makes correct predictions for sample images and that setting the threshold and returning the correct type work. The unit tests also test the functions used in the implementation for each filter and that the filter raises proper exceptions when called with invalid arguments or images that don't exist.
 
-* Correct predictions for all samples: 90,00 %
-* Correct predictions for blurred images: 92,00 %
-* Correct predictions for undistorted images: 88,00 %
+The common utilities used by the filters are also thoroughly unit tested. Functions are tested for different sample cases as well as some corner cases. Utilities are also tested for raising proper exceptions when called with invalid arguments.
 
-Pattern detection
------------------
-For 100 pattern images and 120 non pattern images which were downloaded from Flickr:
-
-* Correct predictions for all samples: 70,37 %
-* Correct predictions for pattern images: 67,08 %
-* Correct predictions for non pattern images: 72,73 %
-
-Over-exposure detection
------------------------
-300 images from flickr were downloaded and labeled as either over-exposured or normal. With a threshold value of 0.5 the following results were achieved:
-
-* Correct predictions for all samples:  87.00 %
-* Correct predictions for over-exposed images: 86.00 %
-* Correct predictions for normal images: 88.00 %
-
-Posterized detection
---------------------
-For 140 images downloaded from both google and flickr
-
-* Correct predictions for all samples:  85.10 %
-* Correct predictions for posterized images: 88.60 %
-* Correct predictions for normal images: 81.70 %
-
-Cross processed detection
--------------------------
-For 140 images downloaded from both google and flickr
-
-* Correct predictions for all samples:  72.10 %
-* Correct predictions for cross processed images: 60.00 %
-* Correct predictions for normal images: 84.20 %
+In addition to automated testing, manual testing has also been performed extensively. The project and each individual filter has been tested in use outside the library. Some functionality unsuitable for unit testing, mainly the object extraction functionality, has been tested manually instead of by automated tests.

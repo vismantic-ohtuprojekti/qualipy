@@ -1,3 +1,7 @@
+"""
+Contains various functions for analyzing one-dimensional histograms.
+"""
+
 import numpy as np
 import math
 

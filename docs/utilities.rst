@@ -1,7 +1,7 @@
 Utilities
 *********
 
-Utilities contain class and functions which are used by many filters as helpers.
+Utilities contain classes and functions which are used by many filters as helpers.
 
 .. toctree::
    :titlesonly:
@@ -10,9 +10,8 @@ Utilities contain class and functions which are used by many filters as helpers.
    image_utils
    pytesseract
    exif
-   svm
    histogram_analyzation
+   object_extraction
    statistic_common
    focus_measure
-   object_extraction
    result_combination

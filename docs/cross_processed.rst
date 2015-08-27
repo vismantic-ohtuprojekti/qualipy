@@ -1,4 +1,4 @@
-Cross Processed
+Cross processed
 ===============
 
 Usage
@@ -26,7 +26,7 @@ In order to detect cross processed images, the filter first separates both 20% o
 
 After this, three values are calculated for both dark and bright areas: the average sharpness of the peaks, size of an area where there are many pixels and the standard deviation. A value which indicates a normal image is preferred over one indicating a cross processed image, since normal images in this analyzation can look partly cross processed.
 
-Special Cases
+Special cases
 -------------
 
 The filter has some problems detecting images which have red as one of the magnified colors. This is because red is both at the start and at the end of the hue histogram. When trying to find magnified areas, red is interpreted as two areas instead of one.

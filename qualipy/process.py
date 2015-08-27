@@ -17,12 +17,14 @@ def process(images, filters, ROIs=None, return_predictions=False,
     image acts as a key to a bool or a dict of filter results.
 
     :param image_paths: a path to a single image as a string or a
-                        tuple with the path and a ROI as a 4-tuple,
-                        e.g. ("img.jpg", (10, 10, 100, 100))
-                        or a list of images (strings or tuples)
+                        or a list of image paths
     :type image_paths: str, tuple or list
     :param filters: a list of filter objects to apply to each image
     :type filters: list
+    :param ROIs: a single ROI as a 4-tuple (x0, y0, w, h) or a list
+                 of ROIs (should be of same length as images), None
+                 if not needed
+    :type ROIs: list
     :param return_predictions: return predictions as floats
                                in range [0, 1] instead of bools
     :type return_predictions: bool

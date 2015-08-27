@@ -1,52 +1,38 @@
-import numpy as np
-import cv2
-import math
 from operator import itemgetter
 
-from ..utils.statistic_common import linear_normalize
-from ..utils.image_utils import read_color_image
-from ..utils.utils import scaled_prediction
-
-from ..utils.histogram_analyzation import normalize
-from ..utils.histogram_analyzation import calculate_peak_value
-from ..utils.histogram_analyzation import largest
-from ..utils.histogram_analyzation import calculate_continuous_distribution
-from ..utils.histogram_analyzation import calculate_derivates
-from ..utils.histogram_analyzation import calc_standard_deviation
-from ..utils.histogram_analyzation import remove_from_ends
+import numpy
+import cv2
 
 from .. import get_data
-
 from svm_filter import SVMFilter
+
+from ..utils.image_utils import read_color_image
+from ..utils.utils import scaled_prediction
+from ..utils.histogram_analyzation import normalize, calculate_peak_value, \
+                                          calculate_continuous_distribution, \
+                                          calculate_derivatives, \
+                                          calc_standard_deviation, \
+                                          remove_from_ends, largest
 
 
 def count_dispersion(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
+    hist = cv2.calcHist([hsv], [0], None, [180], [0, 180])
 
     hist = remove_from_ends(hist)
-
     normalized = normalize(hist)
 
-    # Count higest point
-    max_value = 0.0
-    index_of_max = 0
-
-    for i in range(0, normalized.shape[0]):
-        if normalized[i] > max_value:
-            max_value = normalized[i]
-            index_of_max = i
+    # Count highest point
+    index_of_max = numpy.argmax(hist)
 
     if normalized.shape[0] == 1 or normalized.shape[0] == 0:
         return 0.0
 
     # Cut from side if max is on one side
     if index_of_max < 10:
-        for i in range(160, 180):
-            normalized[i] = 0
+        normalized[160:180] = 0
     elif index_of_max > 170:
-        for i in range(0, 20):
-            normalized[i] = 0
+        normalized[0:20] = 0
 
     # Calculate dispersion
     return calc_standard_deviation(normalized)
@@ -55,8 +41,8 @@ def count_dispersion(image):
 def load_image_pixel_location_data(gray_image):
     location_data_list = []
 
-    for y in range(0, gray_image.shape[0]):
-        for x in range(0, gray_image.shape[1]):
+    for y in xrange(gray_image.shape[0]):
+        for x in xrange(gray_image.shape[1]):
             location_data_list.append((x, y, gray_image[y, x]))
 
     return location_data_list
@@ -65,65 +51,55 @@ def load_image_pixel_location_data(gray_image):
 def get_original_image_data(location_data, original_image):
     image_data = []
 
-    for i in range(0, len(location_data)):
+    for i in xrange(len(location_data)):
         original_pixel = original_image[location_data[i][1], location_data[i][0]]
         image_data.append(original_pixel)
 
-    original_shape =  len(image_data)
+    original_shape = len(image_data)
     if original_shape % 6 != 0:
         add_to = 6 - (original_shape % 6)
-        for i in range(0, add_to):
+        for i in xrange(add_to):
             image_data.append([0, 0, 0])
 
-    as_image = np.array(image_data)
-    return np.reshape(as_image, (-1, 2, 3)).astype(np.uint8)
+    as_image = numpy.array(image_data)
+    return numpy.reshape(as_image, (-1, 2, 3)).astype(numpy.uint8)
 
 
-def retrieve_darkest(sorted_location_data_list, prosent):
-    darkest = []
-
-    for i in range(0, int(prosent * len(sorted_location_data_list))):
-        darkest.append(sorted_location_data_list[i])
-
-    return darkest
+def retrieve_darkest(sorted_location_data_list, percent):
+    amount = int(percent * len(sorted_location_data_list))
+    return sorted_location_data_list[:amount]
 
 
-def retrieve_ligthest(sorted_location_data_list, prosent):
-    ligthest = []
-
-    for i in range(len(sorted_location_data_list) - 1, len(sorted_location_data_list) - 1 - int(prosent * len(sorted_location_data_list)), -1):
-        ligthest.append(sorted_location_data_list[i])
-
-    return ligthest
+def retrieve_ligthest(sorted_location_data_list, percent):
+    amount = int(percent * len(sorted_location_data_list))
+    return sorted_location_data_list[-1:-amount:-1]
 
 
 def average_peak_value_of_largest(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
-
+    hist = cv2.calcHist([hsv], [0], None, [180], [0, 180])
     hist = normalize(hist)
 
     if hist.shape[0] == 0 or hist.shape[0] == 1:
         return 0.0
 
     largest_found = largest(calculate_peak_value(hist), 0.2)
-
     if largest_found.shape[0] == 0:
         return 0.0
 
-    return np.average(largest_found)
+    return numpy.average(largest_found)
 
 
 def sum_of_areas_with_high_rise_rate(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
+    hist = cv2.calcHist([hsv], [0], None, [180], [0, 180])
 
     hist = normalize(hist)
 
     continuous_distribution = calculate_continuous_distribution(hist)
-    continuous_distribution_derivate = calculate_derivates(continuous_distribution)
+    continuous_distribution_derivate = calculate_derivatives(continuous_distribution)
 
-    thresh = np.average(largest(continuous_distribution_derivate, 0.25))
+    thresh = numpy.average(largest(continuous_distribution_derivate, 0.25))
 
     max_cap = 2
     areas = []
@@ -132,7 +108,7 @@ def sum_of_areas_with_high_rise_rate(image):
     current_area_size = 0
     current_cap = 0
 
-    for i in range(0, continuous_distribution_derivate.shape[0]):
+    for i in xrange(continuous_distribution_derivate.shape[0]):
         # Calculate derivate
         derivate = continuous_distribution_derivate[i]
 
@@ -151,7 +127,6 @@ def sum_of_areas_with_high_rise_rate(image):
         elif derivate < thresh and status == 'inside':
             # Remove ending cap
             current_area_size -= current_cap
-
             areas.append(current_area_size)
 
             status = 'outside'
@@ -163,16 +138,15 @@ def sum_of_areas_with_high_rise_rate(image):
             current_cap = 0
             current_area_size += 1
 
-    return np.sum(np.array(areas))
-
+    return numpy.sum(numpy.array(areas))
 
 
 def get_input_vector(color_image):
-    # Calculate darkest and ligthest pixels in image
+    # Calculate darkest and lightest pixels in image
     gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
     location_data_list = load_image_pixel_location_data(gray_image)
-    location_data_list.sort(key = itemgetter(2))
+    location_data_list.sort(key=itemgetter(2))
 
     ligthest = retrieve_ligthest(location_data_list, 0.2)
     darkest = retrieve_darkest(location_data_list, 0.2)
@@ -181,15 +155,18 @@ def get_input_vector(color_image):
     image_data_darkest = get_original_image_data(darkest, color_image)
 
     # Calculate peak value
-    prediction1 = np.average( np.array( [average_peak_value_of_largest(image_data_ligth), average_peak_value_of_largest(image_data_darkest)] ) )
+    prediction1 = numpy.average(numpy.array([average_peak_value_of_largest(image_data_ligth),
+                                             average_peak_value_of_largest(image_data_darkest)]))
 
     # Calculate large areas
-    prediction2 = np.max( np.array( [sum_of_areas_with_high_rise_rate(image_data_ligth), sum_of_areas_with_high_rise_rate(image_data_darkest)] ) )
+    prediction2 = numpy.max(numpy.array([sum_of_areas_with_high_rise_rate(image_data_ligth),
+                                         sum_of_areas_with_high_rise_rate(image_data_darkest)]))
 
     # Calculate dispersion
-    prediction3 = np.max( np.array([count_dispersion(image_data_ligth), count_dispersion(image_data_darkest)]) )
+    prediction3 = numpy.max(numpy.array([count_dispersion(image_data_ligth),
+                                         count_dispersion(image_data_darkest)]))
 
-    return np.array([prediction1, prediction2, prediction3]).astype(np.float32)
+    return numpy.array([prediction1, prediction2, prediction3]).astype(numpy.float32)
 
 
 class CrossProcessed(SVMFilter):
@@ -212,11 +189,12 @@ class CrossProcessed(SVMFilter):
         :type svm_file: str
         """
         if svm_file is None:
-            super(CrossProcessed, self).__init__(threshold, invert_threshold,
-                                      get_data('svm/cross_processed.yml'))
+            super(CrossProcessed, self).__init__(
+                threshold, invert_threshold,
+                get_data('svm/cross_processed.yml'))
         else:
-            super(CrossProcessed, self).__init__(threshold, invert_threshold, svm_file)
-
+            super(CrossProcessed, self).__init__(threshold, invert_threshold,
+                                                 svm_file)
 
     def predict(self, image_path, return_boolean=True, ROI=None):
         """Predict if a given image is a Cross Processed image
@@ -239,7 +217,6 @@ class CrossProcessed(SVMFilter):
             return self.boolean_result(prediction)
         return prediction
 
-
     def train(self, images, labels, save_path=None):
         """Retrain the filter with new training images.
 
@@ -253,4 +230,4 @@ class CrossProcessed(SVMFilter):
         :type save_path: str
         """
         super(CrossProcessed, self).train(images, labels, save_path,
-                               cv2.imread, get_input_vector)
+                                          cv2.imread, get_input_vector)

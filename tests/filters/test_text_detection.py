@@ -30,3 +30,8 @@ def test_can_return_float():
 def test_wrong_path_type_raises_exception():
     with pytest.raises(TypeError):
         assert TextDetection().predict(0)
+
+
+def test_wrong_tesseract_path_raises_exception():
+    with pytest.raises(OSError):
+        assert TextDetection(tesseract_path='fail').predict(TEXT)

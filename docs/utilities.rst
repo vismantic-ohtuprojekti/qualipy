@@ -8,7 +8,7 @@ Utilities contain classes and functions which are used by many filters as helper
 
    utils
    image_utils
-   pytesseract
+   tesseract
    exif
    histogram_analyzation
    object_extraction

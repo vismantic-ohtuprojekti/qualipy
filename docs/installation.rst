@@ -4,7 +4,11 @@
 Installation
 ************
 
-The library is packaged as an egg and can be installed by issuing the following command in the project's root folder::
+The library is packaged as an egg and can be automatically installed using pip::
+
+    pip install qualipy
+
+or manually by issuing the following command in the project's root folder::
 
     python setup.py install
 

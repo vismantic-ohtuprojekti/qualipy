@@ -8,7 +8,7 @@ from celery import group
 
 app = Celery()
 # celery config file here:
-app.config_from_object('celeryconfig')
+app.config_from_object('sampleconfig')
 
 @app.task
 def process_image(image, filters, ROI=None, return_predictions=False,

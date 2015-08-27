@@ -1,4 +1,5 @@
-# Image Filtering Suite for Vismantic
+# QualiPy
+#### Image Filtering Suite for Vismantic
 
 [![Build](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite.svg)](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite)
 [![Documentation](https://readthedocs.org/projects/image-filtering-suite/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)

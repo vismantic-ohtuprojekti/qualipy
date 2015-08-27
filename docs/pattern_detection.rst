@@ -34,3 +34,9 @@ The filter doesn't work on images which don't have many repetitions of the patte
    :width: 325px
 .. image:: images/non_pattern.png
    :width: 325px
+
+References
+----------
+http://cs.stackexchange.com/questions/10545/image-pattern-detection-finding-similarities-in-same-image
+
+http://en.wikipedia.org/wiki/Local_outlier_factor

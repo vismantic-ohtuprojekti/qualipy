@@ -25,6 +25,8 @@ from filter import Filter
 
 def count_threshold(saliency_map):
     """Calculates the threshold used for the binarization.
+    Calculated as the weighted average of 3/4 of the biggest
+    saliency values.
 
     :param saliency_map: the full saliency map
     :type saliency_map: numpy.ndarray
@@ -108,7 +110,7 @@ class MultipleSalientRegions(Filter):
             return False if return_boolean else 0.
 
         prediction = (numpy.sum(areas) / numpy.amax(areas)) ** 2 - 1.0
-        prediction = min(prediction, 1)
+        prediction = min(prediction, 1)  # limit prediction to range [0, 1]
 
         if return_boolean:
             return self.boolean_result(prediction)

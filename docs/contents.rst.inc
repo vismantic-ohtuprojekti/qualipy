@@ -8,7 +8,7 @@ API
 ---
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    api
 
@@ -16,7 +16,7 @@ Usage
 ------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    installation
    examples
@@ -27,14 +27,15 @@ Testing
 -------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    testing
+   accuracy
 
 Architecture
 ------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    architecture

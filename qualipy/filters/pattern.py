@@ -57,6 +57,9 @@ def pattern_recognition(magnitude_spectrum):
     max_distances = get_max_values(all_distances, 20)
     max_distance_avg = numpy.mean(max_distances)
 
+    # Calculate all points that don't fall into a circle
+    # with a radius of max_distance_avg, and exclude those
+    # from the mask calculated previously
     donut = circle >= max_distance_avg ** 2
     intense_points = numpy.sum(mask & numpy.logical_not(donut))
     all_points = magnitude_spectrum.size - numpy.sum(donut)

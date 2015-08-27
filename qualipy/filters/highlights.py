@@ -73,7 +73,7 @@ class Highlights(Filter):
                   return_boolean parameter
         """
         image = read_image(image_path, ROI)
-        blur = cv2.GaussianBlur(image, (5, 5), 0)
+        blur = cv2.GaussianBlur(image, (5, 5), 0)  # remove unwanted noise
         ret, thresh = cv2.threshold(blur, 250, 255, 0)
 
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,

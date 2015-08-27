@@ -1,35 +1,17 @@
 Utilities
 *********
 
-Utilities contain class and functions which are used by many filters as helpers.
+Utilities contain classes and functions which are used by many filters as helpers.
 
-Exif
-====
-Contains functionality for analyzing exif of image.
+.. toctree::
+   :titlesonly:
 
-.. automodule:: qualipy.utils.exif
-   :members:
-
-SVM
-===
-SVM utility Contains svm model. Filters use opencv's filters through
-these classes.
-
-.. currentmodule:: qualipy.utils.svm
-.. autoclass:: SVM
-   :members:
-
-Histogram Analyzation
-=====================
-Contains many function for analyzing one dimensional histograms
-
-.. automodule:: qualipy.utils.histogram_analyzation
-   :members:
-
-Statistic Common
-================
-Contains functionality for removing anomalies from one dimensional array
-and normalizing one dimensional arrays
-
-.. automodule:: qualipy.utils.statistic_common
-   :members:
+   utils
+   image_utils
+   tesseract
+   exif
+   histogram_analyzation
+   object_extraction
+   statistic_common
+   focus_measure
+   result_combination

@@ -52,6 +52,9 @@ def blurmap(img):
     :returns: numpy.ndarray
     """
     patch_size = 5
+
+    # for each pixel, create a view to a patch_size x patch_size
+    # matrix where the pixel is in the center of the matrix
     patches = as_strided(img,
                          shape=(img.shape[0] - patch_size + 1,
                                 img.shape[1] - patch_size + 1,
@@ -129,9 +132,7 @@ class BlurredContext(SVMFilter):
         # return collective_result([algo_prediction, exif_prediction], 0.0)
 
     def train(self, images, labels, save_path=None):
-        """Retrain the filter with new training images. The new
-        model needs to be saved with the save function for later
-        use.
+        """Retrain the filter with new training images.
 
         :param images: list of image paths to training images
         :type images: list

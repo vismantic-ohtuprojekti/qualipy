@@ -51,8 +51,9 @@ class ObjectTooSmall(Filter):
         :param image_path: path to the image
         :type image_path: str
         :param return_boolean: whether to return the result as a
-                               float between 0 and 1 or as a boolean
-                               (threshold is given to the class)
+                               boolean depending on the chosen
+                               threshold or the ratio of the object's
+                               size compared to the size of the image
         :type return_boolean: bool
         :param ROI: possible region of interest as a 4-tuple
                     (x0, y0, width, height), None if not needed

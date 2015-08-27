@@ -44,6 +44,7 @@ def get_input_vector(img):
 
 
 class Posterized(Filter):
+
     """Filter for detecting posterized images"""
 
     name = 'posterized'

@@ -1,3 +1,7 @@
+"""
+Contains various functions for analyzing one-dimensional histograms.
+"""
+
 import numpy as np
 import math
 
@@ -29,7 +33,10 @@ def calc_mean(histogram):
 
     values = 0
     for i, value in enumerate(histogram):
-        values += (value * i)
+        values += (value * (i + 1))
+
+    if sum(histogram) == 0:
+        return 0
 
     return float(values / sum(histogram))
 
@@ -47,6 +54,9 @@ def calc_variance(histogram, mean):
     for i, value in enumerate(histogram):
         variance += math.pow((mean - i), 2) * value
 
+    if sum(histogram) == 0:
+        return 0
+
     return float(variance / sum(histogram))
 
 
@@ -59,6 +69,9 @@ def calc_standard_deviation(histogram):
     mean = calc_mean(histogram)
     variance = calc_variance(histogram, mean)
 
+    if variance < 0.0:
+        return 0.0
+
     return math.sqrt(variance)
 
 
@@ -68,7 +81,7 @@ def normalize(histogram):
     :param histogram: histogram whichs normalized histgram is calculated (numpy array)
     :returns: returns normalized histogram (numpy array)
     """
-    if histogram.shape[0] == 0:
+    if histogram.shape[0] == 0 or np.sum(histogram) == 0.0:
         return np.array([])
 
     return np.divide(histogram.astype(np.float32), np.sum(histogram).astype(np.float32)).astype(np.float32)
@@ -83,6 +96,9 @@ def remove_from_ends(histogram):
     :returns: histgram which ends are removed (numpy array)
     """
     ends_removed = histogram
+
+    if histogram.shape[0] < 2:
+        return histogram
 
     # Remove black
     ends_removed[0] = 0
@@ -171,12 +187,12 @@ def calculate_local_minimums(histogram):
     return local_minimums
 
 
-def calculate_max_values(histogram, amount = 1):
-    """Retrieves given amount of largest values from given histogram.
+def calculate_local_max_values(histogram, amount = 1):
+    """Retrieves given amount of largest local maximums from given histogram.
 
     :param histogram: histogram which given amount of largest values are retrieved (numpy array)
-    :param amount: defines how many largest values are to be retrieved. Default value is set to one
-    :returns: Array which contains largest values from largest to smallest (python array)
+    :param amount: defines how many largest local maximums are to be retrieved. Default value is set to one
+    :returns: Array which contains largest local maximums from largest to smallest (python array)
     """
     max_values = []
 
@@ -184,23 +200,29 @@ def calculate_max_values(histogram, amount = 1):
     local_maximums.sort(key = lambda data: data.value)
     local_maximums.reverse()
 
+    if amount > len(local_maximums):
+        amount = len(local_maximums)
+
     for i in range(0, amount):
         max_values.append(local_maximums[i])
 
     return max_values
 
 
-def calculate_min_values(histogram, amount = 1):
-    """Retrieves given amount of smallest values from given histogram.
+def calculate_local_min_values(histogram, amount = 1):
+    """Retrieves given amount of smallest local minimums from given histogram.
 
-    :param histogram: histogram which given amount of smallest values are retrieved (numpy array)
-    :param amount: defines how many smallest values are to be retrieved. Default value is set to one
-    :returns: Array which contains smallest values from smallest to largest (python array)
+    :param histogram: histogram which given amount of smallest local minimums are retrieved (numpy array)
+    :param amount: defines how many smallest local minimums are to be retrieved. Default value is set to one
+    :returns: Array which contains smallest local minimums from smallest to largest (python array)
     """
     min_values = []
 
     local_minimums = calculate_local_minimums(histogram)
     local_minimums.sort(key = lambda data: data.value)
+
+    if amount > len(local_minimums):
+        amount = len(local_minimums)
 
     for i in range(0, amount):
         min_values.append(local_minimums[i])
@@ -218,7 +240,7 @@ def calculate_peak_value(histogram):
     :returns: peak values of given histogram (numpy array)
     """
     if histogram.shape[0] == 0:
-        return 0
+        return np.array([])
 
     peak_values = []
 
@@ -270,8 +292,8 @@ def calculate_extream_values(histogram):
     histogram = normalize(histogram)
 
     # Calculate limit
-    max_values = calculate_max_values(histogram, 10)
-    min_values = calculate_min_values(histogram, 10)
+    max_values = calculate_local_max_values(histogram, 10)
+    min_values = calculate_local_min_values(histogram, 10)
 
     sum = 0.0
     for i in range(0, len(max_values)):

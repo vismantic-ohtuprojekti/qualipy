@@ -4,7 +4,7 @@ Cross processed
 Usage
 -----
 
-The filter can be used by itself or in combination with the *qualipy.process* function by adding a **Posterized** class instance to the list of filters to be used.
+The filter can be used by itself or in combination with the *qualipy.process* function by adding a **CrossProcessed** class instance to the list of filters to be used.
 
 .. currentmodule:: qualipy.filters.cross_processed
 .. autoclass:: CrossProcessed

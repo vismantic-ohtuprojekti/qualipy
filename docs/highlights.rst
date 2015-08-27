@@ -1,5 +1,5 @@
 Highlights
-========
+==========
 
 Usage
 -----
@@ -42,16 +42,16 @@ Sample image not recognized highlighted: (value: 0.00)
 
 .. image:: images/highlights/negative.jpg
    :width: 200px
-   
-Some images where the intensity of the highlight isn't high enough or the highlights aren't large enough can produce false-negatives such as following: 
+
+Some images where the intensity of the highlight isn't high enough or the highlights aren't large enough can produce false negatives such as following: 
 
 .. image:: images/highlights/false_neg1.jpg
    :width: 300px
-   
+
 In some cases, the highlight isn't particularly noticeable for human eye, but the small continuous high-intensity area gives the image a positive result.
 
 .. image:: images/highlights/false_pos1.jpg
    :width: 200px
-   
+
 .. image:: images/highlights/false_pos2.jpg
    :width: 200px

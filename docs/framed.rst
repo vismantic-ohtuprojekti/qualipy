@@ -47,12 +47,10 @@ Sample images not recognized as framed: (value: 0.0)
 .. image:: images/framed/negative.jpg
    :width: 400px
 
-Pictures with homogeneous or mono-color background that surrounds the object can produce false-positives such as the following:
+Pictures with homogeneous or mono-color backgrounds that surround the object can produce false positives such as the following:
 
 .. image:: images/framed/false_pos1.jpg
    :width: 300px
 
 .. image:: images/framed/false_pos2.jpg
    :width: 300px
-
-

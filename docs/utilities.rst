@@ -6,12 +6,13 @@ Utilities contain classes and functions which are used by many filters as helper
 .. toctree::
    :titlesonly:
 
-   utils
-   image_utils
-   tesseract
    exif
-   histogram_analyzation
-   object_extraction
-   statistic_common
    focus_measure
+   histogram_analyzation
+   image_utils
+   object_extraction
    result_combination
+   statistic_common
+   svm
+   tesseract
+   utils

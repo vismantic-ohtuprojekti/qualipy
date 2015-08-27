@@ -26,9 +26,9 @@ their sizes are calculated using OpenCV's contour detection. The actual predicti
 is constructed by dividing the sum of the areas of all the regions by the area
 of the largest region and squaring the result. This way if the saliency map contains
 some small independent areas, the whole image is not considered to have multiple
-salient regions. This filter is fully dependent on the object extraction algorithm
-which is used to construct saliency map. Object extraction algorithm can be found
-https://github.com/assamite/CmCode.
+salient regions. The filter is fully dependent on the object extraction algorithm
+used to construct the saliency map. The currently used object extraction algorithm
+can be found in [1].
 
 Example of an image which contains multiple salient regions:
 
@@ -58,7 +58,7 @@ Binarized saliency map
    :width: 500px
 
 For this image, the limit which was used for binarization was 113.25 and
-the given prediction was 0.31
+the given prediction was 0.31.
 
 During testing of the filter, a threshold value of 0.5 was found to be best
 suited in practice.
@@ -66,4 +66,5 @@ suited in practice.
 
 References
 ----------
-https://github.com/assamite/CmCode
+
+[1] `assamite/CmCode - github.com <https://github.com/assamite/CmCode>`_

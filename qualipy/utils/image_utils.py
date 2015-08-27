@@ -1,4 +1,5 @@
-"""Various utility functions for dealing with images."""
+"""Various utility functions for dealing with images, such as
+reading images as numpy arrays, resizing images or making them sharper."""
 
 import os.path
 

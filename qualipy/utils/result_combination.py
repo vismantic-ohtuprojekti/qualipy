@@ -1,3 +1,9 @@
+"""
+Contains functions that can be used to construct a single
+prediction from multiple predictions.
+"""
+
+
 def collective_result(results, limit):
     """Combines many results in the range [0, 1] into a single
     value in the range [0, 1]. A limit can be specified for a

@@ -21,7 +21,7 @@ What's been tested
 
 Accuracy testing was used to measure how well each filter performs for a collection of hand-picked test images. Results for these accuracy tests  are in the "Accuracy test results" section of the documentation, as well as graphs in the documentation for individual filters. See above how to run accuracy tests for your chosen filter.
 
-To test written code for bugs and to air refactoring, unit testing was employed. The project makes use of the pytest package for unit tests and pytest-cov for the test coverage results. These tests are also automatically run for each commit on the continuous integration server, provided by `Travis <https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite>`_.
+To test written code for bugs and to aid refactoring, unit testing was employed. The project makes use of the pytest package for unit tests and pytest-cov for the test coverage results. These tests are also automatically run for each commit on the continuous integration server, provided by `Travis <https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite>`_.
 
 The unit tests for each filter test at least the filter's basic functionality, for example that the filter makes correct predictions for sample images and that setting the threshold and returning the correct type work. The unit tests also test the functions used in the implementation for each filter and that the filter raises proper exceptions when called with invalid arguments or images that don't exist.
 

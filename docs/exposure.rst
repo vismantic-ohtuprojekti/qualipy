@@ -28,22 +28,22 @@ The image is first converted to grayscale and a histogram of its intensities is 
 Examples:
 ---------
 
-Sample image recognized as over-exposed: (value: 1.0)
+Sample images recognized as overexposed: (value: 1.0)
 
 .. image:: images/over_exposure_sample.jpg
    :width: 200px
 
-Sample image recognized as under-exposed: (value: 1.0)
+Sample image recognized as underexposed: (value: 1.0)
    
 .. image:: images/under_exposure_sample.jpg
    :width: 200px
 
-Sample image not recognized as under- or over-exposed: (value: 0.31)
+Sample image not recognized as under- or overexposed: (value: 0.31)
 
 .. image:: images/exposure_sample_good.jpg
    :width: 200px
    
-In the following images the high-intensity pixels were scattered around the images causing the image to be recognized over-exposed, but to human eye they seem quite normal:
+In the following images the high-intensity pixels were scattered around the images causing the image to be recognized overexposed, but to human eye they seem quite normal:
 
 .. image:: images/exposure/false_pos1.jpg
    :width: 300px

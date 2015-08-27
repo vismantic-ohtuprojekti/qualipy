@@ -2,13 +2,14 @@
 
 Accuracy test results
 *********************
-This section has listed accuracy test results for filters which have been accuracy tested.
-Images that have been used for accuracy testing are mainly from Flickr and Google.
-If some other images have been used it is mentioned separately.
 
-Trained SVM's which were used in these accuracy tests are provided with the project as default
-SVM for each filter that uses SVM. For each accuracy test threshold of 0.5 was used if not
-mentioned otherwise.
+This section lists accuracy test results for filters which have been tested for accuracy.
+Images that have been used for testing are mainly collected from Flickr and
+Google Images search results. If some other images have been used, it is mentioned separately.
+
+Trained SVMs which were used in these accuracy tests are provided with the project as default
+SVM models for each filter that needs them. For each accuracy test, a threshold of 0.5 was used
+if not otherwise mentioned.
 
 Blur detection
 --------------
@@ -28,7 +29,7 @@ For training the blurred context detection, 525 blurred and 525 undistorted imag
 
 Frame detection
 ---------------
-For 400 images from flickr there were no undetected all-around-framed images:
+For 400 images from Flickr there were no undetected all-around-framed images:
 
 * Correct predictions for all samples: 99%
 * Correct predictions for framed images: 100%
@@ -60,7 +61,7 @@ Exposure detection
 
 Posterized detection
 --------------------
-For 140 images downloaded from both google and flickr
+For 140 images downloaded from both google and Flickr
 
 * Correct predictions for all samples:  85.10 %
 * Correct predictions for posterized images: 88.60 %
@@ -68,7 +69,7 @@ For 140 images downloaded from both google and flickr
 
 Cross processed detection
 -------------------------
-For 140 images downloaded from both google and flickr
+For 140 images downloaded from both google and Flickr
 
 * Correct predictions for all samples:  73.60 %
 * Correct predictions for cross processed images: 60.00 %

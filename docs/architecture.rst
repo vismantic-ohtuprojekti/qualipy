@@ -6,6 +6,7 @@ Project architecture
 The project's folder structure and architecture have been kept simple::
 
     .
+    ├── celery_conf
     ├── docs
     ├── qualipy
     │   ├── data

@@ -1,20 +1,31 @@
 from setuptools import setup, find_packages
+from os import path
+
+here = path.abspath(path.dirname(__file__))
+
+# Get the long description from the relevant file
+with open(path.join(here, 'DESCRIPTION.rst')) as f:
+    long_description = f.read()
 
 setup(
     name='qualipy',
     version='0.0.1',
     description='Image filtering suite for Vismantic',
+    long_description=long_description,
+
     url='https://github.com/vismantic-ohtuprojekti/image-filtering-suite',
     author='Vismantic software engineering lab',
+    license='MIT',
 
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
     ],
 
-    keywords='image processing filtering',
+    keywords='image quality processing filtering photos photography',
 
     packages=find_packages(exclude=['docs', 'tests*']),
     package_data={'qualipy': ['data/svm/*', 'data/object_extraction/*']},

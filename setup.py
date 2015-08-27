@@ -8,8 +8,8 @@ with open(path.join(here, 'DESCRIPTION.rst')) as f:
     long_description = f.read()
 
 setup(
-    name='qualipy',
-    version='0.0.1',
+    name='QualiPy',
+    version='1.0.0',
     description='Image filtering suite for Vismantic',
     long_description=long_description,
 
@@ -18,7 +18,7 @@ setup(
     license='MIT',
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',

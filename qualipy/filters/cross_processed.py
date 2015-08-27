@@ -195,7 +195,7 @@ def get_input_vector(color_image):
 class CrossProcessed(SVMFilter):
 
     name = 'cross_processed'
-    speed = 5
+    speed = 4
 
     def __init__(self, threshold=0.5, invert_threshold=False, svm_file=None):
         """Initializes a Cross Processed image filter

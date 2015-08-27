@@ -43,7 +43,7 @@ class Highlights(Filter):
     """Filter for detecting images that have highlights"""
 
     name = 'highlights'
-    speed = 2
+    speed = 1
 
     def __init__(self, threshold=0.5, invert_threshold=False):
         """Initializes an highlights filter

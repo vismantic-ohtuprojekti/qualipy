@@ -26,6 +26,22 @@ For training the blurred context detection, 525 blurred and 525 undistorted imag
 * Correct predictions for blurred images: 92,00 %
 * Correct predictions for undistorted images: 88,00 %
 
+Frame detection
+---------------
+For 400 images from flickr there were no undetected all-around-framed images:
+
+* Correct predictions for all samples: 99%
+* Correct predictions for framed images: 100%
+* Correct predictions for normal images: 98%
+
+Highlights detection
+--------------------
+For 100 normal images and 70 highlighted images downloaded from Flickr:
+
+* Correct predictions for all samples: 87%
+* Correct predictions for highlighted samples: 81%
+* Correct predictions for normal images: 93%
+
 Pattern detection
 -----------------
 For 100 pattern images and 120 non pattern images which were downloaded from Flickr:
@@ -34,13 +50,13 @@ For 100 pattern images and 120 non pattern images which were downloaded from Fli
 * Correct predictions for pattern images: 67,08 %
 * Correct predictions for non pattern images: 72,73 %
 
-Over-exposure detection
+Exposure detection
 -----------------------
-300 images from flickr were downloaded and labeled as either over-exposured or normal. With a threshold value of 0.5 the following results were achieved:
+300 images from flickr were downloaded and used to form three groups: original untouched images, images modified to be under-exposed and images modified to be over-exposed. When the modified groups were put in the same folder and compared to the original photos, we got the following results:
 
 * Correct predictions for all samples:  87.00 %
-* Correct predictions for over-exposed images: 86.00 %
-* Correct predictions for normal images: 88.00 %
+* Correct predictions for over-exposed/under-exposed images: 85.00 %
+* Correct predictions for normal images: 90.00 %
 
 Posterized detection
 --------------------

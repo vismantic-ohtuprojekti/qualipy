@@ -7,6 +7,10 @@ This section lists accuracy test results for filters which have been tested for 
 Images that have been used for testing are mainly collected from Flickr and
 Google Images search results. If some other images have been used, it is mentioned separately.
 
+Note that these are only meant to give a rough guideline of each filter's performance, as
+they only provide a measurement for one test set with one threshold applied. For more
+comprehensive results, see each filter's own documentation.
+
 Trained SVMs which were used in these accuracy tests are provided with the project as default
 SVM models for each filter that needs them. For each accuracy test, a threshold of 0.5 was used
 if not otherwise mentioned.
@@ -74,3 +78,12 @@ For 140 images downloaded from both google and Flickr. In this threshold of 0.4 
 * Correct predictions for all samples:  73.60 %
 * Correct predictions for cross processed images: 60.00 %
 * Correct predictions for normal images: 87.10 %
+
+HDR detection
+-------------
+
+For training the HDR detection, 225 normal and 225 HDR images were downloaded from Flickr and Google Images search and labeled by hand. From these sets, 50 blurred and 50 undistorted images were randomly moved before training from the training set to a separate evaluation set. The filter's performance for this evaluation set is as follows:
+
+* Correct predictions for all samples:  86.66 %
+* Correct predictions for HDR images: 88.88 %
+* Correct predictions for normal images: 84.44 %

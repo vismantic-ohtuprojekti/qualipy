@@ -3,7 +3,8 @@ Contains various functions for analyzing one-dimensional histograms.
 """
 
 from operator import attrgetter
-import numpy as np
+
+import numpy
 
 
 class LocationData(object):
@@ -77,7 +78,7 @@ def calc_standard_deviation(histogram):
     if variance < 0.0:
         return 0.0
 
-    return np.sqrt(variance)
+    return numpy.sqrt(variance)
 
 
 def normalize(histogram):
@@ -87,11 +88,11 @@ def normalize(histogram):
     :type histogram: numpy.ndarray
     :returns: numpy.ndarray -- the normalized histogram
     """
-    if histogram.shape[0] == 0 or np.sum(histogram) == 0.0:
-        return np.array([])
+    if histogram.shape[0] == 0 or numpy.sum(histogram) == 0.0:
+        return numpy.array([])
 
-    return np.divide(histogram.astype(np.float32),
-                     np.sum(histogram).astype(np.float32)).astype(np.float32)
+    return numpy.divide(histogram.astype(numpy.float32),
+                        numpy.sum(histogram).astype(numpy.float32)).astype(numpy.float32)
 
 
 def remove_from_ends(histogram):
@@ -122,7 +123,7 @@ def calculate_continuous_distribution(histogram):
     :type histogram: numpy.ndarray
     :returns: numpy.ndarray -- the continuous distribution
     """
-    return np.cumsum(histogram).astype(np.float32)
+    return numpy.cumsum(histogram).astype(numpy.float32)
 
 
 def calculate_local_maximums(histogram):
@@ -133,7 +134,7 @@ def calculate_local_maximums(histogram):
     :type histogram: numpy.ndarray
     :returns: local max points of the histogram as an array of LocationData objects
     """
-    diffs = np.diff(histogram)
+    diffs = numpy.diff(histogram)
     local_maximums = (diffs[1:] < 0) & (diffs[:-1] > 0)
 
     local_maximum_locations = []
@@ -152,7 +153,7 @@ def calculate_local_minimums(histogram):
     :type histogram: numpy.ndarray
     :returns: local min points of the histogram as an array of LocationData objects
     """
-    diffs = np.diff(histogram)
+    diffs = numpy.diff(histogram)
     local_minimums = (diffs[1:] > 0) & (diffs[:-1] < 0)
 
     local_minimum_locations = []
@@ -208,7 +209,7 @@ def calculate_peak_value(histogram):
     :returns: numpy.ndarray -- the peak values
     """
     if histogram.shape[0] == 0:
-        return np.array([])
+        return numpy.array([])
 
     peak_values = []
     local_end_points = calculate_local_maximums(histogram) + \
@@ -223,7 +224,7 @@ def calculate_peak_value(histogram):
         peak_value /= 2.0
         peak_values.append(peak_value)
 
-    return np.array(peak_values).astype(np.float32)
+    return numpy.array(peak_values).astype(numpy.float32)
 
 
 def calculate_roughness(histogram):
@@ -246,8 +247,8 @@ def calculate_roughness(histogram):
 
     roughness = 0.0
     for i in xrange(len(local_end_points) - 1):
-        difference = np.abs(float(local_end_points[i + 1].value) -
-                            float(local_end_points[i].value))
+        difference = numpy.abs(float(local_end_points[i + 1].value) -
+                               float(local_end_points[i].value))
         distance = float(local_end_points[i + 1].index) - \
                    float(local_end_points[i].index)
         roughness += difference / distance
@@ -273,7 +274,7 @@ def calculate_extreme_values(histogram):
 
     diff_sum = 0.
     for max_val, min_val in zip(max_values, min_values):
-        diff_sum += np.abs(max_val.value - min_val.value)
+        diff_sum += numpy.abs(max_val.value - min_val.value)
 
     limit = diff_sum / float(len(max_values))
 
@@ -286,8 +287,8 @@ def calculate_extreme_values(histogram):
 
     i = 0
     while i < len(extreme_values) - 1:
-        difference = np.abs(extreme_values[i + 1].value -
-                            extreme_values[i].value)
+        difference = numpy.abs(extreme_values[i + 1].value -
+                               extreme_values[i].value)
 
         if difference >= limit:
             i += 2
@@ -304,7 +305,7 @@ def calculate_derivatives(histogram):
     :type histogram: numpy.ndarray
     :returns: numpy.ndarray -- the derivatives
     """
-    return np.diff(histogram).astype(np.float32)
+    return numpy.diff(histogram).astype(numpy.float32)
 
 
 def largest(histogram, percent):
@@ -316,9 +317,9 @@ def largest(histogram, percent):
     :returns: numpy.ndarray -- the largest values
     """
     amount = int(histogram.shape[0] * percent)
-    sorted = np.sort(histogram)[::-1]
+    sorted = numpy.sort(histogram)[::-1]
 
     if amount == 0:
         amount = histogram.shape[0]
 
-    return sorted[:amount].astype(np.float32)
+    return sorted[:amount].astype(numpy.float32)

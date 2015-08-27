@@ -67,6 +67,11 @@ def test_training_with_invalid_number_of_labels_causes_exception():
         BlurredContext().train([BLURRED_CONTEXT], [])
 
 
+def test_training_with_invalid_paths_causes_exception():
+    with pytest.raises(IOError):
+        BlurredContext().train(['fail'], [])
+
+
 def test_invalid_svm_file_causes_exception():
     with pytest.raises(TypeError):
         BlurredContext(svm_file=0)

@@ -2,6 +2,13 @@
 
 Accuracy test results
 *********************
+This section has listed accuracy test results for filters which have been accuracy tested.
+Images that have been used for accuracy testing are mainly from Flickr and Google.
+If some other images have been used it is mentioned separately.
+
+Trained SVM's which were used in these accuracy tests are provided with the project as default
+SVM for each filter that uses SVM. For each accuracy test threshold of 0.5 was used if not
+mentioned otherwise.
 
 Blur detection
 --------------
@@ -47,6 +54,6 @@ Cross processed detection
 -------------------------
 For 140 images downloaded from both google and flickr
 
-* Correct predictions for all samples:  72.10 %
+* Correct predictions for all samples:  73.60 %
 * Correct predictions for cross processed images: 60.00 %
-* Correct predictions for normal images: 84.20 %
+* Correct predictions for normal images: 87.10 %

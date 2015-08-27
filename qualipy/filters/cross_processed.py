@@ -241,9 +241,7 @@ class CrossProcessed(SVMFilter):
 
 
     def train(self, images, labels, save_path=None):
-        """Retrain the filter with new training images. The new
-        model needs to be saved with the save function for later
-        use.
+        """Retrain the filter with new training images.
 
         :param images: list of image paths to training images
         :type images: list

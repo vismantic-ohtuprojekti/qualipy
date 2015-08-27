@@ -42,9 +42,12 @@ def process(images, filters, ROIs=None, return_predictions=False,
     if sort_filters:
         filters.sort(key=attrgetter('speed'))
 
+    # process single image
     if isinstance(images, str) or isinstance(images, unicode):
         return {images: __process_image(images, filters, ROIs,
-                               return_predictions, combine_results)}
+                                        return_predictions, combine_results)}
+
+    # process list or other iterable of images
     elif isinstance(images, Iterable):
         return __process_images(images, filters, ROIs,
                                 return_predictions, combine_results)
@@ -174,6 +177,7 @@ def __collect_filters(request_filters, filter_classes):
             raise ValueError
 
         try:
+            # instantiate a filter object with the given parameters
             filters.append(filter_obj(**params))
         except TypeError:
             raise ValueError("Invalid parameters for filter %s" % filter_name)

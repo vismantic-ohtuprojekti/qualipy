@@ -35,7 +35,8 @@ from svm_filter import SVMFilter
 
 
 def histogram_features(hist, maximum, step):
-    """Get features from a histogram.
+    """Extract features from a histogram, namely the mean,
+    max and maximum difference at certain intervals.
 
     :param hist: a histogram representing a color channel
     :type hist: numpy.ndarray
@@ -114,6 +115,7 @@ def edges(gray):
     :type gray: numpy.ndarray
     :returns: numpy.ndarray
     """
+    # Laplacian edge detector
     gray_lap = cv2.Laplacian(gray, cv2.CV_16S, ksize=3)
     edges = cv2.convertScaleAbs(gray_lap)
     parts = partition_matrix(edges, 16)
@@ -197,9 +199,7 @@ class HDR(SVMFilter):
         return prediction
 
     def train(self, images, labels, save_path=None):
-        """Retrain the filter with new training images. The new
-        model needs to be saved with the save function for later
-        use.
+        """Retrain the filter with new training images.
 
         :param images: list of image paths to training images
         :type images: list

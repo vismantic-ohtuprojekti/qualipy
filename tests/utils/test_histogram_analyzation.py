@@ -64,4 +64,4 @@ def test_calculate_local_maximums():
 
 def test_calc_mean():
     hist = np.array([1.0, 2.0, 3.0, 2.0, 1.0])
-    assert calc_mean(hist) == 2.0
+    assert calc_mean(hist) == 3.0

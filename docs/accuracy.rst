@@ -69,7 +69,7 @@ For 140 images downloaded from both google and Flickr
 
 Cross processed detection
 -------------------------
-For 140 images downloaded from both google and Flickr
+For 140 images downloaded from both google and Flickr. In this thresholf of 0.6 was used.
 
 * Correct predictions for all samples:  73.60 %
 * Correct predictions for cross processed images: 60.00 %

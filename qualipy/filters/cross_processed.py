@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import math
+from operator import itemgetter
 
 from ..utils.statistic_common import linear_normalize
 from ..utils.image_utils import read_color_image
@@ -11,53 +12,21 @@ from ..utils.histogram_analyzation import calculate_peak_value
 from ..utils.histogram_analyzation import largest
 from ..utils.histogram_analyzation import calculate_continuous_distribution
 from ..utils.histogram_analyzation import calculate_derivates
+from ..utils.histogram_analyzation import calc_standard_deviation
+from ..utils.histogram_analyzation import remove_from_ends
 
 from .. import get_data
 
 from svm_filter import SVMFilter
 
 
-def calc_mean(histogram):
-    values = 0
-    for i, value in enumerate(histogram):
-        values += (value * i)
-
-    return float(values / sum(histogram))
-
-def calc_variance(histogram, mean):
-    variance = 0
-    for i, value in enumerate(histogram):
-        variance += math.pow((mean - i), 2) * value
-
-    return float(variance / sum(histogram))
-
-def calc_standard_deviation(histogram):
-    mean = calc_mean(histogram)
-    variance = calc_variance(histogram, mean)
-
-    return math.sqrt(variance)
-
-class PixelLocationData(object):
-
-    def __init__(self, x, y, value):
-        self.x = x
-        self.y = y
-        self.value = value
-
-
 def count_dispersion(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
 
-    # Remove black
-    hist[0] = 0
-    hist[1] = 0
+    hist = remove_from_ends(hist)
 
-    # Remove white
-    hist[hist.shape[0] - 1] = 0
-    hist[hist.shape[0] - 2] = 0
-
-    normalized = np.divide(hist.astype(np.float32), np.sum(hist))
+    normalized = normalize(hist)
 
     # Count higest point
     max_value = 0.0
@@ -67,6 +36,9 @@ def count_dispersion(image):
         if normalized[i] > max_value:
             max_value = normalized[i]
             index_of_max = i
+
+    if normalized.shape[0] == 1 or normalized.shape[0] == 0:
+        return 0.0
 
     # Cut from side if max is on one side
     if index_of_max < 10:
@@ -85,7 +57,7 @@ def load_image_pixel_location_data(gray_image):
 
     for y in range(0, gray_image.shape[0]):
         for x in range(0, gray_image.shape[1]):
-            location_data_list.append(PixelLocationData(x, y, gray_image[y, x]))
+            location_data_list.append((x, y, gray_image[y, x]))
 
     return location_data_list
 
@@ -94,7 +66,7 @@ def get_original_image_data(location_data, original_image):
     image_data = []
 
     for i in range(0, len(location_data)):
-        original_pixel = original_image[location_data[i].y, location_data[i].x]
+        original_pixel = original_image[location_data[i][1], location_data[i][0]]
         image_data.append(original_pixel)
 
     original_shape =  len(image_data)
@@ -125,16 +97,24 @@ def retrieve_ligthest(sorted_location_data_list, prosent):
     return ligthest
 
 
-def first_prediction(image):
+def average_peak_value_of_largest(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
 
     hist = normalize(hist)
 
-    return np.average(largest(calculate_peak_value(hist), 0.2))
+    if hist.shape[0] == 0 or hist.shape[0] == 1:
+        return 0.0
+
+    largest_found = largest(calculate_peak_value(hist), 0.2)
+
+    if largest_found.shape[0] == 0:
+        return 0.0
+
+    return np.average(largest_found)
 
 
-def second_prediction(image):
+def sum_of_areas_with_high_rise_rate(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist([hsv], [0], None, [180], [0,180])
 
@@ -192,7 +172,7 @@ def get_input_vector(color_image):
     gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
     location_data_list = load_image_pixel_location_data(gray_image)
-    location_data_list.sort(key = lambda data: data.value)
+    location_data_list.sort(key = itemgetter(2))
 
     ligthest = retrieve_ligthest(location_data_list, 0.2)
     darkest = retrieve_darkest(location_data_list, 0.2)
@@ -201,10 +181,10 @@ def get_input_vector(color_image):
     image_data_darkest = get_original_image_data(darkest, color_image)
 
     # Calculate peak value
-    prediction1 = np.average( np.array( [first_prediction(image_data_ligth), first_prediction(image_data_darkest)] ) )
+    prediction1 = np.average( np.array( [average_peak_value_of_largest(image_data_ligth), average_peak_value_of_largest(image_data_darkest)] ) )
 
     # Calculate large areas
-    prediction2 = np.max( np.array( [second_prediction(image_data_ligth), second_prediction(image_data_darkest)] ) )
+    prediction2 = np.max( np.array( [sum_of_areas_with_high_rise_rate(image_data_ligth), sum_of_areas_with_high_rise_rate(image_data_darkest)] ) )
 
     # Calculate dispersion
     prediction3 = np.max( np.array([count_dispersion(image_data_ligth), count_dispersion(image_data_darkest)]) )

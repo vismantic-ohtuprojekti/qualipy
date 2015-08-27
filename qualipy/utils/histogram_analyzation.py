@@ -29,7 +29,10 @@ def calc_mean(histogram):
 
     values = 0
     for i, value in enumerate(histogram):
-        values += (value * i)
+        values += (value * (i + 1))
+
+    if sum(histogram) == 0:
+        return 0
 
     return float(values / sum(histogram))
 
@@ -47,6 +50,9 @@ def calc_variance(histogram, mean):
     for i, value in enumerate(histogram):
         variance += math.pow((mean - i), 2) * value
 
+    if sum(histogram) == 0:
+        return 0
+
     return float(variance / sum(histogram))
 
 
@@ -59,6 +65,9 @@ def calc_standard_deviation(histogram):
     mean = calc_mean(histogram)
     variance = calc_variance(histogram, mean)
 
+    if variance < 0.0:
+        return 0.0
+
     return math.sqrt(variance)
 
 
@@ -68,7 +77,7 @@ def normalize(histogram):
     :param histogram: histogram whichs normalized histgram is calculated (numpy array)
     :returns: returns normalized histogram (numpy array)
     """
-    if histogram.shape[0] == 0:
+    if histogram.shape[0] == 0 or np.sum(histogram) == 0.0:
         return np.array([])
 
     return np.divide(histogram.astype(np.float32), np.sum(histogram).astype(np.float32)).astype(np.float32)
@@ -83,6 +92,9 @@ def remove_from_ends(histogram):
     :returns: histgram which ends are removed (numpy array)
     """
     ends_removed = histogram
+
+    if histogram.shape[0] < 2:
+        return histogram
 
     # Remove black
     ends_removed[0] = 0

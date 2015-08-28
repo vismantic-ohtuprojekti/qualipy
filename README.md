@@ -1,6 +1,6 @@
 # QualiPy
 
-[![Build](https://travis-ci.org/vismantic-ohtuprojekti/qualipy.svg)](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite)
+[![Build](https://travis-ci.org/vismantic-ohtuprojekti/qualipy.svg)](https://travis-ci.org/vismantic-ohtuprojekti/qualipy)
 [![Documentation](https://readthedocs.org/projects/image-filtering-suite/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)
 [![Coverage Status](https://coveralls.io/repos/vismantic-ohtuprojekti/qualipy/badge.svg?branch=master&service=github)](https://coveralls.io/github/vismantic-ohtuprojekti/qualipy?branch=master)
 

@@ -9,7 +9,7 @@ with open(path.join(here, 'DESCRIPTION.rst')) as f:
 
 setup(
     name='QualiPy',
-    version='1.0.0',
+    version='1.0.1',
     description='Image filtering suite for Vismantic',
     long_description=long_description,
 

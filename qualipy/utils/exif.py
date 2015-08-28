@@ -52,7 +52,7 @@ def analyze_picture_exposure(tags):
 
 
 def get_exposure_value(tags):
-    """Extracts exposure-value from given dictionary and returns it.
+    """Extracts exposure value from given tags
     """
     if tags and "EXIF ExposureTime" in tags:
         exposure = tags["EXIF ExposureTime"]
@@ -62,7 +62,7 @@ def get_exposure_value(tags):
 
 
 def get_focal_value(tags):
-    """Extracts focal-length-value from given dictionary and returns it.
+    """Extracts focal length value from given tags
     """
     if tags and "EXIF FocalLength" in tags:
         return eval(str(tags["EXIF FocalLength"]))
@@ -70,7 +70,7 @@ def get_focal_value(tags):
 
 
 def get_iso_value(tags):
-    """Extracts ISO-value from given dictionary and returns it.
+    """Extracts ISO value from given tags
     """
     if tags and "EXIF ISOSpeedRatings" in tags:
         iso = tags["EXIF ISOSpeedRatings"]
@@ -80,8 +80,8 @@ def get_iso_value(tags):
 
 
 def get_aperture_value(tags):
-    """Extracts Aperture-values from given dictionary if
-    focal-length also exists.
+    """Extracts aperture values from given tags if focal
+    length also exists
     """
     if tags and "EXIF FocalLength" in tags:
         if "EXIF FNumber" in tags:
@@ -95,7 +95,7 @@ def get_aperture_value(tags):
 
 def get_background_blur_ratio(focal, aperture):
     """Calculates hyperfocal length from given focal and aperture values
-    and returns an estimation on how likely a blurred background is.
+    and returns an estimation on how likely the background is blurred
     """
     if aperture < 0.001:
         return None
@@ -126,7 +126,7 @@ def get_background_blur_ratio(focal, aperture):
 
 
 def get_exposure_ratio(exposure):
-    """Calculates the probability of motion blur in image using
+    """Calculates the probability of motion blur in an image using
     the given exposure time. Exposure of over 1/4 seconds is most likely
     to be motion blurred.
     """
@@ -150,7 +150,7 @@ def get_exposure_ratio(exposure):
 
 
 def parse_exif(image_path):
-    """Parses the exif tags from an image.
+    """Parses the exif tags from an image
 
     :param image_path: path to the image file
     :type image_path: str

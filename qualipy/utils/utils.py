@@ -108,7 +108,8 @@ def scaled_prediction(prediction):
 
 
 def clipping_percentage(histogram, threshold, over_threshold):
-    """Calculates percentage of images high of low intensity pixels
+    """Calculates the percentage of high or low intensity
+    pixels in an image
 
     :param histogram: intensity histogram
     :type histogram: numpy.ndarray

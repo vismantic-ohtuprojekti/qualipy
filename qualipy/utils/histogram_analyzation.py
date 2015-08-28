@@ -10,7 +10,7 @@ import numpy
 class LocationData(object):
 
     """Contains both index and value of some histogram value.
-    Has variables index and value to present index and value of
+    Has variables index and value to represent index and value of
     histogram value.
     """
 

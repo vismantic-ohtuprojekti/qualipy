@@ -38,8 +38,8 @@ class ObjectTooSmall(Filter):
                                  the given threshold (default) or lower
                                  for an image to be considered positive
         :type invert_threshold: bool
-        :param: is_saliency_map: whether the given image is already a
-                                 saliency map
+        :param is_saliency_map: whether the given image is already a
+                                saliency map
         :type is_saliency_map: bool
         """
         super(ObjectTooSmall, self).__init__(threshold, invert_threshold)

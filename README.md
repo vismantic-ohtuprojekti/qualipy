@@ -3,6 +3,7 @@
 [![Build](https://travis-ci.org/vismantic-ohtuprojekti/qualipy.svg)](https://travis-ci.org/vismantic-ohtuprojekti/qualipy)
 [![Documentation](https://readthedocs.org/projects/image-filtering-suite/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)
 [![Coverage Status](https://coveralls.io/repos/vismantic-ohtuprojekti/qualipy/badge.svg?branch=master&service=github)](https://coveralls.io/github/vismantic-ohtuprojekti/qualipy?branch=master)
+[![PyPI](https://img.shields.io/pypi/v/qualipy.svg)](https://pypi.python.org/pypi/QualiPy)
 
 ### Introduction
 
@@ -13,7 +14,7 @@ QualiPy (originally The Image Filtering Suite for Vismantic) implements image fi
 [Documentation](https://image-filtering-suite.readthedocs.org/en/latest/)
 
 ### Getting started
-For getting started see [installation](https://image-filtering-suite.readthedocs.org/en/latest/installation.html) and [usage examples](https://image-filtering-suite.readthedocs.org/en/latest/examples.html)
+For getting started, see [installation](https://image-filtering-suite.readthedocs.org/en/latest/installation.html) and [usage examples](https://image-filtering-suite.readthedocs.org/en/latest/examples.html).
 
 ### Definition of Done
 - Complete unit testing for written code

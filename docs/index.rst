@@ -6,9 +6,7 @@
 Welcome to QualiPy's documentation!
 ===============================================================
 
-QualiPy is a Python library that can be used to detect features from images, for example if an image is blurred or overexposed.
-See the API documentation for available filters. For pre-trained filters accuracy results can be found from
-test documentation.
+QualiPy is an open source Python library that provides filters for detecting images that have certain features. Currently QualiPy has over a dozen filters that can detect images that are e.g. blurred or overexposed. While developed primarily for photos found on Flickr, QualiPy can be used for any image. For a list of available filters, see :ref:`filters`.
 
 For getting started, see :ref:`installation` and :ref:`examples`.
 

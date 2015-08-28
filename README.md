@@ -1,8 +1,8 @@
 # QualiPy
 
-[![Build](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite.svg)](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite)
-[![Documentation](https://readthedocs.org/projects/image-filtering-suite/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)
-[![Coverage Status](https://coveralls.io/repos/vismantic-ohtuprojekti/image-filtering-suite/badge.svg?branch=master&service=github)](https://coveralls.io/github/vismantic-ohtuprojekti/image-filtering-suite?branch=master)
+[![Build](https://travis-ci.org/vismantic-ohtuprojekti/qualipy.svg)](https://travis-ci.org/vismantic-ohtuprojekti/image-filtering-suite)
+[![Documentation](https://readthedocs.org/projects/qualipy/badge/?version=latest)](https://image-filtering-suite.readthedocs.org/en/latest/)
+[![Coverage Status](https://coveralls.io/repos/vismantic-ohtuprojekti/qualipy/badge.svg?branch=master&service=github)](https://coveralls.io/github/vismantic-ohtuprojekti/qualipy?branch=master)
 
 ### Introduction
 
@@ -10,10 +10,10 @@ This is a student software engineering project of the Department of Computer Sci
 
 QualiPy (originally The Image Filtering Suite for Vismantic) implements image filtering modules that automate the filtering of images unsuitable for use in Vismantic. The library is currently able to detect e.g. images that are blurred, overexposed, pattern-like or of unconventional size. Image processing tasks utilize the NumPy and OpenCV libraries extensively. Additional features are included, such as the ability to handle image processing tasks from JSON requests and the library is optimized to be as fast as possible with vectorized operations and Numba integration.
 
-[Documentation](https://image-filtering-suite.readthedocs.org/en/latest/)
+[Documentation](https://qualipy.readthedocs.org/en/latest/)
 
 ### Getting started
-For getting started see [installation](https://image-filtering-suite.readthedocs.org/en/latest/installation.html) and [usage examples](https://image-filtering-suite.readthedocs.org/en/latest/examples.html)
+For getting started see [installation](https://qualipy.readthedocs.org/en/latest/installation.html) and [usage examples](https://qualipy.readthedocs.org/en/latest/examples.html)
 
 ### Definition of Done
 - Complete unit testing for written code

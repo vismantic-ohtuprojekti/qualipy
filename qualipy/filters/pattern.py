@@ -53,6 +53,10 @@ def pattern_recognition(magnitude_spectrum):
     mask = magnitude_spectrum > 0.7
     all_distances = numpy.sqrt(circle[mask].flatten())
 
+    # If circle is empty return 0,6 as it is unknown but more likely pattern
+    if all_distances.shape[0] == 0:
+        return 0.6
+
     all_distances = remove_anomalies(all_distances, 0.4)
     max_distances = get_max_values(all_distances, 20)
     max_distance_avg = numpy.mean(max_distances)

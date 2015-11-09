@@ -60,6 +60,7 @@ def count_local_outlier_factor(entry, neighbors):
                       outlier factor for entry
     :returns: local outlier factor for entry
     """
+
     outliers = numpy.abs(entry - neighbors)
     return numpy.mean(outliers)
 
@@ -91,6 +92,11 @@ def remove_anomalies(array_1D, max_outline_diff):
     :type max_outline_diff: float
     :returns: numpy.ndarray -- the original array excluding the anomalies
     """
+
+    # If array is empty return empty array
+    if array_1D.shape[0] == 0:
+        return array_1D
+
     sorted_array = numpy.sort(array_1D)
     outlier_factors = numpy.array([])
     k = 4
